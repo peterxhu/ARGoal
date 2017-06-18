@@ -1,5 +1,5 @@
 //
-//  Cone.swift
+//  FieldGoal.swift
 //  ARGoal
 //
 //  Created by Peter Hu on 6/17/17.
@@ -9,10 +9,10 @@
 import Foundation
 import SceneKit
 
-class Cone: VirtualObject {
+class FieldGoal: VirtualObject {
     
     override init() {
-        super.init(modelName: "cone", fileExtension: "scn", thumbImageFilename: "cone", title: "Training Cone")
+        super.init(modelName: "cup", fileExtension: "scn", thumbImageFilename: "fieldGoal", title: "Field Goal (TBD)")
     }
     
     required init?(coder aDecoder: NSCoder) {
