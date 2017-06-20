@@ -9,21 +9,13 @@
 import Foundation
 import SceneKit
 
-class SoccerGoal: VirtualObject, ReactsToScale {
+class SoccerGoal: VirtualObject {
     
     override init() {
-        super.init(modelName: "candle", fileExtension: "scn", thumbImageFilename: "soccerGoal", title: "Soccer Net (TBD)")
+        super.init(modelName: "net", fileExtension: "scn", thumbImageFilename: "soccerGoal", title: "Soccer Net")
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func reactToScale() {
-        // Update the size of the flame
-        let flameNode = self.childNode(withName: "flame", recursively: true)
-        let particleSize: Float = 0.018
-        flameNode?.particleSystems?.first?.reset()
-        flameNode?.particleSystems?.first?.particleSize = CGFloat(self.scale.x * particleSize)
     }
 }

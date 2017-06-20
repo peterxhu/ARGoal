@@ -25,7 +25,6 @@
 		C4FBC02B1EC6438B003F7864 /* ARCameraTrackingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FBC02A1EC6438B003F7864 /* ARCameraTrackingState.swift */; };
 		DBBC42D61EF6152400B74AFA /* SoccerGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBC42D51EF6152400B74AFA /* SoccerGoal.swift */; };
 		DBBC42D81EF626E000B74AFA /* FieldGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBC42D71EF626E000B74AFA /* FieldGoal.swift */; };
-		DBC3EF2C1EF5D6BE001C336C /* Candle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3EF271EF5D697001C336C /* Candle.swift */; };
 		DBC3EF2E1EF5D6C2001C336C /* Cup.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3EF291EF5D697001C336C /* Cup.swift */; };
 		DBC3EF341EF5DC9C001C336C /* Cone.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3EF331EF5DC9C001C336C /* Cone.swift */; };
 /* End PBXBuildFile section */
@@ -52,7 +51,6 @@
 		DB45A0FF1EF600C2001CBB29 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DBBC42D51EF6152400B74AFA /* SoccerGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerGoal.swift; sourceTree = "<group>"; };
 		DBBC42D71EF626E000B74AFA /* FieldGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldGoal.swift; sourceTree = "<group>"; };
-		DBC3EF271EF5D697001C336C /* Candle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Candle.swift; sourceTree = "<group>"; };
 		DBC3EF291EF5D697001C336C /* Cup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cup.swift; sourceTree = "<group>"; };
 		DBC3EF331EF5DC9C001C336C /* Cone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cone.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -124,7 +122,6 @@
 				DBC3EF331EF5DC9C001C336C /* Cone.swift */,
 				DBBC42D51EF6152400B74AFA /* SoccerGoal.swift */,
 				DBBC42D71EF626E000B74AFA /* FieldGoal.swift */,
-				DBC3EF271EF5D697001C336C /* Candle.swift */,
 				DBC3EF291EF5D697001C336C /* Cup.swift */,
 			);
 			path = "Virtual Objects";
@@ -205,7 +202,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3929C48E1E89EC2C00E00B60 /* ViewController.swift in Sources */,
-				DBC3EF2C1EF5D6BE001C336C /* Candle.swift in Sources */,
 				C41366B91EB80DD400EC054A /* TextManager.swift in Sources */,
 				39C0B95A1E9C6B1F003FCA0C /* Utilities.swift in Sources */,
 				DBBC42D81EF626E000B74AFA /* FieldGoal.swift in Sources */,
