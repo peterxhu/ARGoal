@@ -11,6 +11,7 @@ import Foundation
 import SceneKit
 import UIKit
 import Photos
+import ReplayKit
 
 class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, VirtualObjectSelectionViewControllerDelegate {
 	
@@ -25,6 +26,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		setupFocusSquare()
 		updateSettings()
 		resetVirtualObject()
+        
+        _ = EasyTipView.show(forView: addObjectButton, withinSuperview: UIApplication.shared.windows.first!, text: "hello")
     }
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -787,9 +790,32 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 			})
 		}
 	}
-		
-	// MARK: - Settings
-	
+    
+    @IBOutlet weak var screenCaptureButton: UIButton!
+    
+    @IBOutlet weak var stopScreenCaptureButton: UIButton!
+    
+    @IBAction func takeScreenCapture(_ sender: UIButton) {
+        guard screenCaptureButton.isEnabled else {
+            return
+        }
+        
+        /*
+        let screenCaptureFinishedBlock = {
+            RPScreenRecorder.shared().startCapture(handler: nil, completionHandler: nil)
+            print("hello")
+        }
+        */
+        RPScreenRecorder.shared().startRecording(handler: nil)
+        
+        
+    }
+    
+    @IBAction func stopScreenCapture(_ sender: UIButton) {
+        RPScreenRecorder.shared().stopRecording(handler: nil)
+    }
+    
+    // MARK: - Settings
 	@IBOutlet weak var settingsButton: UIButton!
 	
 	@IBAction func showSettings(_ button: UIButton) {
