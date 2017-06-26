@@ -20,10 +20,10 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E6c-py-dvH" customClass="ARSCNView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="587"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </sceneKitView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mHW-JQ-uOv" userLabel="Camera Button Hit Area">
-                                <rect key="frame" x="0.0" y="523" width="64" height="64"/>
+                                <rect key="frame" x="0.0" y="603" width="64" height="64"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="64" id="0MV-Vc-tJN"/>
                                     <constraint firstAttribute="height" constant="64" id="NF3-2t-7ce"/>
@@ -33,7 +33,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q5A-xD-w2H" userLabel="Settings Button Hit Area">
-                                <rect key="frame" x="311" y="523" width="64" height="64"/>
+                                <rect key="frame" x="311" y="603" width="64" height="64"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="WpZ-9J-ryr"/>
                                     <constraint firstAttribute="width" constant="64" id="xPi-j1-Xo9"/>
@@ -43,7 +43,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SPB-Sb-hjO" userLabel="Add Content Button Hit Area">
-                                <rect key="frame" x="155" y="523" width="64" height="64"/>
+                                <rect key="frame" x="155" y="603" width="64" height="64"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="64" id="KiC-ah-vls"/>
                                     <constraint firstAttribute="width" constant="64" id="TNJ-vc-uNj"/>
@@ -179,36 +179,19 @@
                             </visualEffectView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GoD-I0-aku">
                                 <rect key="frame" x="72" y="604" width="48" height="48"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="48" id="8VT-Ti-Su3"/>
                                     <constraint firstAttribute="width" constant="48" id="K3D-r5-OyR"/>
                                 </constraints>
-                                <state key="normal" image="shutter">
+                                <state key="normal" image="startRecord">
                                     <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <state key="disabled" image="stopRecord"/>
                                 <state key="selected" image="shutterPressed"/>
                                 <state key="highlighted" image="shutterPressed"/>
                                 <connections>
-                                    <action selector="takeScreenCapture:" destination="BV1-FR-VrT" eventType="touchUpInside" id="Cp3-Qx-XMy"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S4T-4a-Mo0">
-                                <rect key="frame" x="256" y="604" width="48" height="48"/>
-                                <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="48" id="AYW-7w-tXy"/>
-                                    <constraint firstAttribute="height" constant="48" id="BxM-8x-Yt9"/>
-                                </constraints>
-                                <state key="normal" image="shutter">
-                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <state key="selected" image="shutterPressed"/>
-                                <state key="highlighted" image="shutterPressed"/>
-                                <connections>
-                                    <action selector="stopScreenCapture:" destination="BV1-FR-VrT" eventType="touchUpInside" id="dIr-Cv-Y7j"/>
+                                    <action selector="screenRecordButtonPressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="IPc-Qb-YDh"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -216,10 +199,9 @@
                         <constraints>
                             <constraint firstItem="SuF-Os-zmb" firstAttribute="trailing" secondItem="E6c-py-dvH" secondAttribute="trailing" id="35g-18-nn3"/>
                             <constraint firstItem="BgI-fb-Vqi" firstAttribute="trailing" secondItem="E6c-py-dvH" secondAttribute="trailing" constant="-15" id="6c1-k7-y99"/>
-                            <constraint firstAttribute="bottom" secondItem="E6c-py-dvH" secondAttribute="bottom" constant="80" id="6h6-BI-mhL"/>
+                            <constraint firstAttribute="bottom" secondItem="E6c-py-dvH" secondAttribute="bottom" id="6h6-BI-mhL"/>
                             <constraint firstItem="E6c-py-dvH" firstAttribute="top" secondItem="RLh-bf-1c3" secondAttribute="top" id="7gH-DS-Crg"/>
                             <constraint firstItem="E6c-py-dvH" firstAttribute="leading" secondItem="GBj-4O-Whc" secondAttribute="leading" id="8nh-ZQ-AuM"/>
-                            <constraint firstItem="j8v-6q-UBb" firstAttribute="leading" secondItem="S4T-4a-Mo0" secondAttribute="trailing" constant="8" id="Di8-qZ-dWh"/>
                             <constraint firstItem="GoD-I0-aku" firstAttribute="centerY" secondItem="qI1-of-tgS" secondAttribute="centerY" id="DvK-tG-A8t"/>
                             <constraint firstItem="GBj-4O-Whc" firstAttribute="bottom" secondItem="qI1-of-tgS" secondAttribute="bottom" constant="15" id="EoQ-R6-wLs"/>
                             <constraint firstItem="9e0-zv-RiN" firstAttribute="top" secondItem="E6c-py-dvH" secondAttribute="top" constant="15" id="FTS-AH-WBr"/>
@@ -233,7 +215,6 @@
                             <constraint firstItem="BgI-fb-Vqi" firstAttribute="top" secondItem="GBj-4O-Whc" secondAttribute="top" constant="20" id="V7S-nn-Lcz"/>
                             <constraint firstItem="mHW-JQ-uOv" firstAttribute="leading" secondItem="E6c-py-dvH" secondAttribute="leading" id="YbV-6m-kVC"/>
                             <constraint firstItem="xcf-ic-uGo" firstAttribute="centerX" secondItem="GBj-4O-Whc" secondAttribute="centerX" id="ZCe-ld-yQW"/>
-                            <constraint firstItem="j8v-6q-UBb" firstAttribute="centerY" secondItem="S4T-4a-Mo0" secondAttribute="centerY" id="fd2-ib-Ww4"/>
                             <constraint firstItem="SPB-Sb-hjO" firstAttribute="bottom" secondItem="E6c-py-dvH" secondAttribute="bottom" id="fjf-Mj-ALG"/>
                             <constraint firstItem="9e0-zv-RiN" firstAttribute="leading" secondItem="E6c-py-dvH" secondAttribute="leading" constant="15" id="iIf-WZ-kZj"/>
                             <constraint firstItem="GBj-4O-Whc" firstAttribute="trailing" secondItem="E6c-py-dvH" secondAttribute="trailing" id="lHd-lf-g1u"/>
@@ -252,10 +233,9 @@
                         <outlet property="messagePanel" destination="9e0-zv-RiN" id="pKf-hp-Dvx"/>
                         <outlet property="restartExperienceButton" destination="BgI-fb-Vqi" id="Yfh-W4-qlO"/>
                         <outlet property="sceneView" destination="E6c-py-dvH" id="Gr4-Uw-Z4A"/>
-                        <outlet property="screenCaptureButton" destination="GoD-I0-aku" id="IFt-5H-rSa"/>
+                        <outlet property="screenRecordButton" destination="GoD-I0-aku" id="5RG-4X-01a"/>
                         <outlet property="screenshotButton" destination="qI1-of-tgS" id="RLx-ag-NNP"/>
                         <outlet property="settingsButton" destination="j8v-6q-UBb" id="wZV-ib-D05"/>
-                        <outlet property="stopScreenCaptureButton" destination="S4T-4a-Mo0" id="EK7-SD-1jl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
@@ -469,5 +449,7 @@
         <image name="settingsPressed" width="41" height="48"/>
         <image name="shutter" width="48" height="48"/>
         <image name="shutterPressed" width="48" height="48"/>
+        <image name="startRecord" width="400" height="400"/>
+        <image name="stopRecord" width="400" height="400"/>
     </resources>
 </document>
