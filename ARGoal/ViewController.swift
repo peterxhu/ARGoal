@@ -794,42 +794,45 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
     fileprivate let recorder = RPScreenRecorder.shared()
     
     @IBOutlet weak var screenRecordButton: UIButton!
+    @IBOutlet weak var stopRecordButton: UIButton!
+    
     @IBAction func screenRecordButtonPressed(_ sender: UIButton) {
-        if recorder.isRecording {
-            // end recording
-            recorder.stopRecording(handler: { [unowned self] (previewViewController, error) in
-                if let error = error {
-                    NSLog("Failed stop recording: \(error.localizedDescription)")
-                    return
+        // start recording
+        recorder.startRecording(handler: { [unowned self] error in
+            if let error = error {
+                NSLog("Failed start recording: \(error.localizedDescription)")
+                return
+            }
+            DispatchQueue.main.async { [unowned self] in
+                if let image = UIImage(named: "Assets.xcassets/stopRecord") {
+                    self.screenRecordButton.setImage(image, for: .normal)
                 }
-                DispatchQueue.main.async {
-                    if let image = UIImage(named: "Assets.xcassets/startRecord") {
-                        self.screenRecordButton.setImage(image, for: .normal)
-                    }
-                }
-                NSLog("Stop recording")
-                previewViewController?.previewControllerDelegate = self
-                DispatchQueue.main.async { [unowned self] in
-                    // show preview window
-                    self.present(previewViewController!, animated: true, completion: nil)
-                }
-            })
-        } else {
-            // start recording
-            recorder.startRecording(handler: { [unowned self] error in
-                if let error = error {
-                    NSLog("Failed start recording: \(error.localizedDescription)")
-                    return
-                }
-                DispatchQueue.main.async { [unowned self] in
-                    if let image = UIImage(named: "Assets.xcassets/stopRecord") {
-                        self.screenRecordButton.setImage(image, for: .normal)
-                    }
-                }
-                NSLog("Start recording")
-             })
-        }
+            }
+            NSLog("Start recording")
+        })
     }
+    
+    @IBAction func stopRecordButtonPressed(_ sender: Any) {
+        // end recording
+        recorder.stopRecording(handler: { [unowned self] (previewViewController, error) in
+            if let error = error {
+                NSLog("Failed stop recording: \(error.localizedDescription)")
+                return
+            }
+            DispatchQueue.main.async {
+                if let image = UIImage(named: "Assets.xcassets/startRecord") {
+                    self.screenRecordButton.setImage(image, for: .normal)
+                }
+            }
+            NSLog("Stop recording")
+            previewViewController?.previewControllerDelegate = self
+            DispatchQueue.main.async { [unowned self] in
+                // show preview window
+                self.present(previewViewController!, animated: true, completion: nil)
+            }
+        })
+    }
+    
     
     // =========================================================================
     // MARK: - RPScreenRecorderDelegate

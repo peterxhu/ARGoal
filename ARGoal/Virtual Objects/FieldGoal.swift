@@ -12,7 +12,7 @@ import SceneKit
 class FieldGoal: VirtualObject {
     
     override init() {
-        super.init(modelName: "cup", fileExtension: "scn", thumbImageFilename: "fieldGoal", title: "Field Goal (TBD)")
+        super.init(modelName: "goal", fileExtension: "scn", thumbImageFilename: "fieldGoal", title: "Field Goal")
     }
     
     required init?(coder aDecoder: NSCoder) {
