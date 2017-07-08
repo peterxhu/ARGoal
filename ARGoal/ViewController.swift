@@ -13,11 +13,25 @@ import UIKit
 import Photos
 
 class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, VirtualObjectSelectionViewControllerDelegate {
-	
+    
+    let cheerView = CheerView()
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        cheerView.frame = view.bounds
+    }
+    
     // MARK: - Main Setup & View Controller methods
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        cheerView.config.particle = .confetti
+        view.addSubview(cheerView)
+        cheerView.start()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.cheerView.stop()
+        }
+        
         Setting.registerDefaults()
         setupScene()
         setupDebug()
