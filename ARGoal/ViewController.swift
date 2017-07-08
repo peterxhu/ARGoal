@@ -11,9 +11,8 @@ import Foundation
 import SceneKit
 import UIKit
 import Photos
-import ReplayKit
 
-class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, RPScreenRecorderDelegate, RPPreviewViewControllerDelegate, VirtualObjectSelectionViewControllerDelegate {
+class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, VirtualObjectSelectionViewControllerDelegate {
 	
     // MARK: - Main Setup & View Controller methods
     override func viewDidLoad() {
@@ -26,9 +25,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		setupFocusSquare()
 		updateSettings()
 		resetVirtualObject()
-        
-        
-        // _ = EasyTipView.show(forView: addObjectButton, withinSuperview: UIApplication.shared.windows.first!, text: "hello", position: .left)
     }
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -791,84 +787,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 			})
 		}
 	}
-    
-    fileprivate let recorder = RPScreenRecorder.shared()
-    
-    @IBOutlet weak var screenRecordingLabel: UILabel!
-    @IBOutlet weak var screenRecordButton: UIButton!
-    @IBOutlet weak var stopRecordButton: UIButton!
-    
-    @IBAction func screenRecordButtonPressed(_ sender: UIButton) {
-        // start recording
-        recorder.startRecording(handler: { [unowned self] error in
-            if let error = error {
-                NSLog("Failed start recording: \(error.localizedDescription)")
-                return
-            }
-            DispatchQueue.main.async { [unowned self] in
-                self.screenRecordButton.isHidden = true
-                self.stopRecordButton.isHidden = false
-                self.screenRecordingLabel.isHidden = false
-            }
-            NSLog("Start recording")
-            
-        })
-    }
-    
-    @IBAction func stopRecordButtonPressed(_ sender: Any) {
-        // end recording
-        recorder.stopRecording(handler: { [unowned self] (previewViewController, error) in
-            if let error = error {
-                NSLog("Failed stop recording: \(error.localizedDescription)")
-                return
-            }
-            DispatchQueue.main.async {
-                self.screenRecordButton.isHidden = false
-                self.stopRecordButton.isHidden = true
-                self.screenRecordingLabel.isHidden = true
-            }
-            NSLog("Stop recording")
-            
-            previewViewController?.previewControllerDelegate = self
-            DispatchQueue.main.async { [unowned self] in
-                // show preview window
-                self.present(previewViewController!, animated: true, completion: nil)
-            }
-        })
-    }
-    
-    
-    // =========================================================================
-    // MARK: - RPScreenRecorderDelegate
-    
-    // called after stopping the recording
-    func screenRecorder(_ screenRecorder: RPScreenRecorder, didStopRecordingWithError error: Error, previewViewController: RPPreviewViewController?) {
-        DispatchQueue.main.async { [unowned self] in
-            self.screenRecordButton.setImage(UIImage(named: "startRecord"), for: .normal)
-        }
-        NSLog("Stop recording")
-    }
-    
-    // called when the recorder availability has changed
-    func screenRecorderDidChangeAvailability(_ screenRecorder: RPScreenRecorder) {
-        let availability = screenRecorder.isAvailable
-        NSLog("Availablility: \(availability)")
-    }
-    
-    
-    // =========================================================================
-    // MARK: - RPPreviewViewControllerDelegate
-    
-    // called when preview is finished
-    func previewControllerDidFinish(_ previewController: RPPreviewViewController) {
-        NSLog("Preview finish")
-        
-        DispatchQueue.main.async { [unowned previewController] in
-            // close preview window
-            previewController.dismiss(animated: true, completion: nil)
-        }
-    }
-    
     
     // MARK: - Settings
 	@IBOutlet weak var settingsButton: UIButton!

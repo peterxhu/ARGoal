@@ -27,8 +27,6 @@
 		DBBC42D81EF626E000B74AFA /* FieldGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBC42D71EF626E000B74AFA /* FieldGoal.swift */; };
 		DBC3EF341EF5DC9C001C336C /* Cone.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3EF331EF5DC9C001C336C /* Cone.swift */; };
 		DBCA24B71EFEE54400A08984 /* UtilityMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA24B61EFEE54400A08984 /* UtilityMethods.swift */; };
-		DBCA24B81EFEE65600A08984 /* EasyTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA24B51EFEE24D00A08984 /* EasyTipView.swift */; };
-		DBCA24BA1EFEE6D600A08984 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA24B91EFEE6D600A08984 /* UIView+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,9 +52,7 @@
 		DBBC42D51EF6152400B74AFA /* SoccerGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerGoal.swift; sourceTree = "<group>"; };
 		DBBC42D71EF626E000B74AFA /* FieldGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldGoal.swift; sourceTree = "<group>"; };
 		DBC3EF331EF5DC9C001C336C /* Cone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cone.swift; sourceTree = "<group>"; };
-		DBCA24B51EFEE24D00A08984 /* EasyTipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyTipView.swift; sourceTree = "<group>"; };
 		DBCA24B61EFEE54400A08984 /* UtilityMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityMethods.swift; sourceTree = "<group>"; };
-		DBCA24B91EFEE6D600A08984 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,7 +99,6 @@
 			children = (
 				DB82B8231EFEE0D000FC3AD8 /* Third Party Libraries */,
 				3929C48B1E89EC2C00E00B60 /* AppDelegate.swift */,
-				DBCA24B91EFEE6D600A08984 /* UIView+Extensions.swift */,
 				3929C48D1E89EC2C00E00B60 /* ViewController.swift */,
 				C40DF57B1EC2330700D9D59E /* Virtual Objects */,
 				113B64D01ECA81CA0071CBD1 /* UI Elements */,
@@ -136,17 +131,8 @@
 		DB82B8231EFEE0D000FC3AD8 /* Third Party Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				DB82B8241EFEE12B00FC3AD8 /* EasyTipView */,
 			);
 			name = "Third Party Libraries";
-			sourceTree = "<group>";
-		};
-		DB82B8241EFEE12B00FC3AD8 /* EasyTipView */ = {
-			isa = PBXGroup;
-			children = (
-				DBCA24B51EFEE24D00A08984 /* EasyTipView.swift */,
-			);
-			path = EasyTipView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,7 +209,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DBCA24B81EFEE65600A08984 /* EasyTipView.swift in Sources */,
 				3929C48E1E89EC2C00E00B60 /* ViewController.swift in Sources */,
 				C41366B91EB80DD400EC054A /* TextManager.swift in Sources */,
 				39C0B95A1E9C6B1F003FCA0C /* Utilities.swift in Sources */,
@@ -235,7 +220,6 @@
 				39D4A8BE1EA1AF530006EC65 /* PlaneDebugVisualization.swift in Sources */,
 				DBC3EF341EF5DC9C001C336C /* Cone.swift in Sources */,
 				39C0B9591E9C6B1F003FCA0C /* SettingsViewController.swift in Sources */,
-				DBCA24BA1EFEE6D600A08984 /* UIView+Extensions.swift in Sources */,
 				C490DAC41E9AB63400210960 /* VirtualObjectSelectionViewController.swift in Sources */,
 				C42A71BD1E9C0AF200944367 /* FocusSquare.swift in Sources */,
 				DBBC42D61EF6152400B74AFA /* SoccerGoal.swift in Sources */,

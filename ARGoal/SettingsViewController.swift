@@ -55,7 +55,6 @@ class SettingsViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        _ = UtilityMethods.showToolTip(for: debugModeSwitch, superview: tableView, text: "hello", position: .left)
         populateSettings()
     }
 
