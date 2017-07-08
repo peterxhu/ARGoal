@@ -27,6 +27,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		updateSettings()
 		resetVirtualObject()
         
+        
         // _ = EasyTipView.show(forView: addObjectButton, withinSuperview: UIApplication.shared.windows.first!, text: "hello", position: .left)
     }
 
@@ -793,6 +794,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
     
     fileprivate let recorder = RPScreenRecorder.shared()
     
+    @IBOutlet weak var screenRecordingLabel: UILabel!
     @IBOutlet weak var screenRecordButton: UIButton!
     @IBOutlet weak var stopRecordButton: UIButton!
     
@@ -804,11 +806,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
                 return
             }
             DispatchQueue.main.async { [unowned self] in
-                if let image = UIImage(named: "Assets.xcassets/stopRecord") {
-                    self.screenRecordButton.setImage(image, for: .normal)
-                }
+                self.screenRecordButton.isHidden = true
+                self.stopRecordButton.isHidden = false
+                self.screenRecordingLabel.isHidden = false
             }
             NSLog("Start recording")
+            
         })
     }
     
@@ -820,11 +823,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
                 return
             }
             DispatchQueue.main.async {
-                if let image = UIImage(named: "Assets.xcassets/startRecord") {
-                    self.screenRecordButton.setImage(image, for: .normal)
-                }
+                self.screenRecordButton.isHidden = false
+                self.stopRecordButton.isHidden = true
+                self.screenRecordingLabel.isHidden = true
             }
             NSLog("Stop recording")
+            
             previewViewController?.previewControllerDelegate = self
             DispatchQueue.main.async { [unowned self] in
                 // show preview window
