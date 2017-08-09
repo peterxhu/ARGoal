@@ -58,11 +58,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 	
     // MARK: - ARKit / ARSCNView
     let session = ARSession()
-	var sessionConfig: ARSessionConfiguration = ARWorldTrackingSessionConfiguration()
+    var sessionConfig: ARConfiguration = ARWorldTrackingConfiguration()
 	var use3DOFTracking = false {
 		didSet {
 			if use3DOFTracking {
-				sessionConfig = ARSessionConfiguration()
+                sessionConfig = AROrientationTrackingConfiguration()
 			}
 			sessionConfig.isLightEstimationEnabled = true
 			session.run(sessionConfig)
@@ -82,7 +82,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		sceneView.preferredFramesPerSecond = 60
 		sceneView.contentScaleFactor = 1.3
 		//sceneView.showsStatistics = true
-		
+        
+        spawnShape()
+        
 		enableEnvironmentMapWithIntensity(25.0)
 		
 		DispatchQueue.main.async {
@@ -95,6 +97,51 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 			camera.exposureOffset = -1
 			camera.minimumExposure = -1
 		}
+    }
+    
+    // TODO: spawn shape at position of virtual image, maybe immediately after vitrual object placement
+    // OR just try to add physics to the virtual object
+    func spawnShape() {
+        // 1
+        var geometry:SCNGeometry
+        // 2
+        switch ShapeType.random() {
+        case .Box:
+            geometry = SCNBox(width: 1.0, height: 1.0, length: 1.0, chamferRadius: 0.0)
+        case .Sphere:
+            geometry = SCNSphere(radius: 0.5)
+        case .Pyramid:
+            geometry = SCNPyramid(width: 1.0, height: 1.0, length: 1.0)
+        case .Torus:
+            geometry = SCNTorus(ringRadius: 0.5, pipeRadius: 0.25)
+        case .Capsule:
+            geometry = SCNCapsule(capRadius: 0.3, height: 2.5)
+        case .Cylinder:
+            geometry = SCNCylinder(radius: 0.3, height: 2.5)
+        case .Cone:
+            geometry = SCNCone(topRadius: 0.25, bottomRadius: 0.5, height: 1.0)
+        case .Tube:
+            geometry = SCNTube(innerRadius: 0.25, outerRadius: 0.5, height: 1.0)
+        }
+        geometry.materials.first?.diffuse.contents = UIColor.random()
+        
+        // 4
+        let geometryNode = SCNNode(geometry: geometry)
+        geometryNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        
+        // 1
+        let randomX = Double.random(min: -2, max: 2)
+        let randomY = Double.random(min: 10, max: 18)
+        // 2
+        let force = SCNVector3(x: Float(randomX), y: Float(randomY) , z: 0)
+        // 3
+        let position = SCNVector3(x: 0.05, y: 0.05, z: 0.05)
+        // 4
+        geometryNode.physicsBody?.applyForce(force, at: position, asImpulse: true)
+        
+        // 5
+        sceneView.scene.rootNode.addChildNode(geometryNode)
+        // sceneView.rootNode.addChildNode(geometryNode)
     }
 	
 	func enableEnvironmentMapWithIntensity(_ intensity: CGFloat) {
@@ -620,7 +667,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 	func restartPlaneDetection() {
 		
 		// configure session
-		if let worldSessionConfig = sessionConfig as? ARWorldTrackingSessionConfiguration {
+        if let worldSessionConfig = sessionConfig as? ARWorldTrackingConfiguration {
 			worldSessionConfig.planeDetection = .horizontal
 			session.run(worldSessionConfig, options: [.resetTracking, .removeExistingAnchors])
 		}
@@ -678,7 +725,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         }
         
         DispatchQueue.main.async {
-            self.featurePointCountLabel.text = "Features: \(cloud.count)".uppercased()
+            self.featurePointCountLabel.text = "Features: \(cloud.__count)".uppercased()
         }
     }
 	

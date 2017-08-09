@@ -142,7 +142,8 @@ class TextManager {
 				switch reason {
 				case .excessiveMotion: message += "Try slowing down your movement, or reset the session."
 				case .insufficientFeatures: message += "Try pointing at a flat surface, or reset the session."
-				}
+                case .initializing: message += "Initializing. Please wait."
+                }
 			case .normal: break
 			}
 			

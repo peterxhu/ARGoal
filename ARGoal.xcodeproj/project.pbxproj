@@ -27,6 +27,10 @@
 		DB19B8201F11905300B1176F /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB19B81C1F11904400B1176F /* Config.swift */; };
 		DB19B8211F11905800B1176F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB19B81D1F11904400B1176F /* Extensions.swift */; };
 		DB19B8221F11905C00B1176F /* ImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB19B81E1F11904400B1176F /* ImageGenerator.swift */; };
+		DBAB3B691F11EBCE00918135 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB3B671F11EBB700918135 /* Double+Extensions.swift */; };
+		DBAB3B6C1F11EBD600918135 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB3B641F11EBB600918135 /* Int+Extensions.swift */; };
+		DBAB3B6D1F11EBD800918135 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB3B651F11EBB700918135 /* UIColor+Extensions.swift */; };
+		DBAB3B6F1F11EDAB00918135 /* ShapeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB3B6E1F11ED9D00918135 /* ShapeType.swift */; };
 		DBBC42D61EF6152400B74AFA /* SoccerGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBC42D51EF6152400B74AFA /* SoccerGoal.swift */; };
 		DBBC42D81EF626E000B74AFA /* FieldGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBC42D71EF626E000B74AFA /* FieldGoal.swift */; };
 		DBC3EF341EF5DC9C001C336C /* Cone.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3EF331EF5DC9C001C336C /* Cone.swift */; };
@@ -57,6 +61,10 @@
 		DB19B81D1F11904400B1176F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		DB19B81E1F11904400B1176F /* ImageGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGenerator.swift; sourceTree = "<group>"; };
 		DB45A0FF1EF600C2001CBB29 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		DBAB3B641F11EBB600918135 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		DBAB3B651F11EBB700918135 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		DBAB3B671F11EBB700918135 /* Double+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Extensions.swift"; sourceTree = "<group>"; };
+		DBAB3B6E1F11ED9D00918135 /* ShapeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeType.swift; sourceTree = "<group>"; };
 		DBBC42D51EF6152400B74AFA /* SoccerGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoccerGoal.swift; sourceTree = "<group>"; };
 		DBBC42D71EF626E000B74AFA /* FieldGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldGoal.swift; sourceTree = "<group>"; };
 		DBC3EF331EF5DC9C001C336C /* Cone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cone.swift; sourceTree = "<group>"; };
@@ -115,6 +123,10 @@
 				C4FBC02A1EC6438B003F7864 /* ARCameraTrackingState.swift */,
 				39C0B9581E9C6B1F003FCA0C /* Utilities.swift */,
 				DBCA24B61EFEE54400A08984 /* UtilityMethods.swift */,
+				DBAB3B6E1F11ED9D00918135 /* ShapeType.swift */,
+				DBAB3B671F11EBB700918135 /* Double+Extensions.swift */,
+				DBAB3B641F11EBB600918135 /* Int+Extensions.swift */,
+				DBAB3B651F11EBB700918135 /* UIColor+Extensions.swift */,
 				DB9C3D231F118DAD0075700E /* Third Party Libraries */,
 				3929C49E1E89EE4400E00B60 /* Models.scnassets */,
 				3929C4921E89EC2C00E00B60 /* Assets.xcassets */,
@@ -238,6 +250,8 @@
 				3987BEDC1E9E057F00167FAC /* Gesture.swift in Sources */,
 				C4E87DD91EA6B40F002117D6 /* VirtualObject.swift in Sources */,
 				DB19B8211F11905800B1176F /* Extensions.swift in Sources */,
+				DBAB3B691F11EBCE00918135 /* Double+Extensions.swift in Sources */,
+				DBAB3B6D1F11EBD800918135 /* UIColor+Extensions.swift in Sources */,
 				DBCA24B71EFEE54400A08984 /* UtilityMethods.swift in Sources */,
 				39D4A8BE1EA1AF530006EC65 /* PlaneDebugVisualization.swift in Sources */,
 				DBC3EF341EF5DC9C001C336C /* Cone.swift in Sources */,
@@ -247,6 +261,8 @@
 				DB19B81F1F11905000B1176F /* Cheers.swift in Sources */,
 				C42A71BD1E9C0AF200944367 /* FocusSquare.swift in Sources */,
 				DBBC42D61EF6152400B74AFA /* SoccerGoal.swift in Sources */,
+				DBAB3B6C1F11EBD600918135 /* Int+Extensions.swift in Sources */,
+				DBAB3B6F1F11EDAB00918135 /* ShapeType.swift in Sources */,
 				3929C48C1E89EC2C00E00B60 /* AppDelegate.swift in Sources */,
 				C4FBC02B1EC6438B003F7864 /* ARCameraTrackingState.swift in Sources */,
 			);
