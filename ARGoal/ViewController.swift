@@ -12,7 +12,12 @@ import SceneKit
 import UIKit
 import Photos
 
-class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, VirtualObjectSelectionViewControllerDelegate {
+enum PhysicsBodyType : Int {
+    case projectile = 1
+    case barrier = 2
+}
+
+class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, SCNPhysicsContactDelegate,  VirtualObjectSelectionViewControllerDelegate {
     
     let cheerView = CheerView()
     
@@ -27,10 +32,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         
         cheerView.config.particle = .confetti
         view.addSubview(cheerView)
-        cheerView.start()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.cheerView.stop()
-        }
+
+        self.sceneView.scene.physicsWorld.contactDelegate = self
         
         Setting.registerDefaults()
         setupScene()
@@ -99,8 +102,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		}
     }
     
-    // TODO: spawn shape at position of virtual image, maybe immediately after vitrual object placement
-    // OR just try to add physics to the virtual object
     func spawnShape() {
         // 1
         var geometry:SCNGeometry
@@ -455,6 +456,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		object.position = cameraWorldPos + cameraToPosition
 		
 		if object.parent == nil {
+            object.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+            object.physicsBody?.categoryBitMask = PhysicsBodyType.barrier.rawValue
+            // TODO: See if we can bump up the mass to increase the likelihood of collision detection
+            // object.physicsBody?.mass = 1000
 			sceneView.scene.rootNode.addChildNode(object)
 		}
     }
@@ -559,7 +564,65 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		}
 	}
 	
-	@IBOutlet weak var addObjectButton: UIButton!
+    @IBOutlet weak var triggerButton: UIButton!
+    var lastContactNode: SCNNode!
+
+    @IBAction func triggerPressed(_ sender: UIButton) {
+        guard let currentFrame = self.sceneView.session.currentFrame else {
+            return
+        }
+        
+        var translation = matrix_identity_float4x4
+        translation.columns.3.z = -0.3
+        
+        let box = SCNBox(width: 0.05, height: 0.05, length: 0.05, chamferRadius: 0)
+        
+        let material = SCNMaterial()
+        material.diffuse.contents = UIColor.yellow
+        
+        let boxNode = SCNNode(geometry: box)
+        boxNode.name = "Projectile"
+        boxNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        boxNode.physicsBody?.categoryBitMask = PhysicsBodyType.projectile.rawValue
+        boxNode.physicsBody?.contactTestBitMask = PhysicsBodyType.barrier.rawValue
+        boxNode.physicsBody?.isAffectedByGravity = false
+        
+        boxNode.simdTransform = matrix_multiply(currentFrame.camera.transform, translation)
+        
+        let forceVector = SCNVector3(boxNode.worldFront.x * 2,boxNode.worldFront.y * 2,boxNode.worldFront.z * 2)
+        
+        boxNode.physicsBody?.applyForce(forceVector, asImpulse: true)
+        self.sceneView.scene.rootNode.addChildNode(boxNode)
+    }
+    
+    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+        
+        var contactNode: SCNNode!
+        
+        if contact.nodeA.name == "Projectile" {
+            contactNode = contact.nodeB
+        } else {
+            contactNode = contact.nodeA
+        }
+        
+        if self.lastContactNode != nil && self.lastContactNode == contactNode {
+            return
+        }
+        
+        // Collision has occurred, hit the confetti
+        launchConfetti()
+    }
+    
+    func launchConfetti() {
+        DispatchQueue.main.async {
+            self.cheerView.start()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.cheerView.stop()
+        }
+    }
+    
+    @IBOutlet weak var addObjectButton: UIButton!
 	
 	func loadVirtualObject(at index: Int) {
 		resetVirtualObject()
