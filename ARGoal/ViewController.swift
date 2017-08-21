@@ -585,7 +585,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         boxNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         boxNode.physicsBody?.categoryBitMask = PhysicsBodyType.projectile.rawValue
         boxNode.physicsBody?.contactTestBitMask = PhysicsBodyType.barrier.rawValue
-        boxNode.physicsBody?.isAffectedByGravity = false
+        boxNode.physicsBody?.isAffectedByGravity = isProjectileAffectedByGravity
         
         boxNode.simdTransform = matrix_multiply(currentFrame.camera.transform, translation)
         
@@ -934,7 +934,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		navigationController.popoverPresentationController?.sourceView = settingsButton
 		navigationController.popoverPresentationController?.sourceRect = settingsButton.bounds
 	}
-	
+    
     @objc
     func dismissSettings() {
 		self.dismiss(animated: true, completion: nil)
@@ -949,6 +949,49 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		use3DOFTracking	= defaults.bool(for: .use3DOFTracking)
 		use3DOFTrackingFallback = defaults.bool(for: .use3DOFFallback)
 	}
+    
+    // MARK: - Physics Settings
+
+    @IBOutlet weak var physicsSettingsButton: UIButton!
+    
+    // Determines if the projectile is affected by gravity
+    var isProjectileAffectedByGravity: Bool = UserDefaults.standard.bool(for: .isProjectileAffectedByGravity) {
+        didSet {
+            // save pref
+            UserDefaults.standard.set(isProjectileAffectedByGravity, for: .isProjectileAffectedByGravity)
+        }
+    }
+    
+    @IBAction func showPhysicsSettings(_ sender: UIButton) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let physicsSettingsViewController = storyboard.instantiateViewController(withIdentifier: "physicsSettingsViewController") as? PhysicsSettingsViewController else {
+            return
+        }
+        
+        let barButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissPhysicsSettings))
+        physicsSettingsViewController.navigationItem.rightBarButtonItem = barButtonItem
+        physicsSettingsViewController.title = "Physics Options"
+        
+        let navigationController = UINavigationController(rootViewController: physicsSettingsViewController)
+        navigationController.modalPresentationStyle = .popover
+        navigationController.popoverPresentationController?.delegate = self
+        navigationController.preferredContentSize = CGSize(width: sceneView.bounds.size.width - 20, height: sceneView.bounds.size.height - 50)
+        self.present(navigationController, animated: true, completion: nil)
+        
+        navigationController.popoverPresentationController?.sourceView = physicsSettingsButton
+        navigationController.popoverPresentationController?.sourceRect = physicsSettingsButton.bounds
+    }
+    
+    @objc
+    func dismissPhysicsSettings() {
+        self.dismiss(animated: true, completion: nil)
+        updatePhysicsSettings()
+    }
+    
+    private func updatePhysicsSettings() {
+        let defaults = UserDefaults.standard
+        isProjectileAffectedByGravity = defaults.bool(for: .isProjectileAffectedByGravity)
+    }
 
 	// MARK: - Error handling
 	
