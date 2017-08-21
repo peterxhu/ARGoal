@@ -844,6 +844,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		messageLabel.text = ""
     }
 	
+    
+    @IBOutlet weak var closeExperienceButton: UIButton!
+    
+    @IBAction func closeExperience(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
 	@IBOutlet weak var restartExperienceButton: UIButton!
 	var restartExperienceButtonIsEnabled = true
 	

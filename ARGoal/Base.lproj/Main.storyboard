@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13178.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BV1-FR-VrT">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13178.6" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="qNM-GI-CWa">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -11,6 +11,68 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="xRy-5O-I0t">
+            <objects>
+                <navigationController id="qNM-GI-CWa" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="RHW-Fq-2AX">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="V81-Nj-YvC" kind="relationship" relationship="rootViewController" id="yva-q7-n71"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BxW-SF-yHR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1554" y="99"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="yrW-Ef-Kcg">
+            <objects>
+                <viewController id="V81-Nj-YvC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sxa-IP-hwq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B6D-K9-euj">
+                                <rect key="frame" x="147.5" y="293.5" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="2VA-9Y-tfV"/>
+                                    <constraint firstAttribute="width" constant="80" id="loG-HY-Vg6"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="arGoal"/>
+                                <connections>
+                                    <segue destination="BV1-FR-VrT" kind="presentation" id="Vik-my-wqp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jfe-qn-j15">
+                                <rect key="frame" x="147" y="395" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="3AE-k4-WXO"/>
+                                    <constraint firstAttribute="height" constant="80" id="MWv-1m-egE"/>
+                                </constraints>
+                                <state key="normal" backgroundImage="distance"/>
+                                <connections>
+                                    <segue destination="BV1-FR-VrT" kind="presentation" id="osl-g6-FDr"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Jfe-qn-j15" firstAttribute="centerX" secondItem="B6D-K9-euj" secondAttribute="centerX" id="WJQ-Ko-C9p"/>
+                            <constraint firstItem="B6D-K9-euj" firstAttribute="centerX" secondItem="sxa-IP-hwq" secondAttribute="centerX" id="aX4-pe-bj8"/>
+                            <constraint firstItem="B6D-K9-euj" firstAttribute="centerY" secondItem="sxa-IP-hwq" secondAttribute="centerY" id="sis-So-A6e"/>
+                            <constraint firstItem="Jfe-qn-j15" firstAttribute="top" secondItem="B6D-K9-euj" secondAttribute="bottom" constant="21.5" id="tAs-3w-SKu"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="z4t-Gz-C3E"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="nPj-yG-wQD"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fbj-SZ-w9S" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-808.79999999999995" y="89.505247376311857"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>
@@ -115,6 +177,13 @@
                                     <constraint firstAttribute="width" constant="30" id="ncQ-g9-ZQm"/>
                                 </constraints>
                             </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="powerMeter" translatesAutoresizingMaskIntoConstraints="NO" id="DtU-j6-cdV" userLabel="powerIcon">
+                                <rect key="frame" x="251" y="613" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="C56-9z-IdF"/>
+                                    <constraint firstAttribute="height" constant="30" id="wpO-up-N5Y"/>
+                                </constraints>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SuF-Os-zmb" userLabel="Restart Experience Button Hit Area">
                                 <rect key="frame" x="345" y="0.0" width="30" height="90"/>
                                 <constraints>
@@ -125,7 +194,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BgI-fb-Vqi" userLabel="Restart Experience Button Icon">
-                                <rect key="frame" x="340" y="40" width="20" height="23"/>
+                                <rect key="frame" x="340" y="30" width="20" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="20" id="2gh-Pb-Wv3"/>
                                     <constraint firstAttribute="height" constant="23" id="O3Q-DX-CLC"/>
@@ -211,13 +280,19 @@
                                     <action selector="triggerPressed:" destination="BV1-FR-VrT" eventType="touchUpInside" id="PH2-aR-VFR"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="powerMeter" translatesAutoresizingMaskIntoConstraints="NO" id="DtU-j6-cdV" userLabel="powerIcon">
-                                <rect key="frame" x="251" y="613" width="30" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0aq-HH-3hP" userLabel="Close Button Icon">
+                                <rect key="frame" x="340" y="73" width="20" height="23"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="C56-9z-IdF"/>
-                                    <constraint firstAttribute="height" constant="30" id="wpO-up-N5Y"/>
+                                    <constraint firstAttribute="height" constant="23" id="XXP-Ym-fZa"/>
+                                    <constraint firstAttribute="width" constant="20" id="gZO-ze-qj6"/>
                                 </constraints>
-                            </imageView>
+                                <state key="normal" image="close"/>
+                                <state key="selected" image="restartPressed"/>
+                                <state key="highlighted" image="restartPressed"/>
+                                <connections>
+                                    <action selector="closeExperience:" destination="BV1-FR-VrT" eventType="touchUpInside" id="cfx-aC-HMf"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -239,9 +314,10 @@
                             <constraint firstItem="fNY-JF-tJB" firstAttribute="leading" secondItem="qI1-of-tgS" secondAttribute="trailing" constant="30" id="Sty-CV-lOV"/>
                             <constraint firstItem="qI1-of-tgS" firstAttribute="leading" secondItem="E6c-py-dvH" secondAttribute="leading" constant="15" id="TAE-Eo-uQj"/>
                             <constraint firstItem="SuF-Os-zmb" firstAttribute="top" secondItem="E6c-py-dvH" secondAttribute="top" id="UMK-or-VVf"/>
-                            <constraint firstItem="BgI-fb-Vqi" firstAttribute="top" secondItem="GBj-4O-Whc" secondAttribute="top" constant="20" id="V7S-nn-Lcz"/>
+                            <constraint firstItem="BgI-fb-Vqi" firstAttribute="top" secondItem="GBj-4O-Whc" secondAttribute="top" constant="10" id="V7S-nn-Lcz"/>
                             <constraint firstItem="mHW-JQ-uOv" firstAttribute="leading" secondItem="E6c-py-dvH" secondAttribute="leading" id="YbV-6m-kVC"/>
                             <constraint firstItem="xcf-ic-uGo" firstAttribute="centerX" secondItem="GBj-4O-Whc" secondAttribute="centerX" id="ZCe-ld-yQW"/>
+                            <constraint firstItem="0aq-HH-3hP" firstAttribute="centerX" secondItem="BgI-fb-Vqi" secondAttribute="centerX" id="bDK-ZI-vuk"/>
                             <constraint firstItem="DtU-j6-cdV" firstAttribute="centerY" secondItem="8SB-b4-I1C" secondAttribute="centerY" id="exl-Lh-LxN"/>
                             <constraint firstItem="SPB-Sb-hjO" firstAttribute="bottom" secondItem="E6c-py-dvH" secondAttribute="bottom" id="fjf-Mj-ALG"/>
                             <constraint firstItem="WZo-oa-jXa" firstAttribute="centerX" secondItem="fNY-JF-tJB" secondAttribute="centerX" id="gt2-Fh-VbL"/>
@@ -252,11 +328,13 @@
                             <constraint firstItem="q5A-xD-w2H" firstAttribute="trailing" secondItem="E6c-py-dvH" secondAttribute="trailing" id="uvV-bc-TtK"/>
                             <constraint firstItem="GBj-4O-Whc" firstAttribute="bottom" secondItem="j8v-6q-UBb" secondAttribute="bottom" constant="15" id="vm8-IH-8Qx"/>
                             <constraint firstItem="j8v-6q-UBb" firstAttribute="leading" secondItem="8SB-b4-I1C" secondAttribute="trailingMargin" constant="30" id="wcv-Ov-ZtA"/>
+                            <constraint firstItem="0aq-HH-3hP" firstAttribute="top" secondItem="BgI-fb-Vqi" secondAttribute="bottom" constant="20" id="zsW-WQ-akC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="GBj-4O-Whc"/>
                     </view>
                     <connections>
                         <outlet property="addObjectButton" destination="xcf-ic-uGo" id="uFa-W2-4Iu"/>
+                        <outlet property="closeExperienceButton" destination="0aq-HH-3hP" id="5O6-S3-kvL"/>
                         <outlet property="debugMessageLabel" destination="Cxm-GD-h1F" id="0BW-FJ-xmR"/>
                         <outlet property="featurePointCountLabel" destination="2ZI-fK-iax" id="wpJ-fJ-Kn2"/>
                         <outlet property="messageLabel" destination="Mqz-65-rAs" id="G3a-qn-5g9"/>
@@ -483,10 +561,10 @@
                             <tableViewSection headerTitle="Physics" id="UgD-AC-69o">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Nsp-DK-ZeI">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nsp-DK-ZeI" id="PV4-9l-fvV">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="93L-kZ-0RL">
@@ -514,10 +592,10 @@
                             <tableViewSection headerTitle="Direction" id="Ska-Y3-zbU">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Cer-xm-vqU">
-                                        <rect key="frame" x="0.0" y="156" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="155.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Cer-xm-vqU" id="jxX-B6-Irb">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Left" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yeg-JK-B0U">
@@ -556,10 +634,10 @@
                             <tableViewSection headerTitle="Power" id="oFQ-0P-aE4">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="bEj-YP-Q4K">
-                                        <rect key="frame" x="0.0" y="256" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="255.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bEj-YP-Q4K" id="6Tz-Ih-pxs">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XFN-kC-zcX">
@@ -614,7 +692,10 @@
     </scenes>
     <resources>
         <image name="add" width="48" height="48"/>
+        <image name="arGoal" width="83" height="83"/>
         <image name="buttonring" width="48" height="48"/>
+        <image name="close" width="1200" height="1200"/>
+        <image name="distance" width="1200" height="1200"/>
         <image name="powerMeter" width="1200" height="1200"/>
         <image name="restart" width="20" height="23"/>
         <image name="restartPressed" width="20" height="23"/>
@@ -624,4 +705,7 @@
         <image name="shutterPressed" width="48" height="48"/>
         <image name="trigger" width="1200" height="1200"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Vik-my-wqp"/>
+    </inferredMetricsTieBreakers>
 </document>
