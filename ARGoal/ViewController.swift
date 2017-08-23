@@ -86,8 +86,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		sceneView.contentScaleFactor = 1.3
 		//sceneView.showsStatistics = true
         
-        spawnShape()
-        
 		enableEnvironmentMapWithIntensity(25.0)
 		
 		DispatchQueue.main.async {
@@ -100,49 +98,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 			camera.exposureOffset = -1
 			camera.minimumExposure = -1
 		}
-    }
-    
-    func spawnShape() {
-        // 1
-        var geometry:SCNGeometry
-        // 2
-        switch ShapeType.random() {
-        case .Box:
-            geometry = SCNBox(width: 1.0, height: 1.0, length: 1.0, chamferRadius: 0.0)
-        case .Sphere:
-            geometry = SCNSphere(radius: 0.5)
-        case .Pyramid:
-            geometry = SCNPyramid(width: 1.0, height: 1.0, length: 1.0)
-        case .Torus:
-            geometry = SCNTorus(ringRadius: 0.5, pipeRadius: 0.25)
-        case .Capsule:
-            geometry = SCNCapsule(capRadius: 0.3, height: 2.5)
-        case .Cylinder:
-            geometry = SCNCylinder(radius: 0.3, height: 2.5)
-        case .Cone:
-            geometry = SCNCone(topRadius: 0.25, bottomRadius: 0.5, height: 1.0)
-        case .Tube:
-            geometry = SCNTube(innerRadius: 0.25, outerRadius: 0.5, height: 1.0)
-        }
-        geometry.materials.first?.diffuse.contents = UIColor.random()
-        
-        // 4
-        let geometryNode = SCNNode(geometry: geometry)
-        geometryNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-        
-        // 1
-        let randomX = Double.random(min: -2, max: 2)
-        let randomY = Double.random(min: 10, max: 18)
-        // 2
-        let force = SCNVector3(x: Float(randomX), y: Float(randomY) , z: 0)
-        // 3
-        let position = SCNVector3(x: 0.05, y: 0.05, z: 0.05)
-        // 4
-        geometryNode.physicsBody?.applyForce(force, at: position, asImpulse: true)
-        
-        // 5
-        sceneView.scene.rootNode.addChildNode(geometryNode)
-        // sceneView.rootNode.addChildNode(geometryNode)
     }
 	
 	func enableEnvironmentMapWithIntensity(_ intensity: CGFloat) {
@@ -456,10 +411,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		object.position = cameraWorldPos + cameraToPosition
 		
 		if object.parent == nil {
-            object.physicsBody = SCNPhysicsBody(type: .static, shape: nil)
+            object.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: object, options: nil))
             object.physicsBody?.categoryBitMask = PhysicsBodyType.barrier.rawValue
-            // TODO: See if we can bump up the mass to increase the likelihood of collision detection
-            // object.physicsBody?.mass = 1000
 			sceneView.scene.rootNode.addChildNode(object)
 		}
     }
@@ -567,6 +520,14 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
     @IBOutlet weak var triggerButton: UIButton!
     var lastContactNode: SCNNode!
 
+    // TODO: Add long press to this button
+    // https://stackoverflow.com/questions/9419041/ios-how-to-get-duration-of-long-press-gesture
+    // https://stackoverflow.com/questions/30859203/uibutton-with-single-press-and-long-press-events-swift
+    // TODO: for the length of the long press, visualize to the user how much power will go into it
+    // https://www.raywenderlich.com/9864/how-to-create-a-rotating-wheel-control-with-uikit
+    // https://github.com/jdee/ios-knob-control
+    // https://www.andrewcbancroft.com/2015/07/09/circular-progress-indicator-in-swift/
+    // or turn the button from green, yellow, to red.
     @IBAction func triggerPressed(_ sender: UIButton) {
         guard let currentFrame = self.sceneView.session.currentFrame else {
             return
@@ -575,7 +536,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         var translation = matrix_identity_float4x4
         translation.columns.3.z = -0.3
         
-        let box = SCNBox(width: 0.05, height: 0.05, length: 0.05, chamferRadius: 0)
+        let box = SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0)
         
         let material = SCNMaterial()
         material.diffuse.contents = UIColor.yellow
@@ -583,15 +544,35 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         let boxNode = SCNNode(geometry: box)
         boxNode.name = "Projectile"
         boxNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+        boxNode.physicsBody?.mass = 0.5
+
         boxNode.physicsBody?.categoryBitMask = PhysicsBodyType.projectile.rawValue
         boxNode.physicsBody?.contactTestBitMask = PhysicsBodyType.barrier.rawValue
-        boxNode.physicsBody?.isAffectedByGravity = isProjectileAffectedByGravity
-        
         boxNode.simdTransform = matrix_multiply(currentFrame.camera.transform, translation)
-        
-        let forceVector = SCNVector3(boxNode.worldFront.x * 2,boxNode.worldFront.y * 2,boxNode.worldFront.z * 2)
-        
-        boxNode.physicsBody?.applyForce(forceVector, asImpulse: true)
+        boxNode.physicsBody?.isAffectedByGravity = isProjectileAffectedByGravity
+        if isProjectileAffectedByGravity {
+            // TODO: refine this. force the higher you point the greater the height? the longer you hold the greater the z force? or maybe put multipliers on both?
+            // example of SCNVector3
+            //  - x : 0.00869742781 (this is just my horizontal orientation)
+            //  - y : 0.255023122 (pointing somewhat up)
+            //  - z : -0.966895819 (pointing backwards)
+            // force generally in the direction your facing
+            
+            //  SCNVector3 (for opposite direction)
+            // - x : -0.747799397
+            // - y : -0.191329837
+            // - z : 0.6357584
+            let longPressMultiplier: Float = 5
+            let forceVector = SCNVector3(boxNode.worldFront.x * 1,boxNode.worldFront.y * longPressMultiplier * 4 ,boxNode.worldFront.z * longPressMultiplier * 1)
+            // TODO: figure out why the x doesn't seem to want to go with the world tracking 
+            // TODO: find out how varying this from bottom to top affects this. (kicking the ball flat, or beneath)
+            // let positionVector = SCNVector3(x: 0.05, y: 0.05, z: 0.05)
+            // boxNode.physicsBody?.applyForce(forceVector, at: positionVector, asImpulse: true)
+            boxNode.physicsBody?.applyForce(forceVector, asImpulse: true)
+        } else {
+            let forceVector = SCNVector3(boxNode.worldFront.x * 2,boxNode.worldFront.y * 2,boxNode.worldFront.z * 2)
+            boxNode.physicsBody?.applyForce(forceVector, asImpulse: true)
+        }
         self.sceneView.scene.rootNode.addChildNode(boxNode)
     }
     
