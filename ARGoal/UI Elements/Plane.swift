@@ -44,7 +44,7 @@ class Plane: SCNNode {
 		if show {
 			if debugVisualization == nil {
 				DispatchQueue.global().async {
-					self.debugVisualization = PlaneDebugVisualization(anchor: self.anchor)
+                    self.debugVisualization = PlaneDebugVisualization(anchor: self.anchor)
 					DispatchQueue.main.async {
 						self.addChildNode(self.debugVisualization!)
 					}

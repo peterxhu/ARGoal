@@ -13,7 +13,6 @@ enum Setting: String {
     case showDetailedMessages
     case showARVisualizations
     case dragOnInfinitePlanes
-    case use3DOFTracking
     case use3DOFFallback
     
     // Integer state used in virtual object picker
@@ -24,7 +23,6 @@ enum Setting: String {
             Setting.showDetailedMessages.rawValue: true,
             Setting.showARVisualizations.rawValue: false,
             Setting.dragOnInfinitePlanes.rawValue: true,
-            Setting.use3DOFTracking.rawValue: false,
             Setting.use3DOFFallback.rawValue: true,
             Setting.selectedObjectID.rawValue: -1
         ])
@@ -50,7 +48,6 @@ class SettingsViewController: UITableViewController {
 	@IBOutlet weak var debugModeSwitch: UISwitch!
     @IBOutlet weak var ARVisualizationsSwitch: UISwitch!
     @IBOutlet weak var dragOnInfinitePlanesSwitch: UISwitch!
-	@IBOutlet weak var use3DOFTrackingSwitch: UISwitch!
 	@IBOutlet weak var useAuto3DOFFallbackSwitch: UISwitch!
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,8 +64,6 @@ class SettingsViewController: UITableViewController {
                 defaults.set(sender.isOn, for: .showARVisualizations)
             case dragOnInfinitePlanesSwitch:
                 defaults.set(sender.isOn, for: .dragOnInfinitePlanes)
-            case use3DOFTrackingSwitch:
-                defaults.set(sender.isOn, for: .use3DOFTracking)
             case useAuto3DOFFallbackSwitch:
                 defaults.set(sender.isOn, for: .use3DOFFallback)
             default: break
@@ -80,7 +75,6 @@ class SettingsViewController: UITableViewController {
 		debugModeSwitch.isOn = defaults.bool(for: Setting.showDetailedMessages)
 		ARVisualizationsSwitch.isOn = defaults.bool(for: .showARVisualizations)
 		dragOnInfinitePlanesSwitch.isOn = defaults.bool(for: .dragOnInfinitePlanes)
-		use3DOFTrackingSwitch.isOn = defaults.bool(for: .use3DOFTracking)
 		useAuto3DOFFallbackSwitch.isOn = defaults.bool(for: .use3DOFFallback)
 	}
 }

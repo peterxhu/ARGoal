@@ -27,6 +27,7 @@
 		DB19B8201F11905300B1176F /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB19B81C1F11904400B1176F /* Config.swift */; };
 		DB19B8211F11905800B1176F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB19B81D1F11904400B1176F /* Extensions.swift */; };
 		DB19B8221F11905C00B1176F /* ImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB19B81E1F11904400B1176F /* ImageGenerator.swift */; };
+		DB3C2E601F58FA9000AB341A /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3C2E5F1F58F79600AB341A /* CircleProgressView.swift */; };
 		DB48AA0F1F4A5E9100DA8BDB /* PhysicsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB48AA0E1F4A5E9100DA8BDB /* PhysicsSettingsViewController.swift */; };
 		DBAB3B691F11EBCE00918135 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB3B671F11EBB700918135 /* Double+Extensions.swift */; };
 		DBAB3B6C1F11EBD600918135 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB3B641F11EBB600918135 /* Int+Extensions.swift */; };
@@ -61,6 +62,7 @@
 		DB19B81C1F11904400B1176F /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		DB19B81D1F11904400B1176F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		DB19B81E1F11904400B1176F /* ImageGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGenerator.swift; sourceTree = "<group>"; };
+		DB3C2E5F1F58F79600AB341A /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
 		DB45A0FF1EF600C2001CBB29 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DB48AA0E1F4A5E9100DA8BDB /* PhysicsSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsSettingsViewController.swift; sourceTree = "<group>"; };
 		DBAB3B641F11EBB600918135 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
@@ -162,9 +164,18 @@
 			path = Cheers;
 			sourceTree = "<group>";
 		};
+		DB3C2E5E1F58F79600AB341A /* CircleProgressView */ = {
+			isa = PBXGroup;
+			children = (
+				DB3C2E5F1F58F79600AB341A /* CircleProgressView.swift */,
+			);
+			path = CircleProgressView;
+			sourceTree = "<group>";
+		};
 		DB9C3D231F118DAD0075700E /* Third Party Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				DB3C2E5E1F58F79600AB341A /* CircleProgressView */,
 				DB19B81A1F11904400B1176F /* Cheers */,
 			);
 			path = "Third Party Libraries";
@@ -261,6 +272,7 @@
 				DBC3EF341EF5DC9C001C336C /* Cone.swift in Sources */,
 				39C0B9591E9C6B1F003FCA0C /* SettingsViewController.swift in Sources */,
 				DB19B8201F11905300B1176F /* Config.swift in Sources */,
+				DB3C2E601F58FA9000AB341A /* CircleProgressView.swift in Sources */,
 				C490DAC41E9AB63400210960 /* VirtualObjectSelectionViewController.swift in Sources */,
 				DB19B81F1F11905000B1176F /* Cheers.swift in Sources */,
 				C42A71BD1E9C0AF200944367 /* FocusSquare.swift in Sources */,

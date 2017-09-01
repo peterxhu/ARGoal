@@ -12,14 +12,16 @@ import SceneKit
 import UIKit
 import Photos
 
-enum PhysicsBodyType : Int {
+enum PhysicsBodyType: Int {
     case projectile = 1
     case barrier = 2
+    case plane = 3
 }
 
 class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, SCNPhysicsContactDelegate,  VirtualObjectSelectionViewControllerDelegate {
     
     let cheerView = CheerView()
+    var timer: Timer = Timer()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -32,6 +34,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         
         cheerView.config.particle = .confetti
         view.addSubview(cheerView)
+        
+        circlePowerMeter.isHidden = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(triggerNormalTap(_:)))
+        let longGesture = TimedLongPressGesture(target: self, action: #selector(triggerLongTap(_:)))
+        tapGesture.numberOfTapsRequired = 1
+        triggerButton.addGestureRecognizer(tapGesture)
+        triggerButton.addGestureRecognizer(longGesture)
 
         self.sceneView.scene.physicsWorld.contactDelegate = self
         
@@ -520,15 +529,39 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
     @IBOutlet weak var triggerButton: UIButton!
     var lastContactNode: SCNNode!
 
-    // TODO: Add long press to this button
-    // https://stackoverflow.com/questions/9419041/ios-how-to-get-duration-of-long-press-gesture
-    // https://stackoverflow.com/questions/30859203/uibutton-with-single-press-and-long-press-events-swift
-    // TODO: for the length of the long press, visualize to the user how much power will go into it
-    // https://www.raywenderlich.com/9864/how-to-create-a-rotating-wheel-control-with-uikit
-    // https://github.com/jdee/ios-knob-control
-    // https://www.andrewcbancroft.com/2015/07/09/circular-progress-indicator-in-swift/
-    // or turn the button from green, yellow, to red.
-    @IBAction func triggerPressed(_ sender: UIButton) {
+    @IBOutlet weak var circlePowerMeter: CircleProgressView!
+    @IBOutlet weak var powerMeterLabel: UILabel!
+
+    @objc func triggerNormalTap(_ sender: UIGestureRecognizer) {
+        shootObject(longPressMultiplier: 0.5)
+    }
+    
+    @objc func triggerLongTap(_ gesture: TimedLongPressGesture) {
+        if gesture.state == .ended {
+            let duration = NSDate().timeIntervalSince(gesture.startTime! as Date)
+            print(duration.description)
+            shootObject(longPressMultiplier: Float(circlePowerMeter.progress))
+            circlePowerMeter.isHidden = true
+            timer.invalidate()
+        } else if gesture.state == .began {
+            gesture.startTime = NSDate()
+            circlePowerMeter.progress = 0
+            powerMeterLabel.text = "0"
+            circlePowerMeter.isHidden = false
+            timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(increaseProgressBar), userInfo: nil, repeats: true)
+        }
+    }
+    
+    @objc func increaseProgressBar() {
+        if circlePowerMeter.progress < 1 {
+            let newProgress = circlePowerMeter.progress + 0.01
+            circlePowerMeter.progress = newProgress
+            powerMeterLabel.text = String(format: "%.2f", newProgress)
+        }
+    }
+    
+    func shootObject(longPressMultiplier: Float = 1) {
+        
         guard let currentFrame = self.sceneView.session.currentFrame else {
             return
         }
@@ -545,13 +578,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         boxNode.name = "Projectile"
         boxNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
         boxNode.physicsBody?.mass = 0.5
-
+        
         boxNode.physicsBody?.categoryBitMask = PhysicsBodyType.projectile.rawValue
         boxNode.physicsBody?.contactTestBitMask = PhysicsBodyType.barrier.rawValue
         boxNode.simdTransform = matrix_multiply(currentFrame.camera.transform, translation)
         boxNode.physicsBody?.isAffectedByGravity = isProjectileAffectedByGravity
         if isProjectileAffectedByGravity {
-            // TODO: refine this. force the higher you point the greater the height? the longer you hold the greater the z force? or maybe put multipliers on both?
             // example of SCNVector3
             //  - x : 0.00869742781 (this is just my horizontal orientation)
             //  - y : 0.255023122 (pointing somewhat up)
@@ -562,9 +594,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
             // - x : -0.747799397
             // - y : -0.191329837
             // - z : 0.6357584
-            let longPressMultiplier: Float = 5
-            let forceVector = SCNVector3(boxNode.worldFront.x * 1,boxNode.worldFront.y * longPressMultiplier * 4 ,boxNode.worldFront.z * longPressMultiplier * 1)
-            // TODO: figure out why the x doesn't seem to want to go with the world tracking 
+            let forceVector = SCNVector3(boxNode.worldFront.x * 1,1 * longPressMultiplier, boxNode.worldFront.z)
             // TODO: find out how varying this from bottom to top affects this. (kicking the ball flat, or beneath)
             // let positionVector = SCNVector3(x: 0.05, y: 0.05, z: 0.05)
             // boxNode.physicsBody?.applyForce(forceVector, at: positionVector, asImpulse: true)
@@ -574,6 +604,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
             boxNode.physicsBody?.applyForce(forceVector, asImpulse: true)
         }
         self.sceneView.scene.rootNode.addChildNode(boxNode)
+        
     }
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
@@ -934,7 +965,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         showDetailedMessages = defaults.bool(for: .showDetailedMessages)
         showARVisualizations = defaults.bool(for: .showARVisualizations)
 		dragOnInfinitePlanesEnabled = defaults.bool(for: .dragOnInfinitePlanes)
-		use3DOFTracking	= defaults.bool(for: .use3DOFTracking)
 		use3DOFTrackingFallback = defaults.bool(for: .use3DOFFallback)
 	}
     
@@ -1007,4 +1037,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 	func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
 		updateSettings()
 	}
+}
+
+class TimedLongPressGesture: UILongPressGestureRecognizer {
+    var startTime: NSDate?
 }
