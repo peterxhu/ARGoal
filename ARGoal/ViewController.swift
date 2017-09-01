@@ -420,8 +420,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		object.position = cameraWorldPos + cameraToPosition
 		
 		if object.parent == nil {
-            object.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: object, options: nil))
-            object.physicsBody?.categoryBitMask = PhysicsBodyType.barrier.rawValue
+            if let goalPlane = object.childNode(withName: "goalPlane", recursively: true) {
+                goalPlane.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: goalPlane, options: nil))
+                goalPlane.physicsBody?.categoryBitMask = PhysicsBodyType.barrier.rawValue
+            }
 			sceneView.scene.rootNode.addChildNode(object)
 		}
     }

@@ -96,9 +96,7 @@ extension VirtualObject {
 	
 	static let availableObjects: [VirtualObject] = [
         SoccerGoal(),
-        FieldGoal(),
-        Cone()
-	]
+        FieldGoal()]
 }
 
 // MARK: - Protocols for Virtual Objects
