@@ -89,7 +89,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         sceneView.delegate = self
         sceneView.session = session
 		sceneView.antialiasingMode = .multisampling4X
-		sceneView.automaticallyUpdatesLighting = false
+		sceneView.automaticallyUpdatesLighting = true
 		
 		sceneView.preferredFramesPerSecond = 60
 		sceneView.contentScaleFactor = 1.3
@@ -110,12 +110,14 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
     }
 	
 	func enableEnvironmentMapWithIntensity(_ intensity: CGFloat) {
-		if sceneView.scene.lightingEnvironment.contents == nil {
-			if let environmentMap = UIImage(named: "Models.scnassets/sharedImages/environment_blur.exr") {
-				sceneView.scene.lightingEnvironment.contents = environmentMap
-			}
-		}
-		sceneView.scene.lightingEnvironment.intensity = intensity
+         let estimate: ARLightEstimate? = self.session.currentFrame?.lightEstimate
+         if estimate == nil {
+            return
+         }
+         // A value of 1000 is considered neutral, lighting environment intensity normalizes
+         // 1.0 to neutral so we need to scale the ambientIntensity value
+         let intensity: CGFloat? = (estimate?.ambientIntensity)! / 1000.0
+         sceneView.scene.lightingEnvironment.intensity = intensity!
 	}
 	
     // MARK: - ARSCNViewDelegate
@@ -125,13 +127,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		
 		DispatchQueue.main.async {
 			self.updateFocusSquare()
-            
-			// If light estimation is enabled, update the intensity of the model's lights and the environment map
-			if let lightEstimate = self.session.currentFrame?.lightEstimate {
-				self.enableEnvironmentMapWithIntensity(lightEstimate.ambientIntensity / 40)
-			} else {
-				self.enableEnvironmentMapWithIntensity(25)
-			}
+            self.enableEnvironmentMapWithIntensity(1000)
 		}
 	}
 	
@@ -828,6 +824,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
             } else {
                 sceneView.debugOptions = []
             }
+            self.sceneView.autoenablesDefaultLighting = true
+
             // save pref
             UserDefaults.standard.set(showARVisualizations, for: .showARVisualizations)
         }
