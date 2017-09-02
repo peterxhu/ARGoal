@@ -13,9 +13,10 @@ import UIKit
 import Photos
 
 enum PhysicsBodyType: Int {
-    case projectile = 1
-    case barrier = 2
-    case plane = 3
+    case projectile = 1 // ball
+    case barrier = 2 // goal frame
+    case plane = 3 // ground
+    case goalPlane = 4  // goal scoring plane
 }
 
 class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, SCNPhysicsContactDelegate,  VirtualObjectSelectionViewControllerDelegate {
@@ -93,7 +94,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		
 		sceneView.preferredFramesPerSecond = 60
 		sceneView.contentScaleFactor = 1.3
-		//sceneView.showsStatistics = true
         
 		enableEnvironmentMapWithIntensity(25.0)
 		
@@ -567,20 +567,25 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         var translation = matrix_identity_float4x4
         translation.columns.3.z = -0.3
         
-        let box = SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0)
+        var projectileNode: SCNNode = SCNNode()
+        if let footballObjectScene = SCNScene(named: "football.scn", inDirectory: "Models.scnassets/football"), self.virtualObject is FieldGoal {
+            projectileNode = footballObjectScene.rootNode
+        } else if let soccerObjectScene = SCNScene(named: "soccerBall.scn", inDirectory: "Models.scnassets/soccerBall"), self.virtualObject is SoccerGoal {
+            projectileNode = soccerObjectScene.rootNode
+        } else {
+            let box = SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0)
+            // let material = SCNMaterial()
+            // material.diffuse.contents = UIColor.yellow
+            projectileNode = SCNNode(geometry: box)
+        }
+        projectileNode.name = "Projectile"
+        projectileNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(node: projectileNode, options: nil))
+        projectileNode.physicsBody?.mass = 1
         
-        let material = SCNMaterial()
-        material.diffuse.contents = UIColor.yellow
-        
-        let boxNode = SCNNode(geometry: box)
-        boxNode.name = "Projectile"
-        boxNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-        boxNode.physicsBody?.mass = 0.5
-        
-        boxNode.physicsBody?.categoryBitMask = PhysicsBodyType.projectile.rawValue
-        boxNode.physicsBody?.contactTestBitMask = PhysicsBodyType.barrier.rawValue
-        boxNode.simdTransform = matrix_multiply(currentFrame.camera.transform, translation)
-        boxNode.physicsBody?.isAffectedByGravity = isProjectileAffectedByGravity
+        projectileNode.physicsBody?.categoryBitMask = PhysicsBodyType.projectile.rawValue
+        projectileNode.physicsBody?.contactTestBitMask = PhysicsBodyType.barrier.rawValue
+        projectileNode.simdTransform = matrix_multiply(currentFrame.camera.transform, translation)
+        projectileNode.physicsBody?.isAffectedByGravity = isProjectileAffectedByGravity
         if isProjectileAffectedByGravity {
             // example of SCNVector3
             //  - x : 0.00869742781 (this is just my horizontal orientation)
@@ -592,16 +597,16 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
             // - x : -0.747799397
             // - y : -0.191329837
             // - z : 0.6357584
-            let forceVector = SCNVector3(boxNode.worldFront.x * 1,1 * longPressMultiplier, boxNode.worldFront.z)
+            let forceVector = SCNVector3(projectileNode.worldFront.x * 1,10 * longPressMultiplier, projectileNode.worldFront.z)
             // TODO: find out how varying this from bottom to top affects this. (kicking the ball flat, or beneath)
             // let positionVector = SCNVector3(x: 0.05, y: 0.05, z: 0.05)
-            // boxNode.physicsBody?.applyForce(forceVector, at: positionVector, asImpulse: true)
-            boxNode.physicsBody?.applyForce(forceVector, asImpulse: true)
+            // projectileNode.physicsBody?.applyForce(forceVector, at: positionVector, asImpulse: true)
+            projectileNode.physicsBody?.applyForce(forceVector, asImpulse: true)
         } else {
-            let forceVector = SCNVector3(boxNode.worldFront.x * 2,boxNode.worldFront.y * 2,boxNode.worldFront.z * 2)
-            boxNode.physicsBody?.applyForce(forceVector, asImpulse: true)
+            let forceVector = SCNVector3(projectileNode.worldFront.x * 2,projectileNode.worldFront.y * 2,projectileNode.worldFront.z * 2)
+            projectileNode.physicsBody?.applyForce(forceVector, asImpulse: true)
         }
-        self.sceneView.scene.rootNode.addChildNode(boxNode)
+        self.sceneView.scene.rootNode.addChildNode(projectileNode)
         
     }
     
