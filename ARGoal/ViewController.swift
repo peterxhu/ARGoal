@@ -13,10 +13,10 @@ import UIKit
 import Photos
 
 enum PhysicsBodyType: Int {
-    case projectile = 1 // ball
-    case barrier = 2 // goal frame
-    case plane = 3 // ground
-    case goalPlane = 4  // goal scoring plane
+    case projectile = 11 // ball
+    case goalFrame = 12 // goal frame (cross bar)
+    case plane = 13 // ground
+    case goalPlane = 14  // goal scoring plane (detect goal)
 }
 
 class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, SCNPhysicsContactDelegate,  VirtualObjectSelectionViewControllerDelegate {
@@ -418,8 +418,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		if object.parent == nil {
             if let goalPlane = object.childNode(withName: "goalPlane", recursively: true) {
                 goalPlane.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: goalPlane, options: nil))
-                goalPlane.physicsBody?.categoryBitMask = PhysicsBodyType.barrier.rawValue
-                goalPlane.physicsBody?.mass = 0.00000000001; // super tiny mass makes it a "sensor"
+                goalPlane.physicsBody?.categoryBitMask = PhysicsBodyType.goalPlane.rawValue
+                // goalPlane.physicsBody?.mass = 0.00000000001; // super tiny mass makes it a "sensor"
             }
 			sceneView.scene.rootNode.addChildNode(object)
 		}
@@ -580,20 +580,23 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
             }
             let projectileNode: SCNNode = SCNNode()
             projectileNode.addChildNode(footballNode)
-            projectileNode.physicsBody?.isAffectedByGravity = false
             // TODO: add torque to the football
-            projectileNode.name = "Football"
+            projectileNode.name = "Projectile"
             projectileNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(node: projectileNode, options: nil))
-            projectileNode.physicsBody?.mass = 1
+            // projectileNode.physicsBody?.mass = 1
+            projectileNode.physicsBody?.isAffectedByGravity = true
             projectileNode.physicsBody?.categoryBitMask = PhysicsBodyType.projectile.rawValue
-            projectileNode.physicsBody?.contactTestBitMask = PhysicsBodyType.barrier.rawValue
+            projectileNode.physicsBody?.contactTestBitMask = PhysicsBodyType.goalFrame.rawValue
+            projectileNode.physicsBody?.contactTestBitMask = PhysicsBodyType.goalPlane.rawValue
+            projectileNode.physicsBody?.contactTestBitMask = PhysicsBodyType.plane.rawValue
+
             projectileNode.simdTransform = matrix_multiply(currentFrame.camera.transform, translation)
             let forceVector = SCNVector3(projectileNode.worldFront.x * 1,10 * longPressMultiplier, projectileNode.worldFront.z)
             // let forceVector = SCNVector3(projectileNode.worldFront.x * 2,projectileNode.worldFront.y * 2,projectileNode.worldFront.z * 2)
             // TODO: find out how varying this from bottom to top affects this. (kicking the ball flat, or beneath)
             // let positionVector = SCNVector3(x: 0.05, y: 0.05, z: 0.05)
             // projectileNode.physicsBody?.applyForce(forceVector, at: positionVector, asImpulse: true)
-            // projectileNode.physicsBody?.applyForce(forceVector, asImpulse: true)
+            projectileNode.physicsBody?.applyForce(forceVector, asImpulse: true)
             self.sceneView.scene.rootNode.addChildNode(projectileNode)
         } else if let soccerObjectScene = SCNScene(named: "soccerBall.scn", inDirectory: "Models.scnassets/soccerBall"), self.virtualObject is SoccerGoal {
             guard let soccerNode = soccerObjectScene.rootNode.childNode(withName: "ball", recursively: true)
@@ -602,19 +605,16 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
             }
             let projectileNode: SCNNode = SCNNode()
             projectileNode.addChildNode(soccerNode)
-            projectileNode.physicsBody?.isAffectedByGravity = false
-            // TODO: add torque to the football
-            projectileNode.name = "SoccerBall"
+            projectileNode.name = "Projectile"
             projectileNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(node: projectileNode, options: nil))
-            projectileNode.physicsBody?.mass = 1
+            projectileNode.physicsBody?.isAffectedByGravity = false
             projectileNode.physicsBody?.categoryBitMask = PhysicsBodyType.projectile.rawValue
-            projectileNode.physicsBody?.contactTestBitMask = PhysicsBodyType.barrier.rawValue
+            projectileNode.physicsBody?.contactTestBitMask = PhysicsBodyType.goalFrame.rawValue
+            projectileNode.physicsBody?.contactTestBitMask = PhysicsBodyType.goalPlane.rawValue
+            projectileNode.physicsBody?.contactTestBitMask = PhysicsBodyType.plane.rawValue
             projectileNode.simdTransform = matrix_multiply(currentFrame.camera.transform, translation)
-            let forceVector = SCNVector3(projectileNode.worldFront.x * 2,projectileNode.worldFront.y * 2,projectileNode.worldFront.z * 2)
-            // let forceVector = SCNVector3(projectileNode.worldFront.x * 2,projectileNode.worldFront.y * 2,projectileNode.worldFront.z * 2)
-            // TODO: find out how varying this from bottom to top affects this. (kicking the ball flat, or beneath)
-            // let positionVector = SCNVector3(x: 0.05, y: 0.05, z: 0.05)
-            // projectileNode.physicsBody?.applyForce(forceVector, at: positionVector, asImpulse: true)
+            let forceMultiplier = 10 * longPressMultiplier
+            let forceVector = SCNVector3(projectileNode.worldFront.x * forceMultiplier, projectileNode.worldFront.y * forceMultiplier, projectileNode.worldFront.z * forceMultiplier)
             projectileNode.physicsBody?.applyForce(forceVector, asImpulse: true)
             self.sceneView.scene.rootNode.addChildNode(projectileNode)
         }
@@ -634,23 +634,26 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
         
-        var contactNode: SCNNode!
+        let contactNode: SCNNode!
         
+        // Make sure we set the contact node to what we suspect to be the projectile
         if contact.nodeA.name == "Projectile" {
             contactNode = contact.nodeB
         } else {
             contactNode = contact.nodeA
         }
-        
-        if self.lastContactNode != nil && self.lastContactNode == contactNode {
-            return
+        // Validate that that the collision is what we wanted
+        if let hitObjectCategory = contactNode.physicsBody?.categoryBitMask {
+            if hitObjectCategory == PhysicsBodyType.goalFrame.rawValue {
+                textManager.showDebugMessage("HIT THE FRAME! SO CLOSE!!!")
+            } else if hitObjectCategory == PhysicsBodyType.goalPlane.rawValue {
+                // Collision has occurred, hit the confetti
+                textManager.showDebugMessage("NICE GOAL!!!")
+                launchConfetti()
+            } else {
+                NSLog("Insignificant collision")
+            }
         }
-        
-        // TODO: validate that that the collision is what we wanted
-        
-        // Collision has occurred, hit the confetti
-        textManager.showDebugMessage("NICE GOAL!!!")
-        launchConfetti()
     }
     
     func launchConfetti() {

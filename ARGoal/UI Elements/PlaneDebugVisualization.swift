@@ -37,7 +37,7 @@ class PlaneDebugVisualization: SCNNode {
 		// self.addChildNode(originVisualizationNode)
         
         self.planeNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(geometry: self.planeGeometry, options: nil))
-        self.planeNode.physicsBody?.categoryBitMask =  PhysicsBodyType.plane.rawValue
+        self.planeNode.physicsBody?.categoryBitMask = PhysicsBodyType.plane.rawValue
 		self.addChildNode(planeNode)
 		
 		self.position = SCNVector3(anchor.center.x, -0.002, anchor.center.z) // 2 mm below the origin of plane.
