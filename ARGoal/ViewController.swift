@@ -43,8 +43,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         triggerButton.addGestureRecognizer(tapGesture)
         triggerButton.addGestureRecognizer(longGesture)
 
-        self.sceneView.scene.physicsWorld.contactDelegate = self
-        
         Setting.registerDefaults()
         setupScene()
         setupDebug()
@@ -91,7 +89,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         sceneView.session = session
 		sceneView.antialiasingMode = .multisampling4X
 		sceneView.automaticallyUpdatesLighting = true
-		
+        self.sceneView.autoenablesDefaultLighting = true
+        self.sceneView.scene.physicsWorld.contactDelegate = self
+        
 		sceneView.preferredFramesPerSecond = 60
 		sceneView.contentScaleFactor = 1.3
         
@@ -419,6 +419,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
             if let goalPlane = object.childNode(withName: "goalPlane", recursively: true) {
                 goalPlane.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: goalPlane, options: nil))
                 goalPlane.physicsBody?.categoryBitMask = PhysicsBodyType.barrier.rawValue
+                goalPlane.physicsBody?.mass = 0.00000000001; // super tiny mass makes it a "sensor"
             }
 			sceneView.scene.rootNode.addChildNode(object)
 		}
@@ -428,7 +429,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		virtualObject?.unloadModel()
 		virtualObject?.removeFromParentNode()
 		virtualObject = nil
-		
+        DispatchQueue.main.async {
+            self.triggerButton.isHidden = true
+            self.triggerIconImageView.isHidden = true
+        }
 		addObjectButton.setImage(#imageLiteral(resourceName: "add"), for: [])
 		addObjectButton.setImage(#imageLiteral(resourceName: "addPressed"), for: [.highlighted])
 		
@@ -525,6 +529,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 	}
 	
     @IBOutlet weak var triggerButton: UIButton!
+    @IBOutlet weak var triggerIconImageView: UIImageView!
+    
     var lastContactNode: SCNNode!
 
     @IBOutlet weak var circlePowerMeter: CircleProgressView!
@@ -567,47 +573,63 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         var translation = matrix_identity_float4x4
         translation.columns.3.z = -0.3
         
-        var projectileNode: SCNNode = SCNNode()
         if let footballObjectScene = SCNScene(named: "football.scn", inDirectory: "Models.scnassets/football"), self.virtualObject is FieldGoal {
-            projectileNode = footballObjectScene.rootNode
-        } else if let soccerObjectScene = SCNScene(named: "soccerBall.scn", inDirectory: "Models.scnassets/soccerBall"), self.virtualObject is SoccerGoal {
-            projectileNode = soccerObjectScene.rootNode
-        } else {
-            let box = SCNBox(width: 0.01, height: 0.01, length: 0.01, chamferRadius: 0)
-            // let material = SCNMaterial()
-            // material.diffuse.contents = UIColor.yellow
-            projectileNode = SCNNode(geometry: box)
-        }
-        projectileNode.name = "Projectile"
-        projectileNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(node: projectileNode, options: nil))
-        projectileNode.physicsBody?.mass = 1
-        
-        projectileNode.physicsBody?.categoryBitMask = PhysicsBodyType.projectile.rawValue
-        projectileNode.physicsBody?.contactTestBitMask = PhysicsBodyType.barrier.rawValue
-        projectileNode.simdTransform = matrix_multiply(currentFrame.camera.transform, translation)
-        projectileNode.physicsBody?.isAffectedByGravity = isProjectileAffectedByGravity
-        if isProjectileAffectedByGravity {
-            // example of SCNVector3
-            //  - x : 0.00869742781 (this is just my horizontal orientation)
-            //  - y : 0.255023122 (pointing somewhat up)
-            //  - z : -0.966895819 (pointing backwards)
-            // force generally in the direction your facing
-            
-            //  SCNVector3 (for opposite direction)
-            // - x : -0.747799397
-            // - y : -0.191329837
-            // - z : 0.6357584
+            guard let footballNode = footballObjectScene.rootNode.childNode(withName: "football", recursively: true)
+                else {
+                    fatalError("Node not found!")
+            }
+            let projectileNode: SCNNode = SCNNode()
+            projectileNode.addChildNode(footballNode)
+            projectileNode.physicsBody?.isAffectedByGravity = false
+            // TODO: add torque to the football
+            projectileNode.name = "Football"
+            projectileNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(node: projectileNode, options: nil))
+            projectileNode.physicsBody?.mass = 1
+            projectileNode.physicsBody?.categoryBitMask = PhysicsBodyType.projectile.rawValue
+            projectileNode.physicsBody?.contactTestBitMask = PhysicsBodyType.barrier.rawValue
+            projectileNode.simdTransform = matrix_multiply(currentFrame.camera.transform, translation)
             let forceVector = SCNVector3(projectileNode.worldFront.x * 1,10 * longPressMultiplier, projectileNode.worldFront.z)
+            // let forceVector = SCNVector3(projectileNode.worldFront.x * 2,projectileNode.worldFront.y * 2,projectileNode.worldFront.z * 2)
+            // TODO: find out how varying this from bottom to top affects this. (kicking the ball flat, or beneath)
+            // let positionVector = SCNVector3(x: 0.05, y: 0.05, z: 0.05)
+            // projectileNode.physicsBody?.applyForce(forceVector, at: positionVector, asImpulse: true)
+            // projectileNode.physicsBody?.applyForce(forceVector, asImpulse: true)
+            self.sceneView.scene.rootNode.addChildNode(projectileNode)
+        } else if let soccerObjectScene = SCNScene(named: "soccerBall.scn", inDirectory: "Models.scnassets/soccerBall"), self.virtualObject is SoccerGoal {
+            guard let soccerNode = soccerObjectScene.rootNode.childNode(withName: "ball", recursively: true)
+                else {
+                    fatalError("Node not found!")
+            }
+            let projectileNode: SCNNode = SCNNode()
+            projectileNode.addChildNode(soccerNode)
+            projectileNode.physicsBody?.isAffectedByGravity = false
+            // TODO: add torque to the football
+            projectileNode.name = "SoccerBall"
+            projectileNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(node: projectileNode, options: nil))
+            projectileNode.physicsBody?.mass = 1
+            projectileNode.physicsBody?.categoryBitMask = PhysicsBodyType.projectile.rawValue
+            projectileNode.physicsBody?.contactTestBitMask = PhysicsBodyType.barrier.rawValue
+            projectileNode.simdTransform = matrix_multiply(currentFrame.camera.transform, translation)
+            let forceVector = SCNVector3(projectileNode.worldFront.x * 2,projectileNode.worldFront.y * 2,projectileNode.worldFront.z * 2)
+            // let forceVector = SCNVector3(projectileNode.worldFront.x * 2,projectileNode.worldFront.y * 2,projectileNode.worldFront.z * 2)
             // TODO: find out how varying this from bottom to top affects this. (kicking the ball flat, or beneath)
             // let positionVector = SCNVector3(x: 0.05, y: 0.05, z: 0.05)
             // projectileNode.physicsBody?.applyForce(forceVector, at: positionVector, asImpulse: true)
             projectileNode.physicsBody?.applyForce(forceVector, asImpulse: true)
-        } else {
-            let forceVector = SCNVector3(projectileNode.worldFront.x * 2,projectileNode.worldFront.y * 2,projectileNode.worldFront.z * 2)
-            projectileNode.physicsBody?.applyForce(forceVector, asImpulse: true)
+            self.sceneView.scene.rootNode.addChildNode(projectileNode)
         }
-        self.sceneView.scene.rootNode.addChildNode(projectileNode)
+        // Else, just don't crash
         
+        // example of SCNVector3
+        //  - x : 0.00869742781 (this is just my horizontal orientation)
+        //  - y : 0.255023122 (pointing somewhat up)
+        //  - z : -0.966895819 (pointing backwards)
+        // force generally in the direction your facing
+        
+        //  SCNVector3 (for opposite direction)
+        // - x : -0.747799397
+        // - y : -0.191329837
+        // - z : 0.6357584
     }
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
@@ -624,7 +646,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
             return
         }
         
+        // TODO: validate that that the collision is what we wanted
+        
         // Collision has occurred, hit the confetti
+        textManager.showDebugMessage("NICE GOAL!!!")
         launchConfetti()
     }
     
@@ -656,7 +681,16 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 			let object = VirtualObject.availableObjects[index]
 			object.viewController = self
 			self.virtualObject = object
-			
+            DispatchQueue.main.async {
+                self.triggerButton.isHidden = false
+                self.triggerIconImageView.isHidden = false
+                if self.virtualObject is FieldGoal {
+                    // TODO: set new icons
+                } else if self.virtualObject is SoccerGoal {
+                    
+                }
+            }
+            
 			object.loadModel()
 			
 			DispatchQueue.main.async {
@@ -793,7 +827,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
     @IBOutlet var featurePointCountLabel: UILabel!
 	
     func refreshFeaturePoints() {
-        guard showARVisualizations else {
+        guard showARFeaturePoints else {
             return
         }
         
@@ -818,21 +852,26 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         }
     }
     
-    var showARVisualizations: Bool = UserDefaults.standard.bool(for: .showARVisualizations) {
+    var showARPlanes: Bool = UserDefaults.standard.bool(for: .showARPlanes) {
         didSet {
             // Update Plane Visuals
-            planes.values.forEach { $0.showARVisualizations(showARVisualizations) }
-            
+            planes.values.forEach { $0.showARPlaneVisualizations(showARPlanes) }
+    
+            // save pref
+            UserDefaults.standard.set(showARPlanes, for: .showARPlanes)
+        }
+    }
+    
+    var showARFeaturePoints: Bool = UserDefaults.standard.bool(for: .showARFeaturePoints) {
+        didSet {
             // SceneView Visuals
-            if showARVisualizations {
-                sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin]
+            if showARFeaturePoints {
+                sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
             } else {
                 sceneView.debugOptions = []
             }
-            self.sceneView.autoenablesDefaultLighting = true
-
             // save pref
-            UserDefaults.standard.set(showARVisualizations, for: .showARVisualizations)
+            UserDefaults.standard.set(showARFeaturePoints, for: .showARFeaturePoints)
         }
     }
     
@@ -879,7 +918,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		
 		DispatchQueue.main.async {
 			self.restartExperienceButtonIsEnabled = false
-			
 			self.textManager.cancelAllScheduledMessages()
 			self.textManager.dismissPresentedAlert()
 			self.textManager.showMessage("STARTING A NEW SESSION")
@@ -968,53 +1006,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 	private func updateSettings() {
 		let defaults = UserDefaults.standard
         showDetailedMessages = defaults.bool(for: .showDetailedMessages)
-        showARVisualizations = defaults.bool(for: .showARVisualizations)
+        showARPlanes = defaults.bool(for: .showARPlanes)
+        showARFeaturePoints = defaults.bool(for: .showARFeaturePoints)
 		dragOnInfinitePlanesEnabled = defaults.bool(for: .dragOnInfinitePlanes)
 		use3DOFTrackingFallback = defaults.bool(for: .use3DOFFallback)
 	}
-    
-    // MARK: - Physics Settings
-
-    @IBOutlet weak var physicsSettingsButton: UIButton!
-    
-    // Determines if the projectile is affected by gravity
-    var isProjectileAffectedByGravity: Bool = UserDefaults.standard.bool(for: .isProjectileAffectedByGravity) {
-        didSet {
-            // save pref
-            UserDefaults.standard.set(isProjectileAffectedByGravity, for: .isProjectileAffectedByGravity)
-        }
-    }
-    
-    @IBAction func showPhysicsSettings(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        guard let physicsSettingsViewController = storyboard.instantiateViewController(withIdentifier: "physicsSettingsViewController") as? PhysicsSettingsViewController else {
-            return
-        }
-        
-        let barButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(dismissPhysicsSettings))
-        physicsSettingsViewController.navigationItem.rightBarButtonItem = barButtonItem
-        physicsSettingsViewController.title = "Physics Options"
-        
-        let navigationController = UINavigationController(rootViewController: physicsSettingsViewController)
-        navigationController.modalPresentationStyle = .popover
-        navigationController.popoverPresentationController?.delegate = self
-        navigationController.preferredContentSize = CGSize(width: sceneView.bounds.size.width - 20, height: sceneView.bounds.size.height - 50)
-        self.present(navigationController, animated: true, completion: nil)
-        
-        navigationController.popoverPresentationController?.sourceView = physicsSettingsButton
-        navigationController.popoverPresentationController?.sourceRect = physicsSettingsButton.bounds
-    }
-    
-    @objc
-    func dismissPhysicsSettings() {
-        self.dismiss(animated: true, completion: nil)
-        updatePhysicsSettings()
-    }
-    
-    private func updatePhysicsSettings() {
-        let defaults = UserDefaults.standard
-        isProjectileAffectedByGravity = defaults.bool(for: .isProjectileAffectedByGravity)
-    }
 
 	// MARK: - Error handling
 	

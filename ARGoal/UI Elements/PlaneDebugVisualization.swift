@@ -24,9 +24,6 @@ class PlaneDebugVisualization: SCNNode {
 	init(anchor: ARPlaneAnchor) {
 		
 		self.planeAnchor = anchor
-        // TODO: Toggle between grid and grass
-        // let grid = UIImage(named: "Models.scnassets/plane_grid.png")
-        // let grid = UIImage(named: "Models.scnassets/overlay_grid.png")
         let grid = UIImage(named: "Models.scnassets/grass.png")
 
 		self.planeGeometry = createPlane(size: CGSize(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z)),
@@ -36,8 +33,8 @@ class PlaneDebugVisualization: SCNNode {
 		
 		super.init()
 		
-		let originVisualizationNode = createAxesNode(quiverLength: 0.1, quiverThickness: 1.0)
-		self.addChildNode(originVisualizationNode)
+		// let originVisualizationNode = createAxesNode(quiverLength: 0.1, quiverThickness: 1.0)
+		// self.addChildNode(originVisualizationNode)
         
         self.planeNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(geometry: self.planeGeometry, options: nil))
         self.planeNode.physicsBody?.categoryBitMask =  PhysicsBodyType.plane.rawValue

@@ -23,10 +23,10 @@ class Plane: SCNNode {
 	var debugVisualization: PlaneDebugVisualization?
 	var focusSquare: FocusSquare?
 	
-	init(_ anchor: ARPlaneAnchor, _ showARVisualizations: Bool) {
+	init(_ anchor: ARPlaneAnchor, _ showARPlaneVisualizations: Bool) {
 		self.anchor = anchor
 		super.init()
-		self.showARVisualizations(showARVisualizations)
+		self.showARPlaneVisualizations(showARPlaneVisualizations)
         createOcclusionNode()
 	}
 	
@@ -40,7 +40,7 @@ class Plane: SCNNode {
         updateOcclusionNode()
 	}
 	
-	func showARVisualizations(_ show: Bool) {
+	func showARPlaneVisualizations(_ show: Bool) {
 		if show {
 			if debugVisualization == nil {
 				DispatchQueue.global().async {

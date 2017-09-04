@@ -19,6 +19,7 @@ enum MessageType {
 	case planeEstimation
 	case contentPlacement
 	case focusSquare
+    case general
 }
 
 class TextManager {
@@ -62,7 +63,9 @@ class TextManager {
         debugMessageHideTimer?.invalidate()
         
         // set text
-        viewController.debugMessageLabel.text = message
+        DispatchQueue.main.async {
+            self.viewController.debugMessageLabel.text = message
+        }
         
         // make sure debug message is showing
         showHideDebugMessage(hide: false, animated: true)
@@ -95,6 +98,7 @@ class TextManager {
 		case .focusSquare: timer = focusSquareMessageTimer
 		case .planeEstimation: timer = planeEstimationMessageTimer
 		case .trackingStateEscalation: timer = trackingStateFeedbackEscalationTimer
+        case .general: timer = generalMessageTimer
 		}
 		
 		if timer != nil {
@@ -113,6 +117,7 @@ class TextManager {
 		case .focusSquare: focusSquareMessageTimer = timer
 		case .planeEstimation: planeEstimationMessageTimer = timer
 		case .trackingStateEscalation: trackingStateFeedbackEscalationTimer = timer
+        case .general: trackingStateFeedbackEscalationTimer = timer
 		}
 	}
 	
@@ -165,6 +170,7 @@ class TextManager {
 		case .focusSquare: timer = focusSquareMessageTimer
 		case .planeEstimation: timer = planeEstimationMessageTimer
 		case .trackingStateEscalation: timer = trackingStateFeedbackEscalationTimer
+        case .general: timer = generalMessageTimer
 		}
 		
 		if timer != nil {
@@ -232,6 +238,8 @@ class TextManager {
 	// Timer for tracking state escalation
 	private var trackingStateFeedbackEscalationTimer: Timer?
 	
+    private var generalMessageTimer: Timer?
+
 	private func showHideMessage(hide: Bool, animated: Bool) {
 		if !animated {
 			viewController.messageLabel.isHidden = hide
@@ -257,15 +265,22 @@ class TextManager {
                        delay: 0,
                        options: [.allowUserInteraction, .beginFromCurrentState],
                        animations: {
-                        self.viewController.debugMessageLabel.isHidden = hide
-                        self.updateMessagePanelVisibility()
-        }, completion: nil)
+                        DispatchQueue.main.async {
+                            self.viewController.debugMessageLabel.isHidden = hide
+                            self.updateMessagePanelVisibility()
+                        }
+        }
+            
+            , completion: nil)
     }
 	
 	private func updateMessagePanelVisibility() {
-		// Show and hide the panel depending whether there is something to show.
-		viewController.messagePanel.isHidden = viewController.messageLabel.isHidden &&
-   viewController.debugMessageLabel.isHidden &&         
-            viewController.featurePointCountLabel.isHidden
+        DispatchQueue.main.async {
+            // Show and hide the panel depending whether there is something to show.
+            self.viewController.messagePanel.isHidden = self.viewController.messageLabel.isHidden &&
+                self.viewController.debugMessageLabel.isHidden &&
+                self.viewController.featurePointCountLabel.isHidden
+        }
+		
  }
 }

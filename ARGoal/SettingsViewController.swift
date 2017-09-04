@@ -11,7 +11,8 @@ import UIKit
 enum Setting: String {
     // Bool settings with SettingsViewController switches
     case showDetailedMessages
-    case showARVisualizations
+    case showARPlanes
+    case showARFeaturePoints
     case dragOnInfinitePlanes
     case use3DOFFallback
     
@@ -21,7 +22,8 @@ enum Setting: String {
     static func registerDefaults() {
         UserDefaults.standard.register(defaults: [
             Setting.showDetailedMessages.rawValue: true,
-            Setting.showARVisualizations.rawValue: false,
+            Setting.showARPlanes.rawValue: true,
+            Setting.showARFeaturePoints.rawValue: true,
             Setting.dragOnInfinitePlanes.rawValue: true,
             Setting.use3DOFFallback.rawValue: true,
             Setting.selectedObjectID.rawValue: -1
@@ -46,7 +48,8 @@ extension UserDefaults {
 class SettingsViewController: UITableViewController {
 	
 	@IBOutlet weak var debugModeSwitch: UISwitch!
-    @IBOutlet weak var ARVisualizationsSwitch: UISwitch!
+    @IBOutlet weak var ARPlanesSwitch: UISwitch!
+    @IBOutlet weak var ARFeaturePointsSwitch: UISwitch!
     @IBOutlet weak var dragOnInfinitePlanesSwitch: UISwitch!
 	@IBOutlet weak var useAuto3DOFFallbackSwitch: UISwitch!
     
@@ -60,8 +63,10 @@ class SettingsViewController: UITableViewController {
 		switch sender {
             case debugModeSwitch:
                 defaults.set(sender.isOn, for: .showDetailedMessages)
-            case ARVisualizationsSwitch:
-                defaults.set(sender.isOn, for: .showARVisualizations)
+            case ARPlanesSwitch:
+                defaults.set(sender.isOn, for: .showARPlanes)
+            case ARFeaturePointsSwitch:
+                defaults.set(sender.isOn, for: .showARFeaturePoints)
             case dragOnInfinitePlanesSwitch:
                 defaults.set(sender.isOn, for: .dragOnInfinitePlanes)
             case useAuto3DOFFallbackSwitch:
@@ -73,7 +78,8 @@ class SettingsViewController: UITableViewController {
 	private func populateSettings() {
 		let defaults = UserDefaults.standard
 		debugModeSwitch.isOn = defaults.bool(for: Setting.showDetailedMessages)
-		ARVisualizationsSwitch.isOn = defaults.bool(for: .showARVisualizations)
+		ARPlanesSwitch.isOn = defaults.bool(for: .showARPlanes)
+        ARFeaturePointsSwitch.isOn = defaults.bool(for: .showARFeaturePoints)
 		dragOnInfinitePlanesSwitch.isOn = defaults.bool(for: .dragOnInfinitePlanes)
 		useAuto3DOFFallbackSwitch.isOn = defaults.bool(for: .use3DOFFallback)
 	}

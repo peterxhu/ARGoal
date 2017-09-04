@@ -5,7 +5,6 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13156.2"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -193,13 +192,6 @@
                                     <constraint firstAttribute="width" constant="30" id="ncQ-g9-ZQm"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="powerMeter" translatesAutoresizingMaskIntoConstraints="NO" id="DtU-j6-cdV" userLabel="powerIcon">
-                                <rect key="frame" x="251" y="613" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="30" id="C56-9z-IdF"/>
-                                    <constraint firstAttribute="height" constant="30" id="wpO-up-N5Y"/>
-                                </constraints>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SuF-Os-zmb" userLabel="Restart Experience Button Hit Area">
                                 <rect key="frame" x="345" y="0.0" width="30" height="90"/>
                                 <constraints>
@@ -282,19 +274,6 @@
                                 </constraints>
                                 <blurEffect style="light"/>
                             </visualEffectView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8SB-b4-I1C" userLabel="Physics Button">
-                                <rect key="frame" x="242" y="604" width="48" height="48"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="48" id="gd0-Us-v8o"/>
-                                    <constraint firstAttribute="height" constant="48" id="sZY-lS-6ua"/>
-                                </constraints>
-                                <state key="normal" backgroundImage="buttonring">
-                                    <color key="titleColor" red="0.85882352939999995" green="0.72941176470000002" blue="0.22352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="showPhysicsSettings:" destination="BV1-FR-VrT" eventType="touchUpInside" id="xkA-Vd-YZw"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0aq-HH-3hP" userLabel="Close Button Icon">
                                 <rect key="frame" x="340" y="73" width="20" height="23"/>
                                 <constraints>
@@ -349,12 +328,10 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="DtU-j6-cdV" firstAttribute="centerX" secondItem="8SB-b4-I1C" secondAttribute="centerX" id="1Md-fF-tOI"/>
                             <constraint firstItem="SuF-Os-zmb" firstAttribute="trailing" secondItem="E6c-py-dvH" secondAttribute="trailing" id="35g-18-nn3"/>
                             <constraint firstItem="BgI-fb-Vqi" firstAttribute="trailing" secondItem="E6c-py-dvH" secondAttribute="trailing" constant="-15" id="6c1-k7-y99"/>
                             <constraint firstAttribute="bottom" secondItem="E6c-py-dvH" secondAttribute="bottom" id="6h6-BI-mhL"/>
                             <constraint firstItem="E6c-py-dvH" firstAttribute="top" secondItem="RLh-bf-1c3" secondAttribute="top" id="7gH-DS-Crg"/>
-                            <constraint firstItem="j8v-6q-UBb" firstAttribute="centerY" secondItem="8SB-b4-I1C" secondAttribute="centerY" id="8gJ-o7-19s"/>
                             <constraint firstItem="E6c-py-dvH" firstAttribute="leading" secondItem="GBj-4O-Whc" secondAttribute="leading" id="8nh-ZQ-AuM"/>
                             <constraint firstItem="GBj-4O-Whc" firstAttribute="bottom" secondItem="qI1-of-tgS" secondAttribute="bottom" constant="15" id="EoQ-R6-wLs"/>
                             <constraint firstItem="9e0-zv-RiN" firstAttribute="top" secondItem="E6c-py-dvH" secondAttribute="top" constant="15" id="FTS-AH-WBr"/>
@@ -371,7 +348,6 @@
                             <constraint firstItem="mHW-JQ-uOv" firstAttribute="leading" secondItem="E6c-py-dvH" secondAttribute="leading" id="YbV-6m-kVC"/>
                             <constraint firstItem="xcf-ic-uGo" firstAttribute="centerX" secondItem="GBj-4O-Whc" secondAttribute="centerX" id="ZCe-ld-yQW"/>
                             <constraint firstItem="0aq-HH-3hP" firstAttribute="centerX" secondItem="BgI-fb-Vqi" secondAttribute="centerX" id="bDK-ZI-vuk"/>
-                            <constraint firstItem="DtU-j6-cdV" firstAttribute="centerY" secondItem="8SB-b4-I1C" secondAttribute="centerY" id="exl-Lh-LxN"/>
                             <constraint firstItem="SPB-Sb-hjO" firstAttribute="bottom" secondItem="E6c-py-dvH" secondAttribute="bottom" id="fjf-Mj-ALG"/>
                             <constraint firstItem="WZo-oa-jXa" firstAttribute="centerX" secondItem="fNY-JF-tJB" secondAttribute="centerX" id="gt2-Fh-VbL"/>
                             <constraint firstItem="9e0-zv-RiN" firstAttribute="leading" secondItem="E6c-py-dvH" secondAttribute="leading" constant="15" id="iIf-WZ-kZj"/>
@@ -382,7 +358,6 @@
                             <constraint firstItem="fNY-JF-tJB" firstAttribute="top" secondItem="6QK-Ml-4KZ" secondAttribute="bottom" constant="8" id="tSS-66-B0a"/>
                             <constraint firstItem="q5A-xD-w2H" firstAttribute="trailing" secondItem="E6c-py-dvH" secondAttribute="trailing" id="uvV-bc-TtK"/>
                             <constraint firstItem="GBj-4O-Whc" firstAttribute="bottom" secondItem="j8v-6q-UBb" secondAttribute="bottom" constant="15" id="vm8-IH-8Qx"/>
-                            <constraint firstItem="j8v-6q-UBb" firstAttribute="leading" secondItem="8SB-b4-I1C" secondAttribute="trailingMargin" constant="30" id="wcv-Ov-ZtA"/>
                             <constraint firstItem="0aq-HH-3hP" firstAttribute="top" secondItem="BgI-fb-Vqi" secondAttribute="bottom" constant="20" id="zsW-WQ-akC"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="GBj-4O-Whc"/>
@@ -395,13 +370,13 @@
                         <outlet property="featurePointCountLabel" destination="2ZI-fK-iax" id="wpJ-fJ-Kn2"/>
                         <outlet property="messageLabel" destination="Mqz-65-rAs" id="G3a-qn-5g9"/>
                         <outlet property="messagePanel" destination="9e0-zv-RiN" id="pKf-hp-Dvx"/>
-                        <outlet property="physicsSettingsButton" destination="8SB-b4-I1C" id="Kmu-8C-7BO"/>
                         <outlet property="powerMeterLabel" destination="sHW-ap-1EL" id="2Ko-ec-tEy"/>
                         <outlet property="restartExperienceButton" destination="BgI-fb-Vqi" id="Yfh-W4-qlO"/>
                         <outlet property="sceneView" destination="E6c-py-dvH" id="Gr4-Uw-Z4A"/>
                         <outlet property="screenshotButton" destination="qI1-of-tgS" id="RLx-ag-NNP"/>
                         <outlet property="settingsButton" destination="j8v-6q-UBb" id="wZV-ib-D05"/>
                         <outlet property="triggerButton" destination="fNY-JF-tJB" id="oxu-dn-2PC"/>
+                        <outlet property="triggerIconImageView" destination="WZo-oa-jXa" id="AID-ut-4Cm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
@@ -417,19 +392,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="tQA-VI-tUL">
-                            <rect key="frame" x="0.0" y="305.5" width="375" height="140"/>
+                            <rect key="frame" x="0.0" y="349.5" width="375" height="140"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="* Enabling &quot;Dragging on Infinite Planes&quot; will ignore reality instead of trying to place an item onto a surface on a drag." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1K9-8s-PzX">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="* Enable &quot;Dragging on Infinite Planes&quot; if you do not want the app to try to auto-place an item onto a surface on a drag." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1K9-8s-PzX">
                                     <rect key="frame" x="8" y="0.0" width="359" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="** Enabling &quot;Auto 3DOF&quot; maintains an AR illusion when the the device pivots, but not when its position moves as a fallback." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I0s-Rg-dj7">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I0s-Rg-dj7">
                                     <rect key="frame" x="8" y="48" width="359" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <string key="text">** Enabling "Auto 3DOF" maintains, as a fallback when tracking conditions are poor, an AR illusion when the the device pivots, but not when its position moves.</string>
                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     <nil key="highlightedColor"/>
@@ -448,10 +424,10 @@
                             <tableViewSection headerTitle="Visualization" id="ud5-UL-iu8">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="pPf-eI-cKB">
-                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pPf-eI-cKB" id="6fb-Qa-pBu">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IUB-dV-rcy">
@@ -475,10 +451,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="w9H-8V-5kc">
-                                        <rect key="frame" x="0.0" y="99.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="100" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="w9H-8V-5kc" id="Bmo-lP-dyp">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="q7f-Co-wuc">
@@ -487,7 +463,7 @@
                                                         <action selector="didChangeSetting:" destination="DF8-Gu-Tf1" eventType="valueChanged" id="6Oi-SW-R5Z"/>
                                                     </connections>
                                                 </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="AR Visualizations" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mbe-BZ-3Qu">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Show Surface Planes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mbe-BZ-3Qu">
                                                     <rect key="frame" x="16" y="15" width="271" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -501,15 +477,42 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="M90-fE-PpE">
+                                        <rect key="frame" x="0.0" y="144" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="M90-fE-PpE" id="Kzz-DG-E2l">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Uck-23-tyd">
+                                                    <rect key="frame" x="318" y="7" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="didChangeSetting:" destination="DF8-Gu-Tf1" eventType="valueChanged" id="Eu2-V8-xtw"/>
+                                                    </connections>
+                                                </switch>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Show Feature Points " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gsh-0s-92p">
+                                                    <rect key="frame" x="16" y="15" width="271" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Uck-23-tyd" secondAttribute="trailing" id="26C-yT-OTd"/>
+                                                <constraint firstItem="Uck-23-tyd" firstAttribute="centerY" secondItem="Kzz-DG-E2l" secondAttribute="centerY" id="QHO-zE-N8e"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Advanced Settings" id="cg0-HU-miL" userLabel="Advanced">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="f0S-0K-7BJ">
-                                        <rect key="frame" x="0.0" y="199.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="244" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f0S-0K-7BJ" id="qQc-gl-4bZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8kS-ul-vKG">
@@ -533,10 +536,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="hdN-Uo-eWT">
-                                        <rect key="frame" x="0.0" y="243.5" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="288" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hdN-Uo-eWT" id="1lS-mf-XYh">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="nEE-QL-y6f">
@@ -568,7 +571,8 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <outlet property="ARVisualizationsSwitch" destination="q7f-Co-wuc" id="RqT-Kn-YBc"/>
+                        <outlet property="ARFeaturePointsSwitch" destination="Uck-23-tyd" id="92G-id-JZo"/>
+                        <outlet property="ARPlanesSwitch" destination="q7f-Co-wuc" id="UIm-fm-yoD"/>
                         <outlet property="debugModeSwitch" destination="IUB-dV-rcy" id="uBB-mW-s8m"/>
                         <outlet property="dragOnInfinitePlanesSwitch" destination="8kS-ul-vKG" id="N7U-nQ-6fU"/>
                         <outlet property="useAuto3DOFFallbackSwitch" destination="nEE-QL-y6f" id="GOn-rI-BET"/>
@@ -578,60 +582,6 @@
             </objects>
             <point key="canvasLocation" x="741.60000000000002" y="98.50074962518741"/>
         </scene>
-        <!--physicsSettingsViewController-->
-        <scene sceneID="Psx-i6-3JZ">
-            <objects>
-                <tableViewController restorationIdentifier="physicsSettingsViewController" storyboardIdentifier="physicsSettingsViewController" id="NgY-ar-xgt" userLabel="physicsSettingsViewController" customClass="PhysicsSettingsViewController" customModule="ARGoal" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="a5m-zo-YfI">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <sections>
-                            <tableViewSection headerTitle="Physics" id="UgD-AC-69o">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Nsp-DK-ZeI">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Nsp-DK-ZeI" id="PV4-9l-fvV">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="93L-kZ-0RL">
-                                                    <rect key="frame" x="318" y="7" width="51" height="31"/>
-                                                    <connections>
-                                                        <action selector="didChangePhysicsSetting:" destination="NgY-ar-xgt" eventType="valueChanged" id="Qig-hr-lN9"/>
-                                                    </connections>
-                                                </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Affected by Gravity" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wEK-jo-9BZ" userLabel="Detailed Messages">
-                                                    <rect key="frame" x="16" y="15" width="271" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="93L-kZ-0RL" secondAttribute="trailing" id="7Le-p1-zq7"/>
-                                                <constraint firstItem="93L-kZ-0RL" firstAttribute="centerY" secondItem="PV4-9l-fvV" secondAttribute="centerY" id="nh9-VU-l6Q"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="NgY-ar-xgt" id="YjP-9f-r38"/>
-                            <outlet property="delegate" destination="NgY-ar-xgt" id="DGN-9C-0pR"/>
-                        </connections>
-                    </tableView>
-                    <connections>
-                        <outlet property="gravitySwitch" destination="93L-kZ-0RL" id="Cqc-5H-Spx"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Exe-b1-IxK" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="56.799999999999997" y="778.56071964017997"/>
-        </scene>
     </scenes>
     <resources>
         <image name="add" width="48" height="48"/>
@@ -639,7 +589,6 @@
         <image name="buttonring" width="48" height="48"/>
         <image name="close" width="1200" height="1200"/>
         <image name="distance" width="1200" height="1200"/>
-        <image name="powerMeter" width="1200" height="1200"/>
         <image name="restart" width="20" height="23"/>
         <image name="restartPressed" width="20" height="23"/>
         <image name="settings" width="41" height="48"/>
