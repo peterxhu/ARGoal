@@ -256,22 +256,25 @@ class TextManager {
 	}
 	
     private func showHideDebugMessage(hide: Bool, animated: Bool) {
-        if !animated {
-            viewController.debugMessageLabel.isHidden = hide
-            return
-        }
-        
-        UIView.animate(withDuration: 0.2,
-                       delay: 0,
-                       options: [.allowUserInteraction, .beginFromCurrentState],
-                       animations: {
-                        DispatchQueue.main.async {
+        DispatchQueue.main.async {
+            
+            if !animated {
+                self.viewController.debugMessageLabel.isHidden = hide
+                return
+            }
+            
+            
+            UIView.animate(withDuration: 0.2,
+                           delay: 0,
+                           options: [.allowUserInteraction, .beginFromCurrentState],
+                           animations: {
                             self.viewController.debugMessageLabel.isHidden = hide
                             self.updateMessagePanelVisibility()
-                        }
+                            
+            }
+                
+                , completion: nil)
         }
-            
-            , completion: nil)
     }
 	
 	private func updateMessagePanelVisibility() {

@@ -13,10 +13,10 @@ import UIKit
 import Photos
 
 enum PhysicsBodyType: Int {
-    case projectile = 11 // ball
-    case goalFrame = 12 // goal frame (cross bar)
-    case plane = 13 // ground
-    case goalPlane = 14  // goal scoring plane (detect goal)
+    case projectile = 10 // ball
+    case goalFrame = 11 // goal frame (cross bar)
+    case plane = 12 // ground
+    case goalPlane = 13  // goal scoring plane (detect goal)
 }
 
 class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, SCNPhysicsContactDelegate,  VirtualObjectSelectionViewControllerDelegate {
@@ -417,9 +417,14 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		
 		if object.parent == nil {
             if let goalPlane = object.childNode(withName: "goalPlane", recursively: true) {
-                goalPlane.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(node: goalPlane, options: nil))
+                if showGoalOverlay {
+                    goalPlane.opacity = 0.5
+                } else {
+                    goalPlane.opacity = 0
+                }
+                goalPlane.physicsBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(node: goalPlane, options: nil))
                 goalPlane.physicsBody?.categoryBitMask = PhysicsBodyType.goalPlane.rawValue
-                // goalPlane.physicsBody?.mass = 0.00000000001; // super tiny mass makes it a "sensor"
+                goalPlane.physicsBody?.mass = 0.00000000001; // super tiny mass makes it a "sensor"
             }
 			sceneView.scene.rootNode.addChildNode(object)
 		}
@@ -592,10 +597,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 
             projectileNode.simdTransform = matrix_multiply(currentFrame.camera.transform, translation)
             let forceVector = SCNVector3(projectileNode.worldFront.x * 1,10 * longPressMultiplier, projectileNode.worldFront.z)
-            // let forceVector = SCNVector3(projectileNode.worldFront.x * 2,projectileNode.worldFront.y * 2,projectileNode.worldFront.z * 2)
-            // TODO: find out how varying this from bottom to top affects this. (kicking the ball flat, or beneath)
-            // let positionVector = SCNVector3(x: 0.05, y: 0.05, z: 0.05)
-            // projectileNode.physicsBody?.applyForce(forceVector, at: positionVector, asImpulse: true)
             projectileNode.physicsBody?.applyForce(forceVector, asImpulse: true)
             self.sceneView.scene.rootNode.addChildNode(projectileNode)
         } else if let soccerObjectScene = SCNScene(named: "soccerBall.scn", inDirectory: "Models.scnassets/soccerBall"), self.virtualObject is SoccerGoal {
@@ -618,18 +619,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
             projectileNode.physicsBody?.applyForce(forceVector, asImpulse: true)
             self.sceneView.scene.rootNode.addChildNode(projectileNode)
         }
-        // Else, just don't crash
-        
-        // example of SCNVector3
-        //  - x : 0.00869742781 (this is just my horizontal orientation)
-        //  - y : 0.255023122 (pointing somewhat up)
-        //  - z : -0.966895819 (pointing backwards)
-        // force generally in the direction your facing
-        
-        //  SCNVector3 (for opposite direction)
-        // - x : -0.747799397
-        // - y : -0.191329837
-        // - z : 0.6357584
     }
     
     func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
@@ -649,9 +638,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
             } else if hitObjectCategory == PhysicsBodyType.goalPlane.rawValue {
                 // Collision has occurred, hit the confetti
                 textManager.showDebugMessage("NICE GOAL!!!")
-                launchConfetti()
+                if (showGoalConfetti) {
+                    launchConfetti()
+                }
             } else {
-                NSLog("Insignificant collision")
+                // NSLog("Insignificant collision")
             }
         }
     }
@@ -688,9 +679,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
                 self.triggerButton.isHidden = false
                 self.triggerIconImageView.isHidden = false
                 if self.virtualObject is FieldGoal {
-                    // TODO: set new icons
+                    self.triggerIconImageView.image = #imageLiteral(resourceName: "footballLaunch")
                 } else if self.virtualObject is SoccerGoal {
-                    
+                    self.triggerIconImageView.image = #imageLiteral(resourceName: "soccerBallLaunch")
                 }
             }
             
@@ -878,6 +869,21 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         }
     }
     
+    var showGoalOverlay: Bool = UserDefaults.standard.bool(for: .showGoalOverlay) {
+        didSet {
+            self.restartExperience(self)
+            // save pref
+            UserDefaults.standard.set(showGoalOverlay, for: .showGoalOverlay)
+        }
+    }
+    
+    var showGoalConfetti: Bool = UserDefaults.standard.bool(for: .showGoalConfetti) {
+        didSet {
+            // save pref
+            UserDefaults.standard.set(showGoalConfetti, for: .showGoalConfetti)
+        }
+    }
+    
     func setupDebug() {
         // Set appearance of debug output panel
         messagePanel.layer.cornerRadius = 3.0
@@ -1011,6 +1017,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
         showDetailedMessages = defaults.bool(for: .showDetailedMessages)
         showARPlanes = defaults.bool(for: .showARPlanes)
         showARFeaturePoints = defaults.bool(for: .showARFeaturePoints)
+        showGoalOverlay = defaults.bool(for: .showGoalOverlay)
+        showGoalConfetti = defaults.bool(for: .showGoalConfetti)
+
 		dragOnInfinitePlanesEnabled = defaults.bool(for: .dragOnInfinitePlanes)
 		use3DOFTrackingFallback = defaults.bool(for: .use3DOFFallback)
 	}
