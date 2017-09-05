@@ -23,6 +23,7 @@
 		C490DAC41E9AB63400210960 /* VirtualObjectSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C490DAC31E9AB63400210960 /* VirtualObjectSelectionViewController.swift */; };
 		C4E87DD91EA6B40F002117D6 /* VirtualObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E87DD81EA6B40F002117D6 /* VirtualObject.swift */; };
 		C4FBC02B1EC6438B003F7864 /* ARCameraTrackingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FBC02A1EC6438B003F7864 /* ARCameraTrackingState.swift */; };
+		DB08523A1F5E6F740096BCD8 /* ARGoalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0852391F5E6F740096BCD8 /* ARGoalTests.swift */; };
 		DB19B81F1F11905000B1176F /* Cheers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB19B81B1F11904400B1176F /* Cheers.swift */; };
 		DB19B8201F11905300B1176F /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB19B81C1F11904400B1176F /* Config.swift */; };
 		DB19B8211F11905800B1176F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB19B81D1F11904400B1176F /* Extensions.swift */; };
@@ -37,6 +38,16 @@
 		DBC3EF341EF5DC9C001C336C /* Cone.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3EF331EF5DC9C001C336C /* Cone.swift */; };
 		DBCA24B71EFEE54400A08984 /* UtilityMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA24B61EFEE54400A08984 /* UtilityMethods.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DB08523C1F5E6F740096BCD8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3929C4801E89EC2C00E00B60 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3929C4871E89EC2C00E00B60;
+			remoteInfo = ARGoal;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		3929C4881E89EC2C00E00B60 /* ARGoal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARGoal.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,6 +68,13 @@
 		C490DAC31E9AB63400210960 /* VirtualObjectSelectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VirtualObjectSelectionViewController.swift; sourceTree = "<group>"; };
 		C4E87DD81EA6B40F002117D6 /* VirtualObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VirtualObject.swift; path = ../VirtualObject.swift; sourceTree = "<group>"; };
 		C4FBC02A1EC6438B003F7864 /* ARCameraTrackingState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARCameraTrackingState.swift; sourceTree = "<group>"; };
+		DB0852371F5E6F740096BCD8 /* ARGoalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ARGoalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB0852391F5E6F740096BCD8 /* ARGoalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARGoalTests.swift; sourceTree = "<group>"; };
+		DB08523B1F5E6F740096BCD8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DB0852411F5E75380096BCD8 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		DB0852421F5E75380096BCD8 /* CONTRIBUTING */ = {isa = PBXFileReference; lastKnownFileType = text; path = CONTRIBUTING; sourceTree = "<group>"; };
+		DB0852431F5E75380096BCD8 /* CODE_OF_CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CODE_OF_CONDUCT.md; sourceTree = "<group>"; };
+		DB0852441F5E75390096BCD8 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		DB19B81B1F11904400B1176F /* Cheers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cheers.swift; sourceTree = "<group>"; };
 		DB19B81C1F11904400B1176F /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		DB19B81D1F11904400B1176F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -81,6 +99,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DB0852341F5E6F740096BCD8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -99,7 +124,12 @@
 			isa = PBXGroup;
 			children = (
 				DB45A0FF1EF600C2001CBB29 /* README.md */,
+				DB0852441F5E75390096BCD8 /* CHANGELOG.md */,
+				DB0852431F5E75380096BCD8 /* CODE_OF_CONDUCT.md */,
+				DB0852421F5E75380096BCD8 /* CONTRIBUTING */,
+				DB0852411F5E75380096BCD8 /* LICENSE */,
 				3929C48A1E89EC2C00E00B60 /* ARGoal */,
+				DB0852381F5E6F740096BCD8 /* ARGoalTests */,
 				3929C4891E89EC2C00E00B60 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -108,6 +138,7 @@
 			isa = PBXGroup;
 			children = (
 				3929C4881E89EC2C00E00B60 /* ARGoal.app */,
+				DB0852371F5E6F740096BCD8 /* ARGoalTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -148,6 +179,15 @@
 				DBBC42D71EF626E000B74AFA /* FieldGoal.swift */,
 			);
 			path = "Virtual Objects";
+			sourceTree = "<group>";
+		};
+		DB0852381F5E6F740096BCD8 /* ARGoalTests */ = {
+			isa = PBXGroup;
+			children = (
+				DB0852391F5E6F740096BCD8 /* ARGoalTests.swift */,
+				DB08523B1F5E6F740096BCD8 /* Info.plist */,
+			);
+			path = ARGoalTests;
 			sourceTree = "<group>";
 		};
 		DB19B81A1F11904400B1176F /* Cheers */ = {
@@ -198,6 +238,24 @@
 			productReference = 3929C4881E89EC2C00E00B60 /* ARGoal.app */;
 			productType = "com.apple.product-type.application";
 		};
+		DB0852361F5E6F740096BCD8 /* ARGoalTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DB0852401F5E6F740096BCD8 /* Build configuration list for PBXNativeTarget "ARGoalTests" */;
+			buildPhases = (
+				DB0852331F5E6F740096BCD8 /* Sources */,
+				DB0852341F5E6F740096BCD8 /* Frameworks */,
+				DB0852351F5E6F740096BCD8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DB08523D1F5E6F740096BCD8 /* PBXTargetDependency */,
+			);
+			name = ARGoalTests;
+			productName = ARGoalTests;
+			productReference = DB0852371F5E6F740096BCD8 /* ARGoalTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -212,6 +270,10 @@
 						CreatedOnToolsVersion = 9.0;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
+					};
+					DB0852361F5E6F740096BCD8 = {
+						CreatedOnToolsVersion = 9.0;
+						TestTargetID = 3929C4871E89EC2C00E00B60;
 					};
 				};
 			};
@@ -229,6 +291,7 @@
 			projectRoot = "";
 			targets = (
 				3929C4871E89EC2C00E00B60 /* ARGoal */,
+				DB0852361F5E6F740096BCD8 /* ARGoalTests */,
 			);
 		};
 /* End PBXProject section */
@@ -242,6 +305,13 @@
 				39D8DC1B1E8ADAE600386B05 /* LaunchScreen.storyboard in Resources */,
 				3929C4931E89EC2C00E00B60 /* Assets.xcassets in Resources */,
 				3929C4911E89EC2C00E00B60 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB0852351F5E6F740096BCD8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,7 +350,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		DB0852331F5E6F740096BCD8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DB08523A1F5E6F740096BCD8 /* ARGoalTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DB08523D1F5E6F740096BCD8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3929C4871E89EC2C00E00B60 /* ARGoal */;
+			targetProxy = DB08523C1F5E6F740096BCD8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		3929C48F1E89EC2C00E00B60 /* Main.storyboard */ = {
@@ -425,6 +511,56 @@
 			};
 			name = Release;
 		};
+		DB08523E1F5E6F740096BCD8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = L27S3JE788;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ARGoalTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = phu.ARGoalTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ARGoal.app/ARGoal";
+			};
+			name = Debug;
+		};
+		DB08523F1F5E6F740096BCD8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = L27S3JE788;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = ARGoalTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = phu.ARGoalTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ARGoal.app/ARGoal";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -442,6 +578,15 @@
 			buildConfigurations = (
 				3929C49B1E89EC2C00E00B60 /* Debug */,
 				3929C49C1E89EC2C00E00B60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DB0852401F5E6F740096BCD8 /* Build configuration list for PBXNativeTarget "ARGoalTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB08523E1F5E6F740096BCD8 /* Debug */,
+				DB08523F1F5E6F740096BCD8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
