@@ -52,8 +52,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		updateSettings()
 		resetVirtualObject()
         
-        
-        // _ = EasyTipView.show(forView: addObjectButton, withinSuperview: UIApplication.shared.windows.first!, text: "hello", position: .left)
+        _ = UtilityMethods.showToolTip(for: addObjectButton, superview: view, text: "Start here! Add a goal!", position: .bottom)
+
     }
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -641,7 +641,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
                 textManager.showDebugMessage("HIT THE FRAME! SO CLOSE!!!")
             } else if hitObjectCategory == PhysicsBodyType.goalPlane.rawValue {
                 // Collision has occurred, hit the confetti
-                textManager.showDebugMessage("NICE GOAL!!!")
+                textManager.showDebugMessage("NICE SHOT!!!")
                 if (showGoalConfetti) {
                     launchConfetti()
                 }

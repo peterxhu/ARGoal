@@ -145,7 +145,7 @@ open class EasyTipView: UIView {
             public var arrowHeight         = CGFloat(7)
             public var arrowWidth          = CGFloat(12)
             public var foregroundColor     = UIColor.white
-            public var backgroundColor     = UIColor.red
+            public var backgroundColor     = UIColor.hexStringToUIColor(hex: "#79BE65")
             public var arrowPosition       = ArrowPosition.any
             public var textAlignment       = NSTextAlignment.center
             public var borderWidth         = CGFloat(0)
