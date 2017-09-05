@@ -61,6 +61,7 @@ class SettingsViewController: UITableViewController, SFSafariViewControllerDeleg
     @IBOutlet weak var dragOnInfinitePlanesSwitch: UISwitch!
 	@IBOutlet weak var useAuto3DOFFallbackSwitch: UISwitch!
     
+    @IBOutlet weak var howToTableViewCell: UITableViewCell!
     @IBOutlet weak var moreInfoTableViewCell: UITableViewCell!
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,6 +107,14 @@ class SettingsViewController: UITableViewController, SFSafariViewControllerDeleg
 	}
     
     /// MARK - Safari View Controller
+    func loadHowToPage() {
+        if let infoURL = URL(string: "https://github.com/peterxhu/ARGoal/wiki/How-To-Guide") {
+            let safariVC = SFSafariViewController(url: infoURL)
+            self.present(safariVC, animated: true, completion: nil)
+            safariVC.delegate = self
+        }
+    }
+    
     func loadMoreInfoPage() {
         if let infoURL = URL(string: "https://github.com/peterxhu/ARGoal/blob/master/README.md") {
             let safariVC = SFSafariViewController(url: infoURL)
@@ -128,6 +137,8 @@ class SettingsViewController: UITableViewController, SFSafariViewControllerDeleg
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let selectedCell = tableView.cellForRow(at: indexPath) {
             switch selectedCell {
+            case howToTableViewCell:
+                loadHowToPage()
             case moreInfoTableViewCell:
                 loadMoreInfoPage()
             default:
