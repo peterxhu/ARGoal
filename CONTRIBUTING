@@ -1,0 +1,76 @@
+/* CONTRIBUTE */
+
+This is the contribute.md of my project. Great to have you here. Here are a few ways you can help make this project better!
+
+# Contribute.md
+
+## Team members
+
+Hello. My name is Peter Hu, of App Doctor Hu, and I am he owner of the project. 
+
+## Learn & listen
+
+Since this repo does not have a forum feature, for general discussion please refer to this "issue" which will serve as a running list of questions and answers:
+https://github.com/peterxhu/ARGoal/issues/2
+I can also be reached at app.doctor.hu@gmail.com
+
+## Adding new features
+
+This section includes advice on how to build new features for the project & what kind of process it includes. 
+
+* This is how we like people to add new features:   
+Before any code change, please create an issue. Certain issues may be by design, some of them may be legitimate, but discussion in the issues section is hugely important.
+Once an issue has been verified, create a branch off of master with the following syntax: 
+ARGoal-[issue number]-[initials]_[new feature] or ARGoal-15-PH_update-for-swift5
+https://github.com/peterxhu/ARGoal/issues
+
+* Here are some specifics on the coding style we prefer:   
+Please keep it neat. Any code that is up for consideration to merge must clear these three checks:
+1) Please make sure it builds - basic stuff
+2) No analyzer warnings, build-time warnings, or run-time warnings (Xcode -> Product)
+3) Linter: https://github.com/realm/SwiftLint. Should at least pass SwiftLint 0.12, but passing the most updated one (0.21 at time of writing) is preferable 
+
+* This is how you send your pull request:                  
+* You should include the following tests: 
+For any utility function that is introduced, please have a unit test for it in the ARGoalTests target.
+* These are the updates we hope you make to the changelog: 
+Note how there are lines with: ## [Unreleased] and ## 1.0.0, ## 1.1.0, etc
+For every merged PR, please update the changelog in the [Unreleased] section. I will handle moving features in the [Unreleased] section into the appropriate release version sections.
+
+Don’t get discouraged! We estimate that the response time from the
+maintainers should range from 3 days to a week at the very latest. 
+
+# Bug triage
+
+* You can help report bugs by filing them here: 
+https://github.com/peterxhu/ARGoal/issues
+* You can look through the existing bugs here: 
+https://github.com/peterxhu/ARGoal/issues?q=is%3Aissue+is%3Aclosed
+
+* You can help us diagnose and fix existing bugs by asking and providing answers for the following:
+
+  * Is the bug reproducible as explained?   
+  * Is it reproducible in other environments (for instance, on different browsers or devices)?   
+  * Are the steps to reproduce the bug clear? If not, can you describe how you might reproduce it?  
+  * What tags should the bug have?  
+  * Is this bug something you have run into? Would you appreciate it being looked into faster?  
+
+* You can close fixed bugs by testing old tickets to see if they are still happening.
+
+# Documentation
+
+* Help us with documentation here
+https://github.com/peterxhu/ARGoal/wiki
+You will need to ask me for access before editing the wikis. 
+
+# Community 
+Developers and non-developers alike can help with the project. Here's a few examples:
+
+* You can help us answer questions our users have here: [website under construction]
+* You can help build and design our website here: TBD
+* You can help write blog posts about the project by: [website under construction]
+* You can help with artwork and image assets
+* You can share your great ideas for the app
+
+# Thank You! 
+* If you have further questions, contact: app.doctor.hu@gmail.com
