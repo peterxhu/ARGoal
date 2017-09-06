@@ -45,33 +45,55 @@ let UIColorList:[UIColor] = [
 
 extension UIColor {
   
-  public static func random() -> UIColor {
-    let maxValue = UIColorList.count
-    let rand = Int(arc4random_uniform(UInt32(maxValue)))
-    return UIColorList[rand]
-  }
-  
-  public static func limeColor() -> UIColor {
-    return UIColor(red: 0.0, green: 1.0, blue: 0.0, alpha: 1.0)
-  }
-  
-  public static func silverColor() -> UIColor {
-    return UIColor(red: 192/255, green: 192/255, blue: 192/255, alpha: 1.0)
-  }
-  
-  public static func maroonColor() -> UIColor {
-    return UIColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
-  }
-  
-  public static func oliveColor() -> UIColor {
-    return UIColor(red: 0.5, green: 0.5, blue: 0.0, alpha: 1.0)
-  }
-  
-  public static func tealColor() -> UIColor {
-    return UIColor(red: 0.0, green: 0.5, blue: 0.5, alpha: 1.0)
-  }
-  
-  public static func navyColor() -> UIColor {
-    return UIColor(red: 0.0, green: 0.0, blue: 128, alpha: 1.0)
-  }
+    public static func random() -> UIColor {
+        let maxValue = UIColorList.count
+        let rand = Int(arc4random_uniform(UInt32(maxValue)))
+        return UIColorList[rand]
+    }
+    
+    public static func limeColor() -> UIColor {
+        return UIColor(red: 0.0, green: 1.0, blue: 0.0, alpha: 1.0)
+    }
+    
+    public static func silverColor() -> UIColor {
+        return UIColor(red: 192/255, green: 192/255, blue: 192/255, alpha: 1.0)
+    }
+    
+    public static func maroonColor() -> UIColor {
+        return UIColor(red: 0.5, green: 0.0, blue: 0.0, alpha: 1.0)
+    }
+    
+    public static func oliveColor() -> UIColor {
+        return UIColor(red: 0.5, green: 0.5, blue: 0.0, alpha: 1.0)
+    }
+    
+    public static func tealColor() -> UIColor {
+        return UIColor(red: 0.0, green: 0.5, blue: 0.5, alpha: 1.0)
+    }
+    
+    public static func navyColor() -> UIColor {
+        return UIColor(red: 0.0, green: 0.0, blue: 128, alpha: 1.0)
+    }
+    
+    public static func hexStringToUIColor(hex: String) -> UIColor {
+        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        
+        if (cString.hasPrefix("#")) {
+            cString.remove(at: cString.startIndex)
+        }
+        
+        if ((cString.characters.count) != 6) {
+            return UIColor.gray
+        }
+        
+        var rgbValue:UInt32 = 0
+        Scanner(string: cString).scanHexInt32(&rgbValue)
+        
+        return UIColor(
+            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
+            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
+            alpha: CGFloat(1.0)
+        )
+    }
 }

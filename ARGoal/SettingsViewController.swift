@@ -63,6 +63,7 @@ class SettingsViewController: UITableViewController, SFSafariViewControllerDeleg
     
     @IBOutlet weak var howToTableViewCell: UITableViewCell!
     @IBOutlet weak var moreInfoTableViewCell: UITableViewCell!
+    @IBOutlet weak var resetTutorialTableViewCell: UITableViewCell!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -141,6 +142,9 @@ class SettingsViewController: UITableViewController, SFSafariViewControllerDeleg
                 loadHowToPage()
             case moreInfoTableViewCell:
                 loadMoreInfoPage()
+            case resetTutorialTableViewCell:
+                loadMoreInfoPage()
+                // TODO: create alert saying next time the app starts up, tips will be enabled
             default:
                 break
             }

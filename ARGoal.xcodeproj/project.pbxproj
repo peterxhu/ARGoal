@@ -24,6 +24,7 @@
 		C4E87DD91EA6B40F002117D6 /* VirtualObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4E87DD81EA6B40F002117D6 /* VirtualObject.swift */; };
 		C4FBC02B1EC6438B003F7864 /* ARCameraTrackingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FBC02A1EC6438B003F7864 /* ARCameraTrackingState.swift */; };
 		DB08523A1F5E6F740096BCD8 /* ARGoalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB0852391F5E6F740096BCD8 /* ARGoalTests.swift */; };
+		DB08524E1F5E7C990096BCD8 /* EasyTipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB08524D1F5E7C950096BCD8 /* EasyTipView.swift */; };
 		DB19B81F1F11905000B1176F /* Cheers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB19B81B1F11904400B1176F /* Cheers.swift */; };
 		DB19B8201F11905300B1176F /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB19B81C1F11904400B1176F /* Config.swift */; };
 		DB19B8211F11905800B1176F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB19B81D1F11904400B1176F /* Extensions.swift */; };
@@ -37,6 +38,7 @@
 		DBBC42D81EF626E000B74AFA /* FieldGoal.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBBC42D71EF626E000B74AFA /* FieldGoal.swift */; };
 		DBC3EF341EF5DC9C001C336C /* Cone.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBC3EF331EF5DC9C001C336C /* Cone.swift */; };
 		DBCA24B71EFEE54400A08984 /* UtilityMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA24B61EFEE54400A08984 /* UtilityMethods.swift */; };
+		DBCA24BA1EFEE6D600A08984 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBCA24B91EFEE6D600A08984 /* UIView+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,7 @@
 		DB0852421F5E75380096BCD8 /* CONTRIBUTING */ = {isa = PBXFileReference; lastKnownFileType = text; path = CONTRIBUTING; sourceTree = "<group>"; };
 		DB0852431F5E75380096BCD8 /* CODE_OF_CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CODE_OF_CONDUCT.md; sourceTree = "<group>"; };
 		DB0852441F5E75390096BCD8 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		DB08524D1F5E7C950096BCD8 /* EasyTipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EasyTipView.swift; sourceTree = "<group>"; };
 		DB19B81B1F11904400B1176F /* Cheers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cheers.swift; sourceTree = "<group>"; };
 		DB19B81C1F11904400B1176F /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		DB19B81D1F11904400B1176F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -89,6 +92,7 @@
 		DBBC42D71EF626E000B74AFA /* FieldGoal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldGoal.swift; sourceTree = "<group>"; };
 		DBC3EF331EF5DC9C001C336C /* Cone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cone.swift; sourceTree = "<group>"; };
 		DBCA24B61EFEE54400A08984 /* UtilityMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilityMethods.swift; sourceTree = "<group>"; };
+		DBCA24B91EFEE6D600A08984 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				3929C48B1E89EC2C00E00B60 /* AppDelegate.swift */,
+				DBCA24B91EFEE6D600A08984 /* UIView+Extensions.swift */,
 				3929C48D1E89EC2C00E00B60 /* ViewController.swift */,
 				C40DF57B1EC2330700D9D59E /* Virtual Objects */,
 				113B64D01ECA81CA0071CBD1 /* UI Elements */,
@@ -190,6 +195,14 @@
 			path = ARGoalTests;
 			sourceTree = "<group>";
 		};
+		DB08524C1F5E7C950096BCD8 /* EasyTipView */ = {
+			isa = PBXGroup;
+			children = (
+				DB08524D1F5E7C950096BCD8 /* EasyTipView.swift */,
+			);
+			path = EasyTipView;
+			sourceTree = "<group>";
+		};
 		DB19B81A1F11904400B1176F /* Cheers */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +225,7 @@
 		DB9C3D231F118DAD0075700E /* Third Party Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				DB08524C1F5E7C950096BCD8 /* EasyTipView */,
 				DB3C2E5E1F58F79600AB341A /* CircleProgressView */,
 				DB19B81A1F11904400B1176F /* Cheers */,
 			);
@@ -330,6 +344,7 @@
 				392BB82C1EA19A7C00FBBAC8 /* Plane.swift in Sources */,
 				3987BEDC1E9E057F00167FAC /* Gesture.swift in Sources */,
 				C4E87DD91EA6B40F002117D6 /* VirtualObject.swift in Sources */,
+				DB08524E1F5E7C990096BCD8 /* EasyTipView.swift in Sources */,
 				DB19B8211F11905800B1176F /* Extensions.swift in Sources */,
 				DBAB3B691F11EBCE00918135 /* Double+Extensions.swift in Sources */,
 				DBAB3B6D1F11EBD800918135 /* UIColor+Extensions.swift in Sources */,
@@ -339,6 +354,7 @@
 				39C0B9591E9C6B1F003FCA0C /* SettingsViewController.swift in Sources */,
 				DB19B8201F11905300B1176F /* Config.swift in Sources */,
 				DB3C2E601F58FA9000AB341A /* CircleProgressView.swift in Sources */,
+				DBCA24BA1EFEE6D600A08984 /* UIView+Extensions.swift in Sources */,
 				C490DAC41E9AB63400210960 /* VirtualObjectSelectionViewController.swift in Sources */,
 				DB19B81F1F11905000B1176F /* Cheers.swift in Sources */,
 				C42A71BD1E9C0AF200944367 /* FocusSquare.swift in Sources */,
@@ -485,7 +501,7 @@
 				DEVELOPMENT_TEAM = L27S3JE788;
 				INFOPLIST_FILE = "$(SRCROOT)/ARGoal/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = phu.ARGoal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.doctor.hu.ARGoal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -503,7 +519,7 @@
 				DEVELOPMENT_TEAM = L27S3JE788;
 				INFOPLIST_FILE = "$(SRCROOT)/ARGoal/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = phu.ARGoal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.doctor.hu.ARGoal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
