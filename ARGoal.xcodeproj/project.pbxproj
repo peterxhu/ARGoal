@@ -135,7 +135,6 @@
 				3929C48A1E89EC2C00E00B60 /* ARGoal */,
 				DB0852381F5E6F740096BCD8 /* ARGoalTests */,
 				3929C4891E89EC2C00E00B60 /* Products */,
-				DB08524B1F5E7BC50096BCD8 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -194,13 +193,6 @@
 				DB08523B1F5E6F740096BCD8 /* Info.plist */,
 			);
 			path = ARGoalTests;
-			sourceTree = "<group>";
-		};
-		DB08524B1F5E7BC50096BCD8 /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		DB08524C1F5E7C950096BCD8 /* EasyTipView */ = {
@@ -509,7 +501,7 @@
 				DEVELOPMENT_TEAM = L27S3JE788;
 				INFOPLIST_FILE = "$(SRCROOT)/ARGoal/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = phu.ARGoal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.doctor.hu.ARGoal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -527,7 +519,7 @@
 				DEVELOPMENT_TEAM = L27S3JE788;
 				INFOPLIST_FILE = "$(SRCROOT)/ARGoal/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = phu.ARGoal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.doctor.hu.ARGoal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
