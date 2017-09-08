@@ -1,5 +1,5 @@
 //
-//  AppDelegate.swift
+//  VirtualGoalViewController.swift
 //  ARGoal
 //
 //  Created by Peter Hu on 6/17/17.
@@ -20,7 +20,7 @@ enum PhysicsBodyType: Int {
     case goalPlane = 13  // goal scoring plane (detect goal)
 }
 
-class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, SCNPhysicsContactDelegate,  VirtualObjectSelectionViewControllerDelegate, RPScreenRecorderDelegate, RPPreviewViewControllerDelegate {
+class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, SCNPhysicsContactDelegate,  VirtualObjectSelectionViewControllerDelegate, RPScreenRecorderDelegate, RPPreviewViewControllerDelegate {
     
     let cheerView = CheerView()
     var timer: Timer = Timer()
@@ -52,6 +52,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 		updateSettings()
 		resetVirtualObject()
         
+        // TODO: work on a step by step tutorial
+        // TODO: work on making the goal detection node dynamic and allowing physics to bounce off
         _ = UtilityMethods.showToolTip(for: addObjectButton, superview: view, text: "Start here! Add a goal!", position: .bottom)
 
     }
@@ -900,10 +902,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 	@IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var debugMessageLabel: UILabel!
 	
-	var textManager: TextManager!
+	var textManager: VirtualGoalTextManager!
 	
     func setupUIControls() {
-		textManager = TextManager(viewController: self)
+		textManager = VirtualGoalTextManager(viewController: self)
         
         // hide debug message view
         debugMessageLabel.isHidden = true
@@ -1070,7 +1072,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentation
 	
 	@IBAction func showSettings(_ button: UIButton) {
 		let storyboard = UIStoryboard(name: "Main", bundle: nil)
-		guard let settingsViewController = storyboard.instantiateViewController(withIdentifier: "settingsViewController") as? SettingsViewController else {
+		guard let settingsViewController = storyboard.instantiateViewController(withIdentifier: "settingsViewController") as? VirtualGoalSettingsViewController else {
 			return
 		}
 		

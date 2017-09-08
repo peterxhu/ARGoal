@@ -23,7 +23,7 @@ class VirtualObject: SCNNode {
 	var title: String = ""
 	var modelLoaded: Bool = false
 	
-	var viewController: ViewController?
+	var viewController: VirtualGoalViewController?
 	
 	override init() {
 		super.init()

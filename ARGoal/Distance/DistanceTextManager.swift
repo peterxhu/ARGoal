@@ -14,17 +14,9 @@ Utility class for showing messages above the AR view.
 import Foundation
 import ARKit
 
-enum MessageType {
-	case trackingStateEscalation
-	case planeEstimation
-	case contentPlacement
-	case focusSquare
-    case general
-}
-
-class TextManager {
+class DistanceTextManager {
 	
-	init(viewController: ViewController) {
+	init(viewController: DistanceViewController) {
 		self.viewController = viewController
 	}
 	
@@ -224,7 +216,7 @@ class TextManager {
 	}
 	
 	// MARK: - Private
-	private var viewController: ViewController!
+	private var viewController: DistanceViewController!
 	
 	// Timers for hiding regular and debug messages
 	private var messageHideTimer: Timer?

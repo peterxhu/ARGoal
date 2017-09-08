@@ -50,7 +50,7 @@ extension UserDefaults {
     }
 }
 
-class SettingsViewController: UITableViewController, SFSafariViewControllerDelegate {
+class VirtualGoalSettingsViewController: UITableViewController, SFSafariViewControllerDelegate {
 	
 	@IBOutlet weak var debugModeSwitch: UISwitch!
     @IBOutlet weak var ARPlanesSwitch: UISwitch!
