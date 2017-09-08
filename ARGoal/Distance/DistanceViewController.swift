@@ -14,19 +14,31 @@ import Photos
 
 class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, SCNPhysicsContactDelegate {
     
+    // TODO: instead of spheres, use cylinders which have a ton of height
+    // TODO: add icons to represent (this is a goal, this is a person)
+    // TODO: check why session is not properly cleaned out on ending the experience
+    var spheres = [SCNNode]()
+    let cheerView = CheerView()
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        cheerView.frame = view.bounds
     }
     
     // MARK: - Main Setup & View Controller methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        cheerView.config.particle = .confetti
+        view.addSubview(cheerView)
+        
         Setting.registerDefaults()
         setupScene()
         setupDebug()
         setupUIControls()
 		updateSettings()
+        addCrossSign()
+        registerGestureRecognizers()
     }
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -184,7 +196,9 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 	
 	func sessionWasInterrupted(_ session: ARSession) {
 		textManager.blurBackground()
+        // TODO: warn user that they may have to use the "X" button to close and reopen the function.
 		textManager.showAlert(title: "Session Interrupted", message: "The session will be reset after the interruption has ended.")
+        restartExperience(self)
 	}
 		
 	func sessionInterruptionEnded(_ session: ARSession) {
@@ -212,8 +226,6 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 			}
         }
     }
-
-	
 	
     // MARK: - Planes
 	
@@ -264,7 +276,109 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 		                            messageType: .planeEstimation)
 	}
 
- 
+    // MARK: - Measurement Functions
+
+    private func registerGestureRecognizers() {
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped))
+        self.sceneView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc func tapped(recognizer :UIGestureRecognizer) {
+        
+        let sceneView = recognizer.view as! ARSCNView
+        let touchLocation = self.sceneView.center
+        
+        let hitTestResults = sceneView.hitTest(touchLocation, types: .featurePoint)
+        
+        if !hitTestResults.isEmpty {
+            
+            guard let hitTestResult = hitTestResults.first else {
+                return
+            }
+            
+            let sphere = SCNSphere(radius: 0.005)
+            
+            let material = SCNMaterial()
+            material.diffuse.contents = UIColor.red
+            
+            sphere.firstMaterial = material
+            
+            let sphereNode = SCNNode(geometry: sphere)
+            sphereNode.position = SCNVector3(hitTestResult.worldTransform.columns.3.x, hitTestResult.worldTransform.columns.3.y, hitTestResult.worldTransform.columns.3.z)
+            
+            self.sceneView.scene.rootNode.addChildNode(sphereNode)
+            self.spheres.append(sphereNode)
+            
+            // TODO: after 2 have been added, remove the first (can preserve a history) but continue doing calculations.
+            if self.spheres.count == 2 {
+                
+                let firstPoint = self.spheres.first!
+                let secondPoint = self.spheres.last!
+                // TODO: make a setting to ignore the y axis (height)
+                let position = SCNVector3Make(secondPoint.position.x - firstPoint.position.x, secondPoint.position.y - firstPoint.position.y, secondPoint.position.z - firstPoint.position.z)
+                
+                let result = sqrt(position.x*position.x + position.y*position.y + position.z*position.z)
+                
+                let centerPoint = SCNVector3((firstPoint.position.x+secondPoint.position.x)/2,(firstPoint.position.y+secondPoint.position.y),(firstPoint.position.z+secondPoint.position.z))
+                
+                display(distance: result, position: centerPoint)
+                
+                // M = (x1+x2)/2,(y1+y2)/2,(z1+z2)/2
+                
+            }
+        }
+        
+    }
+    
+    // TODO: add settings to show in feet, inches, meters, and yards
+    // TODO: add dedicated row to the stack view for distance
+    // TODO: add a timer to check every 0.01 sec with the center of the screen for the distance from the first reference point
+    private func display(distance: Float,position :SCNVector3) {
+        
+        let textGeo = SCNText(string: "\(distance) m", extrusionDepth: 1.0)
+        textGeo.firstMaterial?.diffuse.contents = UIColor.black
+        
+        let textNode = SCNNode(geometry: textGeo)
+        textNode.position = position
+        textNode.rotation = SCNVector4(1,0,0,Double.pi/(-2))
+        textNode.scale = SCNVector3(0.002,0.002,0.002)
+        
+        textManager.showMessage("\(distance) m")
+        if (showGoalConfetti) {
+            launchConfetti()
+        }
+
+        self.sceneView.scene.rootNode.addChildNode(textNode)
+    }
+    
+    private func addCrossSign() {
+        
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 33))
+        label.text = "+"
+        label.textAlignment = .center
+        label.center = self.sceneView.center
+        
+        self.sceneView.addSubview(label)
+        
+    }
+    
+    func launchConfetti() {
+        DispatchQueue.main.async {
+            self.cheerView.start()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.cheerView.stop()
+        }
+    }
+    
+    var showGoalConfetti: Bool = UserDefaults.standard.bool(for: .showGoalConfetti) {
+        didSet {
+            // save pref
+            UserDefaults.standard.set(showGoalConfetti, for: .showGoalConfetti)
+        }
+    }
+    
     // MARK: - Debug Visualizations
 	
     @IBOutlet var featurePointCountLabel: UILabel!
@@ -369,6 +483,8 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 			self.restartPlaneDetection()
 			self.restartExperienceButton.setImage(#imageLiteral(resourceName: "restart"), for: [])
 			
+            self.textManager.unblurBackground()
+
 			// Disable Restart button for five seconds in order to give the session enough time to restart.
 			DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
 				self.restartExperienceButtonIsEnabled = true
@@ -448,6 +564,8 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
         showDetailedMessages = defaults.bool(for: .showDetailedMessages)
         showARPlanes = defaults.bool(for: .showARPlanes)
         showARFeaturePoints = defaults.bool(for: .showARFeaturePoints)
+        showGoalConfetti = defaults.bool(for: .showGoalConfetti)
+
 		use3DOFTrackingFallback = defaults.bool(for: .use3DOFFallback)
 	}
 

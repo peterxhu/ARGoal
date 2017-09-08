@@ -218,6 +218,8 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
 	func sessionWasInterrupted(_ session: ARSession) {
 		textManager.blurBackground()
 		textManager.showAlert(title: "Session Interrupted", message: "The session will be reset after the interruption has ended.")
+        restartExperience(self)
+
 	}
 		
 	func sessionInterruptionEnded(_ session: ARSession) {
@@ -944,6 +946,8 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
 			
 			self.restartExperienceButton.setImage(#imageLiteral(resourceName: "restart"), for: [])
 			
+            self.textManager.unblurBackground()
+
 			// Disable Restart button for five seconds in order to give the session enough time to restart.
 			DispatchQueue.main.asyncAfter(deadline: .now() + 5.0, execute: {
 				self.restartExperienceButtonIsEnabled = true
