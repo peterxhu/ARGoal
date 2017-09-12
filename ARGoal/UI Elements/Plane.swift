@@ -23,10 +23,10 @@ class Plane: SCNNode {
 	var debugVisualization: PlaneDebugVisualization?
 	var focusSquare: FocusSquare?
 	
-	init(_ anchor: ARPlaneAnchor, _ showARPlaneVisualizations: Bool) {
+	init(_ anchor: ARPlaneAnchor, _ showARPlaneVisualizations: Bool, _ shouldUseGrassPlane: Bool, _ shouldUseOrigin: Bool) {
 		self.anchor = anchor
 		super.init()
-		self.showARPlaneVisualizations(showARPlaneVisualizations)
+		self.showARPlaneVisualizations(showARPlaneVisualizations, shouldUseGrassPlane, shouldUseOrigin)
         createOcclusionNode()
 	}
 	
@@ -40,11 +40,11 @@ class Plane: SCNNode {
         updateOcclusionNode()
 	}
 	
-	func showARPlaneVisualizations(_ show: Bool) {
+	func showARPlaneVisualizations(_ show: Bool, _ shouldUseGrassPlane: Bool, _ shouldUseOrigin: Bool) {
 		if show {
 			if debugVisualization == nil {
 				DispatchQueue.global().async {
-                    self.debugVisualization = PlaneDebugVisualization(anchor: self.anchor)
+                    self.debugVisualization = PlaneDebugVisualization(anchor: self.anchor, shouldUseGrassPlane: shouldUseGrassPlane, shouldUseOrigin: shouldUseOrigin)
 					DispatchQueue.main.async {
 						self.addChildNode(self.debugVisualization!)
 					}

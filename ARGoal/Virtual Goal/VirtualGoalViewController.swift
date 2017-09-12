@@ -217,7 +217,7 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
 	
 	func sessionWasInterrupted(_ session: ARSession) {
 		textManager.blurBackground()
-		textManager.showAlert(title: "Session Interrupted", message: "The session will be reset after the interruption has ended.")
+        textManager.showAlert(title: "Session Interrupted", message: "The session will be reset after the interruption has ended. If issues still persist, please use the \"X\" button to close and reopen the session.")
         restartExperience(self)
 
 	}
@@ -432,7 +432,6 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
                 }
                 goalPlane.physicsBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(node: goalPlane, options: nil))
                 goalPlane.physicsBody?.categoryBitMask = PhysicsBodyType.goalPlane.rawValue
-                goalPlane.physicsBody?.mass = 0.00000000001; // super tiny mass makes it a "sensor"
             }
 			sceneView.scene.rootNode.addChildNode(object)
 		}
@@ -754,7 +753,7 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
 		let pos = SCNVector3.positionFromTransform(anchor.transform)
 		textManager.showDebugMessage("NEW SURFACE DETECTED AT \(pos.friendlyString())")
         
-		let plane = Plane(anchor, showDetailedMessages)
+		let plane = Plane(anchor, showARPlanes, true, false)
 		
 		planes[anchor] = plane
 		node.addChildNode(plane)
@@ -857,7 +856,7 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
     var showARPlanes: Bool = UserDefaults.standard.bool(for: .showARPlanes) {
         didSet {
             // Update Plane Visuals
-            planes.values.forEach { $0.showARPlaneVisualizations(showARPlanes) }
+            planes.values.forEach { $0.showARPlaneVisualizations(showARPlanes, true, false) }
     
             // save pref
             UserDefaults.standard.set(showARPlanes, for: .showARPlanes)

@@ -21,10 +21,15 @@ class PlaneDebugVisualization: SCNNode {
 	var planeGeometry: SCNPlane
 	var planeNode: SCNNode
 	
-	init(anchor: ARPlaneAnchor) {
-		
+    init(anchor: ARPlaneAnchor, shouldUseGrassPlane: Bool, shouldUseOrigin: Bool) {
 		self.planeAnchor = anchor
-        let grid = UIImage(named: "Models.scnassets/grass.png")
+        let gridPath: String
+        if shouldUseGrassPlane {
+            gridPath = "Models.scnassets/grass.png"
+        } else {
+            gridPath = "Models.scnassets/overlay_grid.png"
+        }
+        let grid = UIImage(named: gridPath)
 
 		self.planeGeometry = createPlane(size: CGSize(width: CGFloat(anchor.extent.x), height: CGFloat(anchor.extent.z)),
 		                                 contents: grid)

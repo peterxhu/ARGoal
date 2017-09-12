@@ -14,11 +14,11 @@ import Photos
 
 class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, SCNPhysicsContactDelegate {
     
-    // TODO: instead of spheres, use cylinders which have a ton of height
-    // TODO: add icons to represent (this is a goal, this is a person)
-    // TODO: check why session is not properly cleaned out on ending the experience
-    var spheres = [SCNNode]()
+    var markers = [SCNNode]()
     let cheerView = CheerView()
+    var timer: Timer = Timer()
+    var nodeCount: Int = 0
+
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -32,12 +32,14 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
         cheerView.config.particle = .confetti
         view.addSubview(cheerView)
         
+        clearRealTimeDistance()
+        clearLastRecordedDistance()
+        
         Setting.registerDefaults()
         setupScene()
         setupDebug()
         setupUIControls()
 		updateSettings()
-        addCrossSign()
         registerGestureRecognizers()
     }
 
@@ -141,6 +143,10 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
             }
         }
     }
+    
+    func renderer(_ renderer: SCNSceneRenderer, willRenderScene scene: SCNScene, atTime time: TimeInterval) {
+        glLineWidth(20)
+    }
 	
 	var trackingFallbackTimer: Timer?
 
@@ -196,8 +202,7 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 	
 	func sessionWasInterrupted(_ session: ARSession) {
 		textManager.blurBackground()
-        // TODO: warn user that they may have to use the "X" button to close and reopen the function.
-		textManager.showAlert(title: "Session Interrupted", message: "The session will be reset after the interruption has ended.")
+        textManager.showAlert(title: "Session Interrupted", message: "The session will be reset after the interruption has ended. If issues still persist, please use the \"X\" button to close and reopen the session.")
         restartExperience(self)
 	}
 		
@@ -236,7 +241,7 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 		let pos = SCNVector3.positionFromTransform(anchor.transform)
 		textManager.showDebugMessage("NEW SURFACE DETECTED AT \(pos.friendlyString())")
         
-		let plane = Plane(anchor, showDetailedMessages)
+		let plane = Plane(anchor, showARPlanes, false, true)
 		
 		planes[anchor] = plane
 		node.addChildNode(plane)
@@ -284,7 +289,7 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
         self.sceneView.addGestureRecognizer(tapGestureRecognizer)
     }
     
-    @objc func tapped(recognizer :UIGestureRecognizer) {
+    @objc func tapped(recognizer: UIGestureRecognizer) {
         
         let sceneView = recognizer.view as! ARSCNView
         let touchLocation = self.sceneView.center
@@ -308,59 +313,138 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
             sphereNode.position = SCNVector3(hitTestResult.worldTransform.columns.3.x, hitTestResult.worldTransform.columns.3.y, hitTestResult.worldTransform.columns.3.z)
             
             self.sceneView.scene.rootNode.addChildNode(sphereNode)
-            self.spheres.append(sphereNode)
+            self.markers.append(sphereNode)
+            displayARText(message: String(nodeCount), position: SCNVector3(sphereNode.position.x, sphereNode.position.y + 0.01, sphereNode.position.z))
+            nodeCount += 1
             
-            // TODO: after 2 have been added, remove the first (can preserve a history) but continue doing calculations.
-            if self.spheres.count == 2 {
+            if self.markers.count == 1 {
+                // enable the real time distance panel
+                realTimeDistancePanelLabel.isHidden = false
+                realTimeDistancePanel.isHidden = false
+                // run the timer
+                timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(updateRealTimeDistance), userInfo: nil, repeats: true)
                 
-                let firstPoint = self.spheres.first!
-                let secondPoint = self.spheres.last!
-                // TODO: make a setting to ignore the y axis (height)
+            } else if self.markers.count == 2 {
+                
+                let firstPoint = self.markers.first!
+                let secondPoint = self.markers.last!
                 let position = SCNVector3Make(secondPoint.position.x - firstPoint.position.x, secondPoint.position.y - firstPoint.position.y, secondPoint.position.z - firstPoint.position.z)
                 
                 let result = sqrt(position.x*position.x + position.y*position.y + position.z*position.z)
-                
-                let centerPoint = SCNVector3((firstPoint.position.x+secondPoint.position.x)/2,(firstPoint.position.y+secondPoint.position.y),(firstPoint.position.z+secondPoint.position.z))
-                
-                display(distance: result, position: centerPoint)
-                
-                // M = (x1+x2)/2,(y1+y2)/2,(z1+z2)/2
-                
+                textManager.showMessage("\(result) m")
+                populateLastRecordedDistance(startVector: firstPoint.position, endVector: secondPoint.position, distance: result)
+
+                let lineNode = DistanceViewController.lineBetweenNodeA(nodeA: firstPoint, nodeB: secondPoint)
+                if (showGoalConfetti) {
+                    launchConfetti()
+                }
+                self.sceneView.scene.rootNode.addChildNode(lineNode)
+                // at the end, remove the first one
+                self.markers.remove(at: 0)
             }
         }
         
     }
     
-    // TODO: add settings to show in feet, inches, meters, and yards
-    // TODO: add dedicated row to the stack view for distance
-    // TODO: add a timer to check every 0.01 sec with the center of the screen for the distance from the first reference point
-    private func display(distance: Float,position :SCNVector3) {
+    @objc func updateRealTimeDistance() {
         
-        let textGeo = SCNText(string: "\(distance) m", extrusionDepth: 1.0)
+        let touchLocation = self.sceneView.center
+        let hitTestResults = sceneView.hitTest(touchLocation, types: .featurePoint)
+        if !hitTestResults.isEmpty {
+            guard let hitTestResult = hitTestResults.first else {
+                if let firstPoint = self.markers.first {
+                    populateRealTimeDistanceError(startVector: firstPoint.position)
+                } else {
+                    populateRealTimeDistanceError(startVector: nil)
+                }
+                return
+            }
+            
+            let firstPoint = self.markers.first!
+            let secondPointPosition = SCNVector3(hitTestResult.worldTransform.columns.3.x, hitTestResult.worldTransform.columns.3.y, hitTestResult.worldTransform.columns.3.z)
+            
+            let position = SCNVector3Make(secondPointPosition.x - firstPoint.position.x, secondPointPosition.y - firstPoint.position.y, secondPointPosition.z - firstPoint.position.z)
+            
+            let result = sqrt(position.x*position.x + position.y*position.y + position.z*position.z)
+
+            populateRealTimeDistance(startVector: firstPoint.position, endVector: secondPointPosition, distance: result)
+        }
+    }
+    
+    
+    private func displayARText(message: String, position: SCNVector3) {
+        
+        let textGeo = SCNText(string: message, extrusionDepth: 1.0)
         textGeo.firstMaterial?.diffuse.contents = UIColor.black
         
         let textNode = SCNNode(geometry: textGeo)
         textNode.position = position
         textNode.rotation = SCNVector4(1,0,0,Double.pi/(-2))
         textNode.scale = SCNVector3(0.002,0.002,0.002)
-        
-        textManager.showMessage("\(distance) m")
-        if (showGoalConfetti) {
-            launchConfetti()
-        }
 
         self.sceneView.scene.rootNode.addChildNode(textNode)
     }
     
-    private func addCrossSign() {
-        
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 33))
-        label.text = "+"
-        label.textAlignment = .center
-        label.center = self.sceneView.center
-        
-        self.sceneView.addSubview(label)
-        
+    
+    @IBOutlet weak var realTimeDistancePanelLabel: UILabel!
+    @IBOutlet weak var realTimeDistancePanel: UIView!
+    @IBOutlet weak var realTimeStartPositionLabel: UILabel!
+    @IBOutlet weak var realTimeEndPositionLabel: UILabel!
+    @IBOutlet weak var realTimeDistanceLabel: UILabel!
+    
+    func populateRealTimeDistance(startVector: SCNVector3, endVector: SCNVector3, distance: Float) {
+        realTimeStartPositionLabel.text = formatPositionString(positionVector: startVector)
+        realTimeEndPositionLabel.text = formatPositionString(positionVector: endVector)
+        realTimeDistanceLabel.text = formatDistanceString(distance: distance)
+    }
+    
+    func clearRealTimeDistance() {
+        realTimeStartPositionLabel.text = ""
+        realTimeEndPositionLabel.text = ""
+        realTimeDistanceLabel.text = ""
+    }
+    
+    func populateRealTimeDistanceError(startVector: SCNVector3? = nil) {
+        if let startVector = startVector {
+            realTimeStartPositionLabel.text = formatPositionString(positionVector: startVector)
+        } else {
+            realTimeStartPositionLabel.text = "N/A"
+        }
+        realTimeEndPositionLabel.text = "(CANNOT FIND REFERENCE POINT)"
+        realTimeDistanceLabel.text = "N/A"
+    }
+    
+    @IBOutlet weak var lastDistancePanelLabel: UILabel!
+    @IBOutlet weak var lastDistancePanel: UIView!
+    @IBOutlet weak var lastStartPositionLabel: UILabel!
+    @IBOutlet weak var lastEndPositionLabel: UILabel!
+    @IBOutlet weak var lastDistanceLabel: UILabel!
+    
+    func populateLastRecordedDistance(startVector: SCNVector3, endVector: SCNVector3, distance: Float) {
+        lastStartPositionLabel.text = formatPositionString(positionVector: startVector)
+        lastEndPositionLabel.text = formatPositionString(positionVector: endVector)
+        lastDistanceLabel.text = formatDistanceString(distance: distance)
+    }
+    
+    func clearLastRecordedDistance() {
+        lastStartPositionLabel.text = ""
+        lastEndPositionLabel.text = ""
+        lastDistanceLabel.text = ""
+    }
+    
+    func formatPositionString(positionVector: SCNVector3) -> String {
+        let xString = String(format: "%.3f", positionVector.x)
+        let yString = String(format: "%.3f", positionVector.y)
+        let zString = String(format: "%.3f", positionVector.z)
+        return "(\(xString),\(yString),\(zString))"
+    }
+    
+    func formatDistanceString(distance: Float) -> String {
+        let meters = Measurement(value: Double(distance), unit: UnitLength.meters)
+        let yards = meters.converted(to: UnitLength.yards)
+        let metersString = String(format: "%.4f", meters.value)
+        let yardsString = String(format: "%.4f", yards.value)
+        return "(\(metersString) m, \(yardsString) yds)"
     }
     
     func launchConfetti() {
@@ -412,7 +496,7 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
     var showARPlanes: Bool = UserDefaults.standard.bool(for: .showARPlanes) {
         didSet {
             // Update Plane Visuals
-            planes.values.forEach { $0.showARPlaneVisualizations(showARPlanes) }
+            planes.values.forEach { $0.showARPlaneVisualizations(showARPlanes, false, true) }
     
             // save pref
             UserDefaults.standard.set(showARPlanes, for: .showARPlanes)
@@ -483,6 +567,13 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 			self.restartPlaneDetection()
 			self.restartExperienceButton.setImage(#imageLiteral(resourceName: "restart"), for: [])
 			
+            self.realTimeDistancePanelLabel.isHidden = true
+            self.realTimeDistancePanel.isHidden = true
+            self.clearRealTimeDistance()
+            self.clearLastRecordedDistance()
+            self.timer.invalidate()
+            self.nodeCount = 0
+            
             self.textManager.unblurBackground()
 
 			// Disable Restart button for five seconds in order to give the session enough time to restart.
@@ -595,4 +686,15 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 	func popoverPresentationControllerDidDismissPopover(_ popoverPresentationController: UIPopoverPresentationController) {
 		updateSettings()
 	}
+    
+    // MARK: - Drawing
+    class func lineBetweenNodeA(nodeA: SCNNode, nodeB: SCNNode) -> SCNNode {
+        let indices: [Int32] = [0, 1]
+        let source = SCNGeometrySource(vertices: [nodeA.position, nodeB.position])
+        let element = SCNGeometryElement(indices: indices, primitiveType: .line)
+        let line = SCNGeometry(sources: [source], elements: [element])
+        return SCNNode(geometry: line)
+    }
+    
+    
 }
