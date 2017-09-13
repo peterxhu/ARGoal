@@ -28,7 +28,7 @@ extension ARCamera.TrackingState {
             case .insufficientFeatures:
                 return "TRACKING LIMITED\nNot enough surface detail"
             case .initializing:
-                return "TRACKING LIMITED\nInitializing"
+                return "TRACKING LIMITED\nInitializing. Please wait to interact."
             }
         }
 	}

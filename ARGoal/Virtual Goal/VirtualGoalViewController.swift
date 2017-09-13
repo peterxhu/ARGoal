@@ -54,7 +54,7 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
         
         // TODO: work on a step by step tutorial
         // TODO: work on making the goal detection node dynamic and allowing physics to bounce off
-        _ = UtilityMethods.showToolTip(for: addObjectButton, superview: view, text: "Start here! Add a goal!", position: .bottom)
+        // _ = UtilityMethods.showToolTip(for: addObjectButton, superview: view, text: "Start here! Add a goal!", position: .bottom)
 
     }
 

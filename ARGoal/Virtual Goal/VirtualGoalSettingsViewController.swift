@@ -109,7 +109,7 @@ class VirtualGoalSettingsViewController: UITableViewController, SFSafariViewCont
     
     /// MARK - Safari View Controller
     func loadHowToPage() {
-        if let infoURL = URL(string: "https://github.com/peterxhu/ARGoal/wiki/How-To-Guide") {
+        if let infoURL = URL(string: "https://github.com/peterxhu/ARGoal/wiki/ARGoal:-How-To-Guide") {
             let safariVC = SFSafariViewController(url: infoURL)
             self.present(safariVC, animated: true, completion: nil)
             safariVC.delegate = self

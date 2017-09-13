@@ -17,7 +17,7 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
     var markers = [SCNNode]()
     let cheerView = CheerView()
     var timer: Timer = Timer()
-    var nodeCount: Int = 0
+    var nodeCount: Int = 1
 
 
     override func viewDidLayoutSubviews() {
@@ -284,14 +284,28 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
     // MARK: - Measurement Functions
 
     private func registerGestureRecognizers() {
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped))
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(screenTapped))
         self.sceneView.addGestureRecognizer(tapGestureRecognizer)
     }
     
-    @objc func tapped(recognizer: UIGestureRecognizer) {
+    @IBOutlet weak var markPersonButton: UIButton!
+    @IBOutlet weak var markGoalButton: UIButton!
+    
+    @objc func screenTapped() {
+        tapped(typeString: "")
+    }
+
+    @IBAction func markPersonTapped(_ sender: UIButton) {
+        tapped(typeString: ": Me")
+    }
+    
+    @IBAction func markGoalTapped(_ sender: UIButton) {
+        tapped(typeString: ": Goal")
+    }
+    
+    @objc func tapped(typeString: String) {
         
-        let sceneView = recognizer.view as! ARSCNView
+        // let sceneView = recognizer.view as! ARSCNView
         let touchLocation = self.sceneView.center
         
         let hitTestResults = sceneView.hitTest(touchLocation, types: .featurePoint)
@@ -305,7 +319,7 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
             let sphere = SCNSphere(radius: 0.005)
             
             let material = SCNMaterial()
-            material.diffuse.contents = UIColor.red
+            material.diffuse.contents = UIColor.ARGoalGreen()
             
             sphere.firstMaterial = material
             
@@ -314,7 +328,7 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
             
             self.sceneView.scene.rootNode.addChildNode(sphereNode)
             self.markers.append(sphereNode)
-            displayARText(message: String(nodeCount), position: SCNVector3(sphereNode.position.x, sphereNode.position.y + 0.01, sphereNode.position.z))
+            displayARText(message: "\(nodeCount)\(typeString)", position: SCNVector3(sphereNode.position.x, sphereNode.position.y + 0.01, sphereNode.position.z))
             nodeCount += 1
             
             if self.markers.count == 1 {

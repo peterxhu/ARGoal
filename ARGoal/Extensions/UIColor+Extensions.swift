@@ -75,6 +75,10 @@ extension UIColor {
         return UIColor(red: 0.0, green: 0.0, blue: 128, alpha: 1.0)
     }
     
+    public static func ARGoalGreen() -> UIColor {
+        return UIColor.hexStringToUIColor(hex: "#79BE65")
+    }
+    
     public static func hexStringToUIColor(hex: String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         
