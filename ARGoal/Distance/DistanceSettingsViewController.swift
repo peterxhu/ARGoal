@@ -1,5 +1,5 @@
 //
-//  VirtualGoalSettingsViewController.swift
+//  DistanceSettingsViewController.swift
 //  ARGoal
 //
 //  Created by Peter Hu on 6/17/17.
@@ -9,75 +9,28 @@
 import UIKit
 import SafariServices
 
-enum Setting: String {
-    // Bool settings with Both SettingsViewController switches
-    case showDetailedMessages
-    case showARPlanes
-    case showARFeaturePoints
-    
-    // Bool settings with Both VirtualGoalSettingsViewController switches
-    case enableGoalDetection
-    case showGoalConfetti
-    case dragOnInfinitePlanes
-    case use3DOFFallback
-    
-    // Integer state used in virtual object picker
-    case selectedObjectID
-
-    // Bool settings with Both DistanceSettingsViewController switches
-    case realTimeCalculations
-
-    static func registerDefaults() {
-        UserDefaults.standard.register(defaults: [
-            Setting.showDetailedMessages.rawValue: true,
-            Setting.showARPlanes.rawValue: true,
-            Setting.showARFeaturePoints.rawValue: true,
-            Setting.enableGoalDetection.rawValue: true,
-            Setting.showGoalConfetti.rawValue: true,
-            Setting.dragOnInfinitePlanes.rawValue: true,
-            Setting.use3DOFFallback.rawValue: true,
-            Setting.realTimeCalculations.rawValue: true,
-            Setting.selectedObjectID.rawValue: -1
-        ])
-    }
-}
-extension UserDefaults {
-    func bool(for setting: Setting) -> Bool {
-        return bool(forKey: setting.rawValue)
-    }
-    func set(_ bool: Bool, for setting: Setting) {
-        set(bool, forKey: setting.rawValue)
-    }
-    func integer(for setting: Setting) -> Int {
-        return integer(forKey: setting.rawValue)
-    }
-    func set(_ integer: Int, for setting: Setting) {
-        set(integer, forKey: setting.rawValue)
-    }
-}
-
-class VirtualGoalSettingsViewController: UITableViewController, SFSafariViewControllerDelegate {
+class DistanceSettingsViewController: UITableViewController, SFSafariViewControllerDelegate {
 	
+    // Shared settings with VirtualGoalSettingsViewController
 	@IBOutlet weak var debugModeSwitch: UISwitch!
     @IBOutlet weak var ARPlanesSwitch: UISwitch!
     @IBOutlet weak var ARFeaturePointsSwitch: UISwitch!
-    @IBOutlet weak var goalDetectionOverlaySwitch: UISwitch!
-    @IBOutlet weak var goalConfettiSwitch: UISwitch!
     
-    @IBOutlet weak var dragOnInfinitePlanesSwitch: UISwitch!
-	@IBOutlet weak var useAuto3DOFFallbackSwitch: UISwitch!
+    // Independent settings
+    @IBOutlet weak var realTimeCalculationsSwitch: UISwitch!
     
     @IBOutlet weak var howToTableViewCell: UITableViewCell!
     @IBOutlet weak var moreInfoTableViewCell: UITableViewCell!
     @IBOutlet weak var resetTutorialTableViewCell: UITableViewCell!
     
+    @IBOutlet weak var appVersionLabel: UILabel!
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         populateSettings()
     }
-    
-    @IBOutlet weak var appVersionLabel: UILabel!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.delegate = self
@@ -93,14 +46,8 @@ class VirtualGoalSettingsViewController: UITableViewController, SFSafariViewCont
                 defaults.set(sender.isOn, for: .showARPlanes)
             case ARFeaturePointsSwitch:
                 defaults.set(sender.isOn, for: .showARFeaturePoints)
-            case goalDetectionOverlaySwitch:
-                defaults.set(sender.isOn, for: .enableGoalDetection)
-            case goalConfettiSwitch:
-                defaults.set(sender.isOn, for: .showGoalConfetti)
-            case dragOnInfinitePlanesSwitch:
-                defaults.set(sender.isOn, for: .dragOnInfinitePlanes)
-            case useAuto3DOFFallbackSwitch:
-                defaults.set(sender.isOn, for: .use3DOFFallback)
+            case realTimeCalculationsSwitch:
+                defaults.set(sender.isOn, for: .realTimeCalculations)
             default: break
 		}
 	}
@@ -110,10 +57,7 @@ class VirtualGoalSettingsViewController: UITableViewController, SFSafariViewCont
 		debugModeSwitch.isOn = defaults.bool(for: .showDetailedMessages)
 		ARPlanesSwitch.isOn = defaults.bool(for: .showARPlanes)
         ARFeaturePointsSwitch.isOn = defaults.bool(for: .showARFeaturePoints)
-        goalDetectionOverlaySwitch.isOn = defaults.bool(for: .enableGoalDetection)
-        goalConfettiSwitch.isOn = defaults.bool(for: .showGoalConfetti)
-		dragOnInfinitePlanesSwitch.isOn = defaults.bool(for: .dragOnInfinitePlanes)
-		useAuto3DOFFallbackSwitch.isOn = defaults.bool(for: .use3DOFFallback)
+		realTimeCalculationsSwitch.isOn = defaults.bool(for: .realTimeCalculations)
 	}
     
     /// MARK - Safari View Controller

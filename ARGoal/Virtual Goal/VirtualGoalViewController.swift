@@ -425,10 +425,10 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
 		
 		if object.parent == nil {
             if let goalPlane = object.childNode(withName: "goalPlane", recursively: true) {
-                if showGoalOverlay {
+                if enableGoalDetection {
                     goalPlane.opacity = 0.5
                 } else {
-                    goalPlane.opacity = 0
+                    goalPlane.removeFromParentNode()
                 }
                 goalPlane.physicsBody = SCNPhysicsBody(type: .kinematic, shape: SCNPhysicsShape(node: goalPlane, options: nil))
                 goalPlane.physicsBody?.categoryBitMask = PhysicsBodyType.goalPlane.rawValue
@@ -540,6 +540,8 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
 		}
 	}
 	
+    // MARK: - Projectile Launching
+
     @IBOutlet weak var triggerButton: UIButton!
     @IBOutlet weak var triggerIconImageView: UIImageView!
     
@@ -592,16 +594,14 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
             }
             let projectileNode: SCNNode = SCNNode()
             projectileNode.addChildNode(footballNode)
-            // TODO: add torque to the football
             projectileNode.name = "Projectile"
             projectileNode.physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape(node: projectileNode, options: nil))
-            // projectileNode.physicsBody?.mass = 1
             projectileNode.physicsBody?.isAffectedByGravity = true
             projectileNode.physicsBody?.categoryBitMask = PhysicsBodyType.projectile.rawValue
             projectileNode.physicsBody?.contactTestBitMask = PhysicsBodyType.goalFrame.rawValue
             projectileNode.physicsBody?.contactTestBitMask = PhysicsBodyType.goalPlane.rawValue
             projectileNode.physicsBody?.contactTestBitMask = PhysicsBodyType.plane.rawValue
-
+            
             projectileNode.simdTransform = matrix_multiply(currentFrame.camera.transform, translation)
             let forceVector = SCNVector3(projectileNode.worldFront.x * 1,10 * longPressMultiplier, projectileNode.worldFront.z)
             projectileNode.physicsBody?.applyForce(forceVector, asImpulse: true)
@@ -648,12 +648,12 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
                 if (showGoalConfetti) {
                     launchConfetti()
                 }
-            } else {
-                // NSLog("Insignificant collision")
             }
         }
     }
     
+    // MARK: - Cheerview
+
     func launchConfetti() {
         DispatchQueue.main.async {
             self.cheerView.start()
@@ -876,11 +876,11 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
         }
     }
     
-    var showGoalOverlay: Bool = UserDefaults.standard.bool(for: .showGoalOverlay) {
+    var enableGoalDetection: Bool = UserDefaults.standard.bool(for: .enableGoalDetection) {
         didSet {
             self.restartExperience(self)
             // save pref
-            UserDefaults.standard.set(showGoalOverlay, for: .showGoalOverlay)
+            UserDefaults.standard.set(enableGoalDetection, for: .enableGoalDetection)
         }
     }
     
@@ -992,6 +992,8 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
 		}
 	}
     
+    // MARK: - Screen Recording (Not implemented yet)
+
     fileprivate let recorder = RPScreenRecorder.shared()
     
     @IBOutlet weak var screenRecordingLabel: UILabel!
@@ -1104,7 +1106,7 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
         showDetailedMessages = defaults.bool(for: .showDetailedMessages)
         showARPlanes = defaults.bool(for: .showARPlanes)
         showARFeaturePoints = defaults.bool(for: .showARFeaturePoints)
-        showGoalOverlay = defaults.bool(for: .showGoalOverlay)
+        enableGoalDetection = defaults.bool(for: .enableGoalDetection)
         showGoalConfetti = defaults.bool(for: .showGoalConfetti)
 
 		dragOnInfinitePlanesEnabled = defaults.bool(for: .dragOnInfinitePlanes)

@@ -27,7 +27,7 @@ class PlaneDebugVisualization: SCNNode {
         if shouldUseGrassPlane {
             gridPath = "Models.scnassets/grass.png"
         } else {
-            gridPath = "Models.scnassets/overlay_grid.png"
+            gridPath = "Models.scnassets/overlay_grid.png"  // Grid via Mohammad Azam (Hello-AR)
         }
         let grid = UIImage(named: gridPath)
 
@@ -38,8 +38,10 @@ class PlaneDebugVisualization: SCNNode {
 		
 		super.init()
 		
-		// let originVisualizationNode = createAxesNode(quiverLength: 0.1, quiverThickness: 1.0)
-		// self.addChildNode(originVisualizationNode)
+        if shouldUseOrigin {
+            let originVisualizationNode = createAxesNode(quiverLength: 0.1, quiverThickness: 1.0)
+            self.addChildNode(originVisualizationNode)
+        }
         
         self.planeNode.physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(geometry: self.planeGeometry, options: nil))
         self.planeNode.physicsBody?.categoryBitMask = PhysicsBodyType.plane.rawValue

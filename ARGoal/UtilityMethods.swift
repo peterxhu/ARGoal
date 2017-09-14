@@ -25,5 +25,15 @@ class UtilityMethods: NSObject {
         preferences.drawing.arrowPosition = position
         return EasyTipView.show(forView: view, withinSuperview: superview, text: text, preferences: preferences)
     }
+    
+    // E.g. ARGoal 1.0
+    open class func appVersion() -> String {
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            return "ARGoal \(version)"
+        } else {
+            return ""
+        }
+    }
+    
 }
 

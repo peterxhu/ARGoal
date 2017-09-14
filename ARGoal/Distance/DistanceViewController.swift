@@ -19,7 +19,6 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
     var timer: Timer = Timer()
     var nodeCount: Int = 1
 
-
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         cheerView.frame = view.bounds
@@ -237,7 +236,6 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 	var planes = [ARPlaneAnchor: Plane]()
 	
     func addPlane(node: SCNNode, anchor: ARPlaneAnchor) {
-		
 		let pos = SCNVector3.positionFromTransform(anchor.transform)
 		textManager.showDebugMessage("NEW SURFACE DETECTED AT \(pos.friendlyString())")
         
@@ -281,7 +279,7 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 		                            messageType: .planeEstimation)
 	}
 
-    // MARK: - Measurement Functions
+    // MARK: - Measurement Interactions/Gestures
 
     private func registerGestureRecognizers() {
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(screenTapped))
@@ -333,13 +331,14 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
             
             if self.markers.count == 1 {
                 // enable the real time distance panel
-                realTimeDistancePanelLabel.isHidden = false
-                realTimeDistancePanel.isHidden = false
+                if enableRealTimeCalculations {
+                    realTimeDistancePanelLabel.isHidden = false
+                    realTimeDistancePanel.isHidden = false
+                }
                 // run the timer
                 timer = Timer.scheduledTimer(timeInterval: 0.05, target: self, selector: #selector(updateRealTimeDistance), userInfo: nil, repeats: true)
                 
             } else if self.markers.count == 2 {
-                
                 let firstPoint = self.markers.first!
                 let secondPoint = self.markers.last!
                 let position = SCNVector3Make(secondPoint.position.x - firstPoint.position.x, secondPoint.position.y - firstPoint.position.y, secondPoint.position.z - firstPoint.position.z)
@@ -349,9 +348,7 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
                 populateLastRecordedDistance(startVector: firstPoint.position, endVector: secondPoint.position, distance: result)
 
                 let lineNode = DistanceViewController.lineBetweenNodeA(nodeA: firstPoint, nodeB: secondPoint)
-                if (showGoalConfetti) {
-                    launchConfetti()
-                }
+                launchConfetti()
                 self.sceneView.scene.rootNode.addChildNode(lineNode)
                 // at the end, remove the first one
                 self.markers.remove(at: 0)
@@ -360,6 +357,8 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
         
     }
     
+    // MARK: - Distance Calculations and Visualizations
+
     @objc func updateRealTimeDistance() {
         
         let touchLocation = self.sceneView.center
@@ -461,19 +460,14 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
         return "(\(metersString) m, \(yardsString) yds)"
     }
     
+    // MARK: - CheerView
+    
     func launchConfetti() {
         DispatchQueue.main.async {
             self.cheerView.start()
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.cheerView.stop()
-        }
-    }
-    
-    var showGoalConfetti: Bool = UserDefaults.standard.bool(for: .showGoalConfetti) {
-        didSet {
-            // save pref
-            UserDefaults.standard.set(showGoalConfetti, for: .showGoalConfetti)
         }
     }
     
@@ -530,6 +524,16 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
         }
     }
     
+    var enableRealTimeCalculations: Bool = UserDefaults.standard.bool(for: .realTimeCalculations) {
+        didSet {
+            realTimeDistancePanel.isHidden = !enableRealTimeCalculations
+            realTimeDistancePanelLabel.isHidden = !enableRealTimeCalculations
+            
+            // save pref
+            UserDefaults.standard.set(enableRealTimeCalculations, for: .realTimeCalculations)
+        }
+    }
+    
     func setupDebug() {
         // Set appearance of debug output panel
         messagePanel.layer.cornerRadius = 3.0
@@ -581,13 +585,14 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 			self.restartPlaneDetection()
 			self.restartExperienceButton.setImage(#imageLiteral(resourceName: "restart"), for: [])
 			
-            self.realTimeDistancePanelLabel.isHidden = true
-            self.realTimeDistancePanel.isHidden = true
+            self.realTimeDistancePanelLabel.isHidden = !self.enableRealTimeCalculations
+            self.realTimeDistancePanel.isHidden = !self.enableRealTimeCalculations
             self.clearRealTimeDistance()
             self.clearLastRecordedDistance()
             self.timer.invalidate()
             self.nodeCount = 0
-            
+            self.markers = [SCNNode]()
+            self.removeAllNodes(rootNode: self.sceneView.scene.rootNode)
             self.textManager.unblurBackground()
 
 			// Disable Restart button for five seconds in order to give the session enough time to restart.
@@ -596,6 +601,12 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 			})
 		}
 	}
+    
+    func removeAllNodes(rootNode: SCNNode) {
+        rootNode.enumerateChildNodes { (node, stop) -> Void in
+            node.removeFromParentNode()
+        }
+    }
 	
 	@IBOutlet weak var screenshotButton: UIButton!
 	
@@ -640,7 +651,7 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 	
 	@IBAction func showSettings(_ button: UIButton) {
 		let storyboard = UIStoryboard(name: "Main", bundle: nil)
-		guard let settingsViewController = storyboard.instantiateViewController(withIdentifier: "settingsViewController") as? VirtualGoalSettingsViewController else {
+		guard let settingsViewController = storyboard.instantiateViewController(withIdentifier: "distanceSettingsViewController") as? DistanceSettingsViewController else {
 			return
 		}
 		
@@ -669,11 +680,9 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
         showDetailedMessages = defaults.bool(for: .showDetailedMessages)
         showARPlanes = defaults.bool(for: .showARPlanes)
         showARFeaturePoints = defaults.bool(for: .showARFeaturePoints)
-        showGoalConfetti = defaults.bool(for: .showGoalConfetti)
-
-		use3DOFTrackingFallback = defaults.bool(for: .use3DOFFallback)
+        enableRealTimeCalculations = defaults.bool(for: .realTimeCalculations)
 	}
-
+    
 	// MARK: - Error handling
 	
 	func displayErrorMessage(title: String, message: String, allowRestart: Bool = false) {

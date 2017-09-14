@@ -30,6 +30,7 @@
 		DB19B8211F11905800B1176F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB19B81D1F11904400B1176F /* Extensions.swift */; };
 		DB19B8221F11905C00B1176F /* ImageGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB19B81E1F11904400B1176F /* ImageGenerator.swift */; };
 		DB3C2E601F58FA9000AB341A /* CircleProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3C2E5F1F58F79600AB341A /* CircleProgressView.swift */; };
+		DB5EA7EB1F68D969001589C7 /* DistanceSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB5EA7EA1F68D969001589C7 /* DistanceSettingsViewController.swift */; };
 		DB7C10CA1F626AA500692699 /* DistanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7C10C91F626AA500692699 /* DistanceViewController.swift */; };
 		DB7C10CC1F626B4400692699 /* DistanceTextManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7C10CB1F626B4400692699 /* DistanceTextManager.swift */; };
 		DBAB3B691F11EBCE00918135 /* Double+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBAB3B671F11EBB700918135 /* Double+Extensions.swift */; };
@@ -86,6 +87,7 @@
 		DB19B81E1F11904400B1176F /* ImageGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageGenerator.swift; sourceTree = "<group>"; };
 		DB3C2E5F1F58F79600AB341A /* CircleProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressView.swift; sourceTree = "<group>"; };
 		DB45A0FF1EF600C2001CBB29 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		DB5EA7EA1F68D969001589C7 /* DistanceSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistanceSettingsViewController.swift; sourceTree = "<group>"; };
 		DB7C10C91F626AA500692699 /* DistanceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DistanceViewController.swift; path = ARGoal/Distance/DistanceViewController.swift; sourceTree = SOURCE_ROOT; };
 		DB7C10CB1F626B4400692699 /* DistanceTextManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DistanceTextManager.swift; path = ARGoal/Distance/DistanceTextManager.swift; sourceTree = SOURCE_ROOT; };
 		DBAB3B641F11EBB600918135 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
@@ -237,6 +239,7 @@
 			children = (
 				DB7C10C91F626AA500692699 /* DistanceViewController.swift */,
 				DB7C10CB1F626B4400692699 /* DistanceTextManager.swift */,
+				DB5EA7EA1F68D969001589C7 /* DistanceSettingsViewController.swift */,
 			);
 			path = Distance;
 			sourceTree = "<group>";
@@ -384,6 +387,7 @@
 				DBC3EF341EF5DC9C001C336C /* Cone.swift in Sources */,
 				39C0B9591E9C6B1F003FCA0C /* VirtualGoalSettingsViewController.swift in Sources */,
 				DB19B8201F11905300B1176F /* Config.swift in Sources */,
+				DB5EA7EB1F68D969001589C7 /* DistanceSettingsViewController.swift in Sources */,
 				DB3C2E601F58FA9000AB341A /* CircleProgressView.swift in Sources */,
 				DBCA24BA1EFEE6D600A08984 /* UIView+Extensions.swift in Sources */,
 				C490DAC41E9AB63400210960 /* VirtualObjectSelectionViewController.swift in Sources */,

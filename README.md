@@ -21,6 +21,7 @@ Unlock Goal Distance
 I have made this project open source under the Apache license. 
 If you have any ideas for improvement, don't hesitate to reach out or to suggest changes at app.doctor.hu@gmail.com. 
 I want ARGoal to be as fun and lovable as possible. You are more than welcome to help be a part of that.
+For the sake of this project, please be respectful and constructive when contributing, as with any other community.
 Please refer to the CONTRIBUTING file in this repository if you are interested in checking in code for this project.
 
 Cheers,
