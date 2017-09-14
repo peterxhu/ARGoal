@@ -43,7 +43,7 @@ class DistanceSettingsViewController: UITableViewController, SFSafariViewControl
             case debugModeSwitch:
                 defaults.set(sender.isOn, for: .showDetailedMessages)
             case ARPlanesSwitch:
-                defaults.set(sender.isOn, for: .showARPlanes)
+                defaults.set(sender.isOn, for: .showOverlayARPlanes)
             case ARFeaturePointsSwitch:
                 defaults.set(sender.isOn, for: .showARFeaturePoints)
             case realTimeCalculationsSwitch:
@@ -55,7 +55,7 @@ class DistanceSettingsViewController: UITableViewController, SFSafariViewControl
 	private func populateSettings() {
 		let defaults = UserDefaults.standard
 		debugModeSwitch.isOn = defaults.bool(for: .showDetailedMessages)
-		ARPlanesSwitch.isOn = defaults.bool(for: .showARPlanes)
+		ARPlanesSwitch.isOn = defaults.bool(for: .showOverlayARPlanes)
         ARFeaturePointsSwitch.isOn = defaults.bool(for: .showARFeaturePoints)
 		realTimeCalculationsSwitch.isOn = defaults.bool(for: .realTimeCalculations)
 	}

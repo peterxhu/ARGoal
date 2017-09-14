@@ -556,8 +556,6 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
     
     @objc func triggerLongTap(_ gesture: TimedLongPressGesture) {
         if gesture.state == .ended {
-            let duration = NSDate().timeIntervalSince(gesture.startTime! as Date)
-            print(duration.description)
             shootObject(longPressMultiplier: Float(circlePowerMeter.progress))
             circlePowerMeter.isHidden = true
             timer.invalidate()
@@ -853,13 +851,13 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
         }
     }
     
-    var showARPlanes: Bool = UserDefaults.standard.bool(for: .showARPlanes) {
+    var showARPlanes: Bool = UserDefaults.standard.bool(for: .showGrassARPlanes) {
         didSet {
             // Update Plane Visuals
             planes.values.forEach { $0.showARPlaneVisualizations(showARPlanes, true, false) }
     
             // save pref
-            UserDefaults.standard.set(showARPlanes, for: .showARPlanes)
+            UserDefaults.standard.set(showARPlanes, for: .showGrassARPlanes)
         }
     }
     
@@ -1104,7 +1102,7 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
 	private func updateSettings() {
 		let defaults = UserDefaults.standard
         showDetailedMessages = defaults.bool(for: .showDetailedMessages)
-        showARPlanes = defaults.bool(for: .showARPlanes)
+        showARPlanes = defaults.bool(for: .showGrassARPlanes)
         showARFeaturePoints = defaults.bool(for: .showARFeaturePoints)
         enableGoalDetection = defaults.bool(for: .enableGoalDetection)
         showGoalConfetti = defaults.bool(for: .showGoalConfetti)

@@ -501,13 +501,13 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
         }
     }
     
-    var showARPlanes: Bool = UserDefaults.standard.bool(for: .showARPlanes) {
+    var showARPlanes: Bool = UserDefaults.standard.bool(for: .showOverlayARPlanes) {
         didSet {
             // Update Plane Visuals
             planes.values.forEach { $0.showARPlaneVisualizations(showARPlanes, false, true) }
     
             // save pref
-            UserDefaults.standard.set(showARPlanes, for: .showARPlanes)
+            UserDefaults.standard.set(showARPlanes, for: .showOverlayARPlanes)
         }
     }
     
@@ -678,7 +678,7 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 	private func updateSettings() {
 		let defaults = UserDefaults.standard
         showDetailedMessages = defaults.bool(for: .showDetailedMessages)
-        showARPlanes = defaults.bool(for: .showARPlanes)
+        showARPlanes = defaults.bool(for: .showOverlayARPlanes)
         showARFeaturePoints = defaults.bool(for: .showARFeaturePoints)
         enableRealTimeCalculations = defaults.bool(for: .realTimeCalculations)
 	}

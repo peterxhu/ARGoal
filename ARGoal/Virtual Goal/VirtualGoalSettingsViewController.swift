@@ -12,10 +12,10 @@ import SafariServices
 enum Setting: String {
     // Bool settings with Both SettingsViewController switches
     case showDetailedMessages
-    case showARPlanes
     case showARFeaturePoints
     
     // Bool settings with Both VirtualGoalSettingsViewController switches
+    case showGrassARPlanes
     case enableGoalDetection
     case showGoalConfetti
     case dragOnInfinitePlanes
@@ -25,14 +25,16 @@ enum Setting: String {
     case selectedObjectID
 
     // Bool settings with Both DistanceSettingsViewController switches
+    case showOverlayARPlanes
     case realTimeCalculations
 
     static func registerDefaults() {
         UserDefaults.standard.register(defaults: [
             Setting.showDetailedMessages.rawValue: true,
-            Setting.showARPlanes.rawValue: true,
+            Setting.showGrassARPlanes.rawValue: true,
+            Setting.showOverlayARPlanes.rawValue: false,
             Setting.showARFeaturePoints.rawValue: true,
-            Setting.enableGoalDetection.rawValue: true,
+            Setting.enableGoalDetection.rawValue: false,
             Setting.showGoalConfetti.rawValue: true,
             Setting.dragOnInfinitePlanes.rawValue: true,
             Setting.use3DOFFallback.rawValue: true,
@@ -69,7 +71,6 @@ class VirtualGoalSettingsViewController: UITableViewController, SFSafariViewCont
     
     @IBOutlet weak var howToTableViewCell: UITableViewCell!
     @IBOutlet weak var moreInfoTableViewCell: UITableViewCell!
-    @IBOutlet weak var resetTutorialTableViewCell: UITableViewCell!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -90,7 +91,7 @@ class VirtualGoalSettingsViewController: UITableViewController, SFSafariViewCont
             case debugModeSwitch:
                 defaults.set(sender.isOn, for: .showDetailedMessages)
             case ARPlanesSwitch:
-                defaults.set(sender.isOn, for: .showARPlanes)
+                defaults.set(sender.isOn, for: .showGrassARPlanes)
             case ARFeaturePointsSwitch:
                 defaults.set(sender.isOn, for: .showARFeaturePoints)
             case goalDetectionOverlaySwitch:
@@ -108,7 +109,7 @@ class VirtualGoalSettingsViewController: UITableViewController, SFSafariViewCont
 	private func populateSettings() {
 		let defaults = UserDefaults.standard
 		debugModeSwitch.isOn = defaults.bool(for: .showDetailedMessages)
-		ARPlanesSwitch.isOn = defaults.bool(for: .showARPlanes)
+		ARPlanesSwitch.isOn = defaults.bool(for: .showGrassARPlanes)
         ARFeaturePointsSwitch.isOn = defaults.bool(for: .showARFeaturePoints)
         goalDetectionOverlaySwitch.isOn = defaults.bool(for: .enableGoalDetection)
         goalConfettiSwitch.isOn = defaults.bool(for: .showGoalConfetti)
@@ -151,9 +152,6 @@ class VirtualGoalSettingsViewController: UITableViewController, SFSafariViewCont
                 loadHowToPage()
             case moreInfoTableViewCell:
                 loadMoreInfoPage()
-            case resetTutorialTableViewCell:
-                loadMoreInfoPage()
-                // TODO: create alert saying next time the app starts up, tips will be enabled
             default:
                 break
             }
