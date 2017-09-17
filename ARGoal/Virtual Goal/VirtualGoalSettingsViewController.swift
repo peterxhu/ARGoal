@@ -28,6 +28,16 @@ enum Setting: String {
     case showOverlayARPlanes
     case realTimeCalculations
 
+    // Virtual Goal Tutorial Setting
+    
+    case addObject1TutorialFulfilled
+    case launchObject2TutorialFulfilled
+    case longPressObject3TutorialFulfilled
+    case zoomOnGoal4TutorialFulfilled
+    case holdToDrag5TutorialFulfilled
+    case goToSettings6TutorialFulfilled
+    case endOfTutorial7TutorialFulfilled
+    
     static func registerDefaults() {
         UserDefaults.standard.register(defaults: [
             Setting.showDetailedMessages.rawValue: true,
