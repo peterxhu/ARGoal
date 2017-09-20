@@ -31,6 +31,11 @@ I want ARGoal to be as fun and lovable as possible. You are more than welcome to
 For the sake of this project, please be respectful and constructive when contributing, as with any other community.
 Please refer to the CONTRIBUTING file in this repository if you are interested in checking in code for this project.
 
+## Wiki
+The ARGoal Wiki can be found [here](https://github.com/peterxhu/ARGoal/wiki).
+
+## Screenshots
+Screenshots for each release can be found [here](https://github.com/peterxhu/ARGoal/wiki/App-Screenshots).
 
 Cheers,
 
