@@ -96,12 +96,30 @@ class DistanceSettingsViewController: UITableViewController, SFSafariViewControl
             case moreInfoTableViewCell:
                 loadMoreInfoPage()
             case resetTutorialTableViewCell:
-                loadMoreInfoPage()
-                // TODO: create alert saying next time the app starts up, tips will be enabled
+                let dismissAction = UIAlertAction(title: "OK", style: .cancel)
+                showAlert(title: "Tutorial Reset", message: "Next time you load \"Goal Distance\", the tutorial will start", actions: [dismissAction])
+                UserDefaults.standard.set(false, for: .distanceMarkGoal1TutorialFulfilled)
+                UserDefaults.standard.set(false, for: .distanceRealTime2TutorialFulfilled)
+                UserDefaults.standard.set(false, for: .distanceMarkMe3TutorialFulfilled)
+                UserDefaults.standard.set(false, for: .distanceSuggestion4TutorialFulfilled)
+                UserDefaults.standard.set(false, for: .distanceTapScreen5TutorialFulfilled)
+                UserDefaults.standard.set(false, for: .distanceEndOfTutorial6TutorialFulfilled)
             default:
                 break
             }
         }
+    }
+    
+    func showAlert(title: String, message: String, actions: [UIAlertAction]? = nil) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        if let actions = actions {
+            for action in actions {
+                alertController.addAction(action)
+            }
+        } else {
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        }
+        self.present(alertController, animated: true, completion: nil)
     }
     
     

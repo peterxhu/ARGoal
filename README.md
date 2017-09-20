@@ -16,6 +16,8 @@ Already have a real goal and just want to practice shots from a certain distance
 Use the goal distance feature to mark the goal's location then walk away to whatever distance away on the field you want to practice from. 
 ARGoal is also a handy tool to measure the distance between any two points for any purpose using the power of augmented reality.
 
+Get started today! https://itunes.apple.com/us/app/argoal/id1279326725
+
 ## Promotional Text
 
 Space to kick but no goal? Use the power of AR to insert virtual goals into the world. 

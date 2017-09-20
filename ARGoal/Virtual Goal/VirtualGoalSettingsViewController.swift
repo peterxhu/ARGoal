@@ -38,6 +38,15 @@ enum Setting: String {
     case goToSettings6TutorialFulfilled
     case endOfTutorial7TutorialFulfilled
     
+    // Goal Distance Tutorial Setting
+    
+    case distanceMarkGoal1TutorialFulfilled
+    case distanceRealTime2TutorialFulfilled
+    case distanceMarkMe3TutorialFulfilled
+    case distanceSuggestion4TutorialFulfilled
+    case distanceTapScreen5TutorialFulfilled
+    case distanceEndOfTutorial6TutorialFulfilled
+    
     static func registerDefaults() {
         UserDefaults.standard.register(defaults: [
             Setting.showDetailedMessages.rawValue: true,
@@ -81,6 +90,8 @@ class VirtualGoalSettingsViewController: UITableViewController, SFSafariViewCont
     
     @IBOutlet weak var howToTableViewCell: UITableViewCell!
     @IBOutlet weak var moreInfoTableViewCell: UITableViewCell!
+    @IBOutlet weak var resetTutorialTableViewCell: UITableViewCell!
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -162,10 +173,32 @@ class VirtualGoalSettingsViewController: UITableViewController, SFSafariViewCont
                 loadHowToPage()
             case moreInfoTableViewCell:
                 loadMoreInfoPage()
+            case resetTutorialTableViewCell:
+                let dismissAction = UIAlertAction(title: "OK", style: .cancel)
+                showAlert(title: "Tutorial Reset", message: "Next time you add a virtual goal, the tutorial will start", actions: [dismissAction])
+                UserDefaults.standard.set(false, for: .addObject1TutorialFulfilled)
+                UserDefaults.standard.set(false, for: .launchObject2TutorialFulfilled)
+                UserDefaults.standard.set(false, for: .longPressObject3TutorialFulfilled)
+                UserDefaults.standard.set(false, for: .zoomOnGoal4TutorialFulfilled)
+                UserDefaults.standard.set(false, for: .holdToDrag5TutorialFulfilled)
+                UserDefaults.standard.set(false, for: .goToSettings6TutorialFulfilled)
+                UserDefaults.standard.set(false, for: .endOfTutorial7TutorialFulfilled)
             default:
                 break
             }
         }
+    }
+    
+    func showAlert(title: String, message: String, actions: [UIAlertAction]? = nil) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        if let actions = actions {
+            for action in actions {
+                alertController.addAction(action)
+            }
+        } else {
+            alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        }
+        self.present(alertController, animated: true, completion: nil)
     }
     
     

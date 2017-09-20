@@ -28,36 +28,9 @@ enum VirtualGoalTutorialStep: Int {
     case holdToDrag5 = 5
     case goToSettings6 = 6
     case endOfTutorial7 = 7
-
 }
 
 class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, SCNPhysicsContactDelegate,  VirtualObjectSelectionViewControllerDelegate, RPScreenRecorderDelegate, RPPreviewViewControllerDelegate, EasyTipViewDelegate {
-    
-    func easyTipViewDidDismissOnTap(_ tipView: EasyTipView) {
-        // don't show that tooltip again
-        // after you've dismissed this, queue the next one up
-        if (UserDefaults.standard.bool(for: .endOfTutorial7TutorialFulfilled)) {
-            // TODO: send notification that tutorial is completed
-        } else if (UserDefaults.standard.bool(for: .goToSettings6TutorialFulfilled)) {
-            showToolTipFor(step: .endOfTutorial7)
-            UserDefaults.standard.set(true, for: .endOfTutorial7TutorialFulfilled)
-        } else if (UserDefaults.standard.bool(for: .holdToDrag5TutorialFulfilled)) {
-            showToolTipFor(step: .goToSettings6)
-            UserDefaults.standard.set(true, for: .goToSettings6TutorialFulfilled)
-        } else if (UserDefaults.standard.bool(for: .zoomOnGoal4TutorialFulfilled)) {
-            showToolTipFor(step: .holdToDrag5)
-            UserDefaults.standard.set(true, for: .holdToDrag5TutorialFulfilled)
-        } else if (UserDefaults.standard.bool(for: .longPressObject3TutorialFulfilled)) {
-            showToolTipFor(step: .zoomOnGoal4)
-            UserDefaults.standard.set(true, for: .zoomOnGoal4TutorialFulfilled)
-        } else if (UserDefaults.standard.bool(for: .launchObject2TutorialFulfilled)) {
-            showToolTipFor(step: .longPressObject3)
-            UserDefaults.standard.set(true, for: .longPressObject3TutorialFulfilled)
-        } else if (UserDefaults.standard.bool(for: .addObject1TutorialFulfilled)) {
-            showToolTipFor(step: .launchObject2)
-            UserDefaults.standard.set(true, for: .launchObject2TutorialFulfilled)
-        }
-    }
     
     let cheerView = CheerView()
     var timer: Timer = Timer()
@@ -91,43 +64,6 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
 		setupFocusSquare()
 		updateSettings()
 		resetVirtualObject()
-        
-        // showToolTipFor(step: .addObject1)
-        // UserDefaults.standard.set(true, for: .addObject1TutorialFulfilled)
-    }
-
-    // TODO: add reset tutorial button or end tutorial button
-    func showToolTipFor(step: VirtualGoalTutorialStep) {
-        switch step {
-        case .addObject1:
-            let newTooltip = UtilityMethods.showToolTip(for: addObjectButton, superview: view, text: "Start here! Add a goal!", position: .bottom)
-            newTooltip?.delegate = self
-        case .launchObject2:
-            let newTooltip = UtilityMethods.showToolTip(for: triggerButton, superview: view, text: "Swipe up on the screen OR single click the trigger button to launch a virtual ball!", position: .bottom)
-            newTooltip?.delegate = self
-        // enable the next step: when the single click has been done. Dispatch after 4 seconds.
-        case .longPressObject3:
-            let newTooltip = UtilityMethods.showToolTip(for: triggerButton, superview: view, text: "Tap and hold the trigger button to launch the ball harder!", position: .bottom)
-            newTooltip?.delegate = self
-        case .zoomOnGoal4:
-            let anchorView = UIView(frame: CGRect(x: view.center.x, y: view.center.y, width: 1, height: 1))
-            view.addSubview(anchorView)
-            let newTooltip = UtilityMethods.showToolTip(for: anchorView, superview: view, text: "Pinch and zoom on the goal to increase or decrease the size.", position: .bottom)
-            newTooltip?.delegate = self
-        case .holdToDrag5:
-            let anchorView = UIView(frame: CGRect(x: view.center.x, y: view.center.y, width: 1, height: 1))
-            view.addSubview(anchorView)
-            let newTooltip = UtilityMethods.showToolTip(for: addObjectButton, superview: view, text: "Tap and hold the object, then drag the goal to move it around.", position: .bottom)
-            newTooltip?.delegate = self
-        case .goToSettings6:
-            let newTooltip = UtilityMethods.showToolTip(for: settingsButton, superview: view, text: "Go to settings to enable surface planes, enable goal detection, view how-tos, and change other configurations", position: .right)
-            newTooltip?.delegate = self
-        case .endOfTutorial7:
-            let anchorView = UIView(frame: CGRect(x: view.center.x, y: view.center.y, width: 1, height: 1))
-            view.addSubview(anchorView)
-            let newTooltip = UtilityMethods.showToolTip(for: addObjectButton, superview: view, text: "Congrats! You have all you need to know. Cheers!", position: .bottom)
-            newTooltip?.delegate = self
-        }
     }
     
 	override func viewDidAppear(_ animated: Bool) {
@@ -145,6 +81,63 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
 		session.pause()
 	}
 	
+    // MARK: - Tooltip
+    func easyTipViewDidDismissOnTap(_ tipView: EasyTipView) {
+        if (UserDefaults.standard.bool(for: .endOfTutorial7TutorialFulfilled)) {
+            NSLog("End of tutorial")
+        } else if (UserDefaults.standard.bool(for: .goToSettings6TutorialFulfilled)) {
+            showToolTipFor(step: .endOfTutorial7)
+            UserDefaults.standard.set(true, for: .endOfTutorial7TutorialFulfilled)
+        } else if (UserDefaults.standard.bool(for: .holdToDrag5TutorialFulfilled)) {
+            showToolTipFor(step: .goToSettings6)
+            UserDefaults.standard.set(true, for: .goToSettings6TutorialFulfilled)
+        } else if (UserDefaults.standard.bool(for: .zoomOnGoal4TutorialFulfilled)) {
+            showToolTipFor(step: .holdToDrag5)
+            UserDefaults.standard.set(true, for: .holdToDrag5TutorialFulfilled)
+        } else if (UserDefaults.standard.bool(for: .longPressObject3TutorialFulfilled)) {
+            showToolTipFor(step: .zoomOnGoal4)
+            UserDefaults.standard.set(true, for: .zoomOnGoal4TutorialFulfilled)
+        } else if (UserDefaults.standard.bool(for: .launchObject2TutorialFulfilled)) {
+            showToolTipFor(step: .longPressObject3)
+            UserDefaults.standard.set(true, for: .longPressObject3TutorialFulfilled)
+        } else if (UserDefaults.standard.bool(for: .addObject1TutorialFulfilled)) {
+            showToolTipFor(step: .launchObject2)
+            UserDefaults.standard.set(true, for: .launchObject2TutorialFulfilled)
+        }
+    }
+    
+    func showToolTipFor(step: VirtualGoalTutorialStep) {
+        switch step {
+        case .addObject1:
+            let newTooltip = UtilityMethods.showToolTip(for: addObjectButton, superview: view, text: "(1/7) Welcome to the tutorial. Start here! Add a goal! (Tap the bubble to move along)", position: .bottom)
+            newTooltip?.delegate = self
+        case .launchObject2:
+            let newTooltip = UtilityMethods.showToolTip(for: triggerButton, superview: view, text: "(2/7) Swipe up on the screen OR single click the trigger button to launch a virtual ball!", position: .bottom)
+            newTooltip?.delegate = self
+        case .longPressObject3:
+            let anchorView = UIView(frame: CGRect(x: view.center.x, y: view.center.y, width: 1, height: 1))
+            view.addSubview(anchorView)
+            let newTooltip = UtilityMethods.showToolTip(for: anchorView, superview: view, text: "(3/7) Tap and hold the trigger button to launch the ball harder!", position: .bottom)
+            newTooltip?.delegate = self
+        case .zoomOnGoal4:
+            let newTooltip = UtilityMethods.showToolTip(for: addObjectButton, superview: view, text: "(4/7) Pinch and zoom on the goal to increase or decrease the size.", position: .bottom)
+            newTooltip?.delegate = self
+        case .holdToDrag5:
+            let anchorView = UIView(frame: CGRect(x: view.center.x, y: view.center.y, width: 1, height: 1))
+            view.addSubview(anchorView)
+            let newTooltip = UtilityMethods.showToolTip(for: anchorView, superview: view, text: "(5/7) To move the object, either single tap on a surface in the scene or tap and hold the object, then drag the goal to move it around.", position: .bottom)
+            newTooltip?.delegate = self
+        case .goToSettings6:
+            let newTooltip = UtilityMethods.showToolTip(for: settingsButton, superview: view, text: "(6/7) Go to settings to enable surface planes, enable goal detection, view how-tos, and change other configurations", position: .right)
+            newTooltip?.delegate = self
+        case .endOfTutorial7:
+            let anchorView = UIView(frame: CGRect(x: view.center.x, y: view.center.y, width: 1, height: 1))
+            view.addSubview(anchorView)
+            let newTooltip = UtilityMethods.showToolTip(for: addObjectButton, superview: view, text: "(7/7) Congrats! You have all you need to know. Cheers!", position: .bottom)
+            newTooltip?.delegate = self
+        }
+    }
+    
     // MARK: - ARKit / ARSCNView
     let session = ARSession()
     var sessionConfig: ARConfiguration = ARWorldTrackingConfiguration()
@@ -506,6 +499,17 @@ class VirtualGoalViewController: UIViewController, ARSCNViewDelegate, UIPopoverP
                 goalPlane.physicsBody?.categoryBitMask = PhysicsBodyType.goalPlane.rawValue
             }
 			sceneView.scene.rootNode.addChildNode(object)
+            // This is the tutorial access point
+            if (!UserDefaults.standard.bool(for: .addObject1TutorialFulfilled)) {
+                let launchTutorialAction = UIAlertAction(title: "Yes", style: .default) { _ in
+                    self.showToolTipFor(step: .addObject1)
+                    UserDefaults.standard.set(true, for: .addObject1TutorialFulfilled)
+                }
+                let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel) { _ in
+                    UserDefaults.standard.set(true, for: .addObject1TutorialFulfilled)
+                }
+                textManager.showAlert(title: "Welcome!", message: "It looks like this is your first time! Would you like a quick tutorial to show you how to make the most of ARGoal: \"Virtual Goal\"?", actions: [launchTutorialAction, dismissAction])
+            }
 		}
     }
 

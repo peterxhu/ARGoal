@@ -392,7 +392,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="tQA-VI-tUL">
-                            <rect key="frame" x="0.0" y="581.5" width="375" height="180"/>
+                            <rect key="frame" x="0.0" y="625.5" width="375" height="180"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="* Enable &quot;Dragging on Infinite Planes&quot; if you do not want the app to try to auto-place an item onto a surface on a drag." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1K9-8s-PzX">
@@ -658,8 +658,29 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="6Ci-JT-SZQ">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="wcp-WT-NDa">
                                         <rect key="frame" x="0.0" y="519.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="wcp-WT-NDa" id="9Df-vq-m7G">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reset Tutorial" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DY9-kJ-tDB">
+                                                    <rect key="frame" x="0.0" y="11.5" width="375" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="DY9-kJ-tDB" firstAttribute="leading" secondItem="9Df-vq-m7G" secondAttribute="leading" id="1dc-Ro-yoI"/>
+                                                <constraint firstAttribute="trailing" secondItem="DY9-kJ-tDB" secondAttribute="trailing" id="QLj-MP-9eL"/>
+                                                <constraint firstItem="DY9-kJ-tDB" firstAttribute="centerY" secondItem="9Df-vq-m7G" secondAttribute="centerY" id="onE-aC-IUU"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="6Ci-JT-SZQ">
+                                        <rect key="frame" x="0.0" y="563.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6Ci-JT-SZQ" id="qhP-8k-uWr">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -697,6 +718,7 @@
                         <outlet property="goalDetectionOverlaySwitch" destination="web-kY-rzG" id="hCe-U8-MNA"/>
                         <outlet property="howToTableViewCell" destination="04O-P3-e4r" id="kBO-Pi-XFk"/>
                         <outlet property="moreInfoTableViewCell" destination="6Ci-JT-SZQ" id="VTK-5c-odY"/>
+                        <outlet property="resetTutorialTableViewCell" destination="wcp-WT-NDa" id="h9i-xI-Pwo"/>
                         <outlet property="useAuto3DOFFallbackSwitch" destination="nEE-QL-y6f" id="GOn-rI-BET"/>
                     </connections>
                 </tableViewController>
@@ -1174,7 +1196,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="g3U-8h-qur">
-                            <rect key="frame" x="0.0" y="393.5" width="375" height="220"/>
+                            <rect key="frame" x="0.0" y="437.5" width="375" height="220"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="co3-2J-a0C">
@@ -1346,8 +1368,29 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="i5j-24-ThH">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="7R0-L2-z7f">
                                         <rect key="frame" x="0.0" y="331.5" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7R0-L2-z7f" id="4Wc-7u-VX6">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reset Tutorial" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n7P-rU-JJ1">
+                                                    <rect key="frame" x="0.0" y="11.5" width="375" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="n7P-rU-JJ1" firstAttribute="centerY" secondItem="4Wc-7u-VX6" secondAttribute="centerY" id="3JE-t3-E93"/>
+                                                <constraint firstItem="n7P-rU-JJ1" firstAttribute="leading" secondItem="4Wc-7u-VX6" secondAttribute="leading" id="7lB-vg-htt"/>
+                                                <constraint firstAttribute="trailing" secondItem="n7P-rU-JJ1" secondAttribute="trailing" id="eRK-Hx-bMb"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="i5j-24-ThH">
+                                        <rect key="frame" x="0.0" y="375.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i5j-24-ThH" id="2JZ-Ag-xT3">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
@@ -1383,6 +1426,7 @@
                         <outlet property="howToTableViewCell" destination="Xzt-88-ed1" id="Yx3-20-ZfM"/>
                         <outlet property="moreInfoTableViewCell" destination="i5j-24-ThH" id="x8O-tE-Wfx"/>
                         <outlet property="realTimeCalculationsSwitch" destination="HWG-j8-DJd" id="Fs0-4I-tO1"/>
+                        <outlet property="resetTutorialTableViewCell" destination="7R0-L2-z7f" id="e2j-T0-HtD"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fQW-kn-ow5" userLabel="First Responder" sceneMemberID="firstResponder"/>

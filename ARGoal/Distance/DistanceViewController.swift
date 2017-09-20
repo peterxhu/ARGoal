@@ -12,7 +12,16 @@ import SceneKit
 import UIKit
 import Photos
 
-class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, SCNPhysicsContactDelegate {
+enum GoalDistanceTutorialStep: Int {
+    case distanceMarkGoal1 = 1
+    case distanceRealTime2 = 2
+    case distanceMarkMe3 = 3
+    case distanceSuggestion4 = 4
+    case distanceTapScreen5 = 5
+    case distanceEndOfTutorial6 = 6
+}
+
+class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPresentationControllerDelegate, SCNPhysicsContactDelegate, EasyTipViewDelegate {
     
     var markers = [SCNNode]()
     let cheerView = CheerView()
@@ -50,6 +59,18 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 		
 		// Start the ARSession.
 		restartPlaneDetection()
+        
+        // This is the tutorial access point
+        if (!UserDefaults.standard.bool(for: .distanceMarkGoal1TutorialFulfilled)) {
+            let launchTutorialAction = UIAlertAction(title: "Yes", style: .default) { _ in
+                self.showToolTipFor(step: .distanceMarkGoal1)
+                UserDefaults.standard.set(true, for: .distanceMarkGoal1TutorialFulfilled)
+            }
+            let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel) { _ in
+                UserDefaults.standard.set(true, for: .distanceMarkGoal1TutorialFulfilled)
+            }
+            textManager.showAlert(title: "Welcome!", message: "It looks like this is your first time! Would you like a quick tutorial to show you how to make the most of ARGoal: \"Goal Distance\"?", actions: [launchTutorialAction, dismissAction])
+        }
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -57,6 +78,60 @@ class DistanceViewController: UIViewController, ARSCNViewDelegate, UIPopoverPres
 		session.pause()
 	}
 	
+    // MARK: - Tooltip
+
+    func easyTipViewDidDismissOnTap(_ tipView: EasyTipView) {
+        if (UserDefaults.standard.bool(for: .distanceEndOfTutorial6TutorialFulfilled)) {
+             NSLog("End of tutorial")
+        } else if (UserDefaults.standard.bool(for: .distanceTapScreen5TutorialFulfilled)) {
+            showToolTipFor(step: .distanceEndOfTutorial6)
+            UserDefaults.standard.set(true, for: .distanceEndOfTutorial6TutorialFulfilled)
+        } else if (UserDefaults.standard.bool(for: .distanceSuggestion4TutorialFulfilled)) {
+            showToolTipFor(step: .distanceTapScreen5)
+            UserDefaults.standard.set(true, for: .distanceTapScreen5TutorialFulfilled)
+        } else if (UserDefaults.standard.bool(for: .distanceMarkMe3TutorialFulfilled)) {
+            showToolTipFor(step: .distanceSuggestion4)
+            UserDefaults.standard.set(true, for: .distanceSuggestion4TutorialFulfilled)
+        } else if (UserDefaults.standard.bool(for: .distanceRealTime2TutorialFulfilled)) {
+            showToolTipFor(step: .distanceMarkMe3)
+            UserDefaults.standard.set(true, for: .distanceMarkMe3TutorialFulfilled)
+        } else if (UserDefaults.standard.bool(for: .distanceMarkGoal1TutorialFulfilled)) {
+            showToolTipFor(step: .distanceRealTime2)
+            UserDefaults.standard.set(true, for: .distanceRealTime2TutorialFulfilled)
+        }
+    }
+    
+    func showToolTipFor(step: GoalDistanceTutorialStep) {
+        switch step {
+        case .distanceMarkGoal1:
+            let newTooltip = UtilityMethods.showToolTip(for: markGoalButton, superview: view, text: "(1/6) See the cross hair (+) in the center of the screen? Point it at your first reference point (i.e. the goal line on the ground). Then press the \"Mark Goal\" button to drop a marker at the crosshair. (Tap the bubble to move along)", position: .right)
+            newTooltip?.delegate = self
+        case .distanceRealTime2:
+            let anchorView = UIView(frame: CGRect(x: view.center.x, y: view.center.y, width: 1, height: 1))
+            view.addSubview(anchorView)
+            let newTooltip = UtilityMethods.showToolTip(for: realTimeDistancePanelLabel, superview: view, text: "(2/6) Once the first marker is placed, watch the real-time distance panel to track how far you are from goal. The distance is relative to where the cross hair is pointing.", position: .bottom)
+            newTooltip?.delegate = self
+        case .distanceMarkMe3:
+            let newTooltip = UtilityMethods.showToolTip(for: markPersonButton, superview: view, text: "(3/6) When you are far enough, press the \"Mark Me\" button which will drop a second point and measure the distance between. A line between will be drawn in the scene and the distance is recorded in the \"Last Recorded Distance\".", position: .left)
+            newTooltip?.delegate = self
+        case .distanceSuggestion4:
+            let anchorView = UIView(frame: CGRect(x: view.center.x, y: view.center.y, width: 1, height: 1))
+            view.addSubview(anchorView)
+            let newTooltip = UtilityMethods.showToolTip(for: anchorView, superview: view, text: "(4/6) Suggestion: use the marker to help you place the ball as a spot. Then take your shot!", position: .bottom)
+            newTooltip?.delegate = self
+        case .distanceTapScreen5:
+            let anchorView = UIView(frame: CGRect(x: view.center.x, y: view.center.y, width: 1, height: 1))
+            view.addSubview(anchorView)
+            let newTooltip = UtilityMethods.showToolTip(for: anchorView, superview: view, text: "(5/6) Tapping the screen will also drop markers. Nothing is stopping you from using this to measure objects on a smaller scales/distances as well.", position: .bottom)
+            newTooltip?.delegate = self
+        case .distanceEndOfTutorial6:
+            let anchorView = UIView(frame: CGRect(x: view.center.x, y: view.center.y, width: 1, height: 1))
+            view.addSubview(anchorView)
+            let newTooltip = UtilityMethods.showToolTip(for: anchorView, superview: view, text: "(6/6) Congrats! You have all you need to know. Cheers!", position: .bottom)
+            newTooltip?.delegate = self
+        }
+    }
+    
     // MARK: - ARKit / ARSCNView
     let session = ARSession()
     var sessionConfig: ARConfiguration = ARWorldTrackingConfiguration()
